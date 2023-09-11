@@ -1,0 +1,1105 @@
+Entries in perl database: 33
+Entries in ruby database: 46
+Entries in python database: 62
+Entries in c database: 334
+Entries in php database: 55
+Analyzing /mnt/past/openssh-portable/addrmatch.c
+Analyzing /mnt/past/openssh-portable/atomicio.c
+Analyzing /mnt/past/openssh-portable/audit-bsm.c
+Analyzing /mnt/past/openssh-portable/audit-linux.c
+Analyzing /mnt/past/openssh-portable/audit.c
+Analyzing /mnt/past/openssh-portable/auth-bsdauth.c
+Analyzing /mnt/past/openssh-portable/auth-krb5.c
+Analyzing /mnt/past/openssh-portable/auth-options.c
+Analyzing /mnt/past/openssh-portable/auth-pam.c
+Analyzing /mnt/past/openssh-portable/auth-passwd.c
+Analyzing /mnt/past/openssh-portable/auth-rhosts.c
+Analyzing /mnt/past/openssh-portable/auth-shadow.c
+Analyzing /mnt/past/openssh-portable/auth-sia.c
+Analyzing /mnt/past/openssh-portable/auth-skey.c
+Analyzing /mnt/past/openssh-portable/auth.c
+Analyzing /mnt/past/openssh-portable/auth2-chall.c
+Analyzing /mnt/past/openssh-portable/auth2-gss.c
+Analyzing /mnt/past/openssh-portable/auth2-hostbased.c
+Analyzing /mnt/past/openssh-portable/auth2-kbdint.c
+Analyzing /mnt/past/openssh-portable/auth2-none.c
+Analyzing /mnt/past/openssh-portable/auth2-passwd.c
+Analyzing /mnt/past/openssh-portable/auth2-pubkey.c
+Analyzing /mnt/past/openssh-portable/auth2.c
+Analyzing /mnt/past/openssh-portable/authfd.c
+Analyzing /mnt/past/openssh-portable/authfile.c
+Analyzing /mnt/past/openssh-portable/bitmap.c
+Analyzing /mnt/past/openssh-portable/canohost.c
+Analyzing /mnt/past/openssh-portable/chacha.c
+Analyzing /mnt/past/openssh-portable/channels.c
+Analyzing /mnt/past/openssh-portable/cipher-aes.c
+Analyzing /mnt/past/openssh-portable/cipher-aesctr.c
+Analyzing /mnt/past/openssh-portable/cipher-chachapoly.c
+Analyzing /mnt/past/openssh-portable/cipher-ctr.c
+Analyzing /mnt/past/openssh-portable/cipher.c
+Analyzing /mnt/past/openssh-portable/cleanup.c
+Analyzing /mnt/past/openssh-portable/clientloop.c
+Analyzing /mnt/past/openssh-portable/compat.c
+Analyzing /mnt/past/openssh-portable/contrib/gnome-ssh-askpass1.c
+Analyzing /mnt/past/openssh-portable/contrib/gnome-ssh-askpass2.c
+Analyzing /mnt/past/openssh-portable/dh.c
+Analyzing /mnt/past/openssh-portable/digest-libc.c
+Analyzing /mnt/past/openssh-portable/digest-openssl.c
+Analyzing /mnt/past/openssh-portable/dispatch.c
+Analyzing /mnt/past/openssh-portable/dns.c
+Analyzing /mnt/past/openssh-portable/ed25519.c
+Analyzing /mnt/past/openssh-portable/entropy.c
+Analyzing /mnt/past/openssh-portable/fatal.c
+Analyzing /mnt/past/openssh-portable/fe25519.c
+Analyzing /mnt/past/openssh-portable/ge25519.c
+Analyzing /mnt/past/openssh-portable/groupaccess.c
+Analyzing /mnt/past/openssh-portable/gss-genr.c
+Analyzing /mnt/past/openssh-portable/gss-serv-krb5.c
+Analyzing /mnt/past/openssh-portable/gss-serv.c
+Analyzing /mnt/past/openssh-portable/hash.c
+Analyzing /mnt/past/openssh-portable/hmac.c
+Analyzing /mnt/past/openssh-portable/hostfile.c
+Analyzing /mnt/past/openssh-portable/kex.c
+Analyzing /mnt/past/openssh-portable/kexc25519.c
+Analyzing /mnt/past/openssh-portable/kexdh.c
+Analyzing /mnt/past/openssh-portable/kexecdh.c
+Analyzing /mnt/past/openssh-portable/kexgen.c
+Analyzing /mnt/past/openssh-portable/kexgex.c
+Analyzing /mnt/past/openssh-portable/kexgexc.c
+Analyzing /mnt/past/openssh-portable/kexgexs.c
+Analyzing /mnt/past/openssh-portable/kexsntrup4591761x25519.c
+Analyzing /mnt/past/openssh-portable/krl.c
+Analyzing /mnt/past/openssh-portable/log.c
+Analyzing /mnt/past/openssh-portable/loginrec.c
+Analyzing /mnt/past/openssh-portable/logintest.c
+Analyzing /mnt/past/openssh-portable/mac.c
+Analyzing /mnt/past/openssh-portable/match.c
+Analyzing /mnt/past/openssh-portable/md5crypt.c
+Analyzing /mnt/past/openssh-portable/misc.c
+Analyzing /mnt/past/openssh-portable/moduli.c
+Analyzing /mnt/past/openssh-portable/monitor.c
+Analyzing /mnt/past/openssh-portable/monitor_fdpass.c
+Analyzing /mnt/past/openssh-portable/monitor_wrap.c
+Analyzing /mnt/past/openssh-portable/msg.c
+Analyzing /mnt/past/openssh-portable/mux.c
+Analyzing /mnt/past/openssh-portable/nchan.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/arc4random.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/base64.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/basename.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bcrypt_pbkdf.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bindresvport.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/blowfish.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-asprintf.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-closefrom.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-cygwin_util.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-err.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-flock.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-getline.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-getpagesize.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-getpeereid.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-malloc.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-misc.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-nextstep.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-openpty.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-poll.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-setres_id.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-signal.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-snprintf.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-statvfs.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/bsd-waitpid.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/daemon.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/dirname.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/explicit_bzero.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/fake-rfc2553.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/fmt_scaled.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/fnmatch.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/freezero.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/getcwd.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/getgrouplist.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/getopt_long.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/getrrsetbyname-ldns.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/getrrsetbyname.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/glob.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/inet_aton.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/inet_ntoa.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/inet_ntop.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/kludge-fd_set.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/libressl-api-compat.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/md5.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/memmem.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/mktemp.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/openssl-compat.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/port-aix.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/port-irix.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/port-linux.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/port-net.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/port-solaris.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/port-uw.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/pwcache.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/readpassphrase.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/reallocarray.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/recallocarray.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/regress/closefromtest.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/regress/opensslvertest.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/regress/snprintftest.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/regress/strduptest.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/regress/strtonumtest.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/regress/utimensattest.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/rmd160.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/rresvport.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/setenv.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/setproctitle.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/sha1.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/sha2.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/sigact.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strcasestr.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strlcat.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strlcpy.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strmode.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strndup.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strnlen.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strptime.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strsep.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strtoll.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strtonum.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strtoul.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/strtoull.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/timingsafe_bcmp.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/vis.c
+Analyzing /mnt/past/openssh-portable/openbsd-compat/xcrypt.c
+Analyzing /mnt/past/openssh-portable/packet.c
+Analyzing /mnt/past/openssh-portable/platform-misc.c
+Analyzing /mnt/past/openssh-portable/platform-pledge.c
+Analyzing /mnt/past/openssh-portable/platform-tracing.c
+Analyzing /mnt/past/openssh-portable/platform.c
+Analyzing /mnt/past/openssh-portable/poly1305.c
+Analyzing /mnt/past/openssh-portable/progressmeter.c
+Analyzing /mnt/past/openssh-portable/readconf.c
+Analyzing /mnt/past/openssh-portable/readpass.c
+Analyzing /mnt/past/openssh-portable/regress/check-perm.c
+Analyzing /mnt/past/openssh-portable/regress/misc/kexfuzz/kexfuzz.c
+Analyzing /mnt/past/openssh-portable/regress/misc/sk-dummy/fatal.c
+Analyzing /mnt/past/openssh-portable/regress/misc/sk-dummy/sk-dummy.c
+Analyzing /mnt/past/openssh-portable/regress/mkdtemp.c
+Analyzing /mnt/past/openssh-portable/regress/modpipe.c
+Analyzing /mnt/past/openssh-portable/regress/netcat.c
+Analyzing /mnt/past/openssh-portable/regress/setuid-allowed.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/authopt/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/bitmap/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/conversion/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/hostkeys/test_iterate.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/hostkeys/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/kex/test_kex.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/kex/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/match/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/misc/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_fixed.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_fuzz.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_getput_basic.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_getput_crypto.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_getput_fuzz.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_misc.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshbuf/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshkey/common.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshkey/test_file.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshkey/test_fuzz.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshkey/test_sshkey.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/sshkey/tests.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/test_helper/fuzz.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c
+Analyzing /mnt/past/openssh-portable/regress/unittests/utf8/tests.c
+Analyzing /mnt/past/openssh-portable/rijndael.c
+Analyzing /mnt/past/openssh-portable/sandbox-capsicum.c
+Analyzing /mnt/past/openssh-portable/sandbox-darwin.c
+Analyzing /mnt/past/openssh-portable/sandbox-null.c
+Analyzing /mnt/past/openssh-portable/sandbox-pledge.c
+Analyzing /mnt/past/openssh-portable/sandbox-rlimit.c
+Analyzing /mnt/past/openssh-portable/sandbox-seccomp-filter.c
+Analyzing /mnt/past/openssh-portable/sandbox-solaris.c
+Analyzing /mnt/past/openssh-portable/sandbox-systrace.c
+Analyzing /mnt/past/openssh-portable/sc25519.c
+Analyzing /mnt/past/openssh-portable/scp.c
+Analyzing /mnt/past/openssh-portable/servconf.c
+Analyzing /mnt/past/openssh-portable/serverloop.c
+Analyzing /mnt/past/openssh-portable/session.c
+Analyzing /mnt/past/openssh-portable/sftp-client.c
+Analyzing /mnt/past/openssh-portable/sftp-common.c
+Analyzing /mnt/past/openssh-portable/sftp-glob.c
+Analyzing /mnt/past/openssh-portable/sftp-realpath.c
+Analyzing /mnt/past/openssh-portable/sftp-server-main.c
+Analyzing /mnt/past/openssh-portable/sftp-server.c
+Analyzing /mnt/past/openssh-portable/sftp.c
+Analyzing /mnt/past/openssh-portable/sk-usbhid.c
+Analyzing /mnt/past/openssh-portable/smult_curve25519_ref.c
+Analyzing /mnt/past/openssh-portable/sntrup4591761.c
+Analyzing /mnt/past/openssh-portable/ssh-add.c
+Analyzing /mnt/past/openssh-portable/ssh-agent.c
+Analyzing /mnt/past/openssh-portable/ssh-dss.c
+Analyzing /mnt/past/openssh-portable/ssh-ecdsa-sk.c
+Analyzing /mnt/past/openssh-portable/ssh-ecdsa.c
+Analyzing /mnt/past/openssh-portable/ssh-ed25519-sk.c
+Analyzing /mnt/past/openssh-portable/ssh-ed25519.c
+Analyzing /mnt/past/openssh-portable/ssh-keygen.c
+Analyzing /mnt/past/openssh-portable/ssh-keyscan.c
+Analyzing /mnt/past/openssh-portable/ssh-keysign.c
+Analyzing /mnt/past/openssh-portable/ssh-pkcs11-client.c
+Analyzing /mnt/past/openssh-portable/ssh-pkcs11-helper.c
+Analyzing /mnt/past/openssh-portable/ssh-pkcs11.c
+Analyzing /mnt/past/openssh-portable/ssh-rsa.c
+Analyzing /mnt/past/openssh-portable/ssh-sk-client.c
+Analyzing /mnt/past/openssh-portable/ssh-sk-helper.c
+Analyzing /mnt/past/openssh-portable/ssh-sk.c
+Analyzing /mnt/past/openssh-portable/ssh-xmss.c
+Analyzing /mnt/past/openssh-portable/ssh.c
+Analyzing /mnt/past/openssh-portable/ssh_api.c
+Analyzing /mnt/past/openssh-portable/sshbuf-getput-basic.c
+Analyzing /mnt/past/openssh-portable/sshbuf-getput-crypto.c
+Analyzing /mnt/past/openssh-portable/sshbuf-misc.c
+Analyzing /mnt/past/openssh-portable/sshbuf.c
+Analyzing /mnt/past/openssh-portable/sshconnect.c
+Analyzing /mnt/past/openssh-portable/sshconnect2.c
+Analyzing /mnt/past/openssh-portable/sshd.c
+Analyzing /mnt/past/openssh-portable/ssherr.c
+Analyzing /mnt/past/openssh-portable/sshkey-xmss.c
+Analyzing /mnt/past/openssh-portable/sshkey.c
+Analyzing /mnt/past/openssh-portable/sshlogin.c
+Analyzing /mnt/past/openssh-portable/sshpty.c
+Analyzing /mnt/past/openssh-portable/sshsig.c
+Analyzing /mnt/past/openssh-portable/sshtty.c
+Analyzing /mnt/past/openssh-portable/ttymodes.c
+Analyzing /mnt/past/openssh-portable/uidswap.c
+Analyzing /mnt/past/openssh-portable/umac.c
+Analyzing /mnt/past/openssh-portable/umac128.c
+Analyzing /mnt/past/openssh-portable/utf8.c
+Analyzing /mnt/past/openssh-portable/verify.c
+Analyzing /mnt/past/openssh-portable/xmalloc.c
+Analyzing /mnt/past/openssh-portable/xmss_commons.c
+Analyzing /mnt/past/openssh-portable/xmss_fast.c
+Analyzing /mnt/past/openssh-portable/xmss_hash.c
+Analyzing /mnt/past/openssh-portable/xmss_hash_address.c
+Analyzing /mnt/past/openssh-portable/xmss_wots.c
+/mnt/past/openssh-portable/addrmatch.c:316: High: fixed size local buffer
+/mnt/past/openssh-portable/audit-bsm.c:238: High: fixed size local buffer
+/mnt/past/openssh-portable/audit-bsm.c:332: High: fixed size local buffer
+/mnt/past/openssh-portable/audit-bsm.c:353: High: fixed size local buffer
+/mnt/past/openssh-portable/audit-bsm.c:396: High: fixed size local buffer
+/mnt/past/openssh-portable/auth-krb5.c:244: High: fixed size local buffer
+/mnt/past/openssh-portable/auth-pam.c:1108: High: fixed size local buffer
+/mnt/past/openssh-portable/auth-rhosts.c:61: High: fixed size local buffer
+/mnt/past/openssh-portable/auth-rhosts.c:85: High: fixed size local buffer
+/mnt/past/openssh-portable/auth-rhosts.c:192: High: fixed size local buffer
+/mnt/past/openssh-portable/auth-skey.c:55: High: fixed size local buffer
+/mnt/past/openssh-portable/auth.c:428: High: fixed size local buffer
+/mnt/past/openssh-portable/auth.c:508: High: fixed size local buffer
+/mnt/past/openssh-portable/auth.c:663: High: fixed size local buffer
+/mnt/past/openssh-portable/auth.c:742: High: fixed size local buffer
+/mnt/past/openssh-portable/auth.c:857: High: fixed size local buffer
+/mnt/past/openssh-portable/auth.c:1004: High: fixed size local buffer
+/mnt/past/openssh-portable/auth.c:1104: High: fixed size local buffer
+/mnt/past/openssh-portable/auth2-pubkey.c:375: High: fixed size local buffer
+/mnt/past/openssh-portable/auth2-pubkey.c:446: High: fixed size local buffer
+/mnt/past/openssh-portable/auth2-pubkey.c:885: High: fixed size local buffer
+/mnt/past/openssh-portable/auth2.c:227: High: fixed size local buffer
+/mnt/past/openssh-portable/authfd.c:142: High: fixed size local buffer
+/mnt/past/openssh-portable/canohost.c:72: High: fixed size local buffer
+/mnt/past/openssh-portable/canohost.c:136: High: fixed size local buffer
+/mnt/past/openssh-portable/canohost.c:160: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:1249: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:1380: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:1659: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:1948: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:2122: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:2214: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:3385: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4187: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4188: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4265: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4591: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4707: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4744: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4746: High: fixed size local buffer
+/mnt/past/openssh-portable/channels.c:4763: High: fixed size local buffer
+/mnt/past/openssh-portable/clientloop.c:288: High: fixed size local buffer
+/mnt/past/openssh-portable/clientloop.c:289: High: fixed size local buffer
+/mnt/past/openssh-portable/clientloop.c:290: High: fixed size local buffer
+/mnt/past/openssh-portable/clientloop.c:626: High: fixed size local buffer
+/mnt/past/openssh-portable/clientloop.c:678: High: fixed size local buffer
+/mnt/past/openssh-portable/clientloop.c:1008: High: fixed size local buffer
+/mnt/past/openssh-portable/clientloop.c:1253: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:33: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:59: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:60: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:61: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:63: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:64: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:111: High: fixed size local buffer
+/mnt/past/openssh-portable/ed25519.c:114: High: fixed size local buffer
+/mnt/past/openssh-portable/entropy.c:221: High: fixed size local buffer
+/mnt/past/openssh-portable/entropy.c:259: High: fixed size local buffer
+/mnt/past/openssh-portable/ge25519.c:266: High: fixed size local buffer
+/mnt/past/openssh-portable/ge25519.c:308: High: fixed size local buffer
+/mnt/past/openssh-portable/gss-serv.c:101: High: fixed size local buffer
+/mnt/past/openssh-portable/hostfile.c:123: High: fixed size local buffer
+/mnt/past/openssh-portable/hostfile.c:124: High: fixed size local buffer
+/mnt/past/openssh-portable/hostfile.c:187: High: fixed size local buffer
+/mnt/past/openssh-portable/krl.c:990: High: fixed size local buffer
+/mnt/past/openssh-portable/log.c:406: High: fixed size local buffer
+/mnt/past/openssh-portable/log.c:407: High: fixed size local buffer
+/mnt/past/openssh-portable/loginrec.c:1430: High: fixed size local buffer
+/mnt/past/openssh-portable/loginrec.c:1477: High: fixed size local buffer
+/mnt/past/openssh-portable/logintest.c:90: High: fixed size local buffer
+/mnt/past/openssh-portable/logintest.c:91: High: fixed size local buffer
+/mnt/past/openssh-portable/logintest.c:94: High: fixed size local buffer
+/mnt/past/openssh-portable/logintest.c:95: High: fixed size local buffer
+/mnt/past/openssh-portable/logintest.c:225: High: fixed size local buffer
+/mnt/past/openssh-portable/match.c:124: High: fixed size local buffer
+/mnt/past/openssh-portable/match.c:273: High: fixed size local buffer
+/mnt/past/openssh-portable/md5crypt.c:29: High: fixed size local buffer
+/mnt/past/openssh-portable/md5crypt.c:53: High: fixed size local buffer
+/mnt/past/openssh-portable/md5crypt.c:55: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:792: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:1017: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:1134: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:1232: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:1565: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:1867: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:2011: High: fixed size local buffer
+/mnt/past/openssh-portable/misc.c:2088: High: fixed size local buffer
+/mnt/past/openssh-portable/moduli.c:454: High: fixed size local buffer
+/mnt/past/openssh-portable/moduli.c:501: High: fixed size local buffer
+/mnt/past/openssh-portable/moduli.c:518: High: fixed size local buffer
+/mnt/past/openssh-portable/monitor_fdpass.c:59: High: fixed size local buffer
+/mnt/past/openssh-portable/monitor_fdpass.c:120: High: fixed size local buffer
+/mnt/past/openssh-portable/mux.c:248: High: fixed size local buffer
+/mnt/past/openssh-portable/mux.c:1291: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/basename.c:29: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-closefrom.c:128: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-cygwin_util.c:67: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-cygwin_util.c:220: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-openpty.c:161: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-signal.c:62: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-snprintf.c:548: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-snprintf.c:708: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/bsd-snprintf.c:709: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/dirname.c:31: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/fake-rfc2553.c:52: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/fnmatch.c:291: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/getrrsetbyname.c:452: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/getrrsetbyname.c:499: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/glob.c:703: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/glob.c:995: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/glob.c:1013: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/glob.c:1025: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/inet_ntoa.c:49: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/inet_ntop.c:89: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/inet_ntop.c:117: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/port-net.c:52: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/port-net.c:211: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/port-net.c:311: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/port-solaris.c:143: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/port-solaris.c:212: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/pwcache.c:55: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/pwcache.c:90: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/readpassphrase.c:200: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/regress/closefromtest.c:40: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/regress/snprintftest.c:49: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/setproctitle.c:128: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/vis.c:177: High: fixed size local buffer
+/mnt/past/openssh-portable/openbsd-compat/xcrypt.c:78: High: fixed size local buffer
+/mnt/past/openssh-portable/packet.c:378: High: fixed size local buffer
+/mnt/past/openssh-portable/packet.c:1294: High: fixed size local buffer
+/mnt/past/openssh-portable/packet.c:1781: High: fixed size local buffer
+/mnt/past/openssh-portable/packet.c:1886: High: fixed size local buffer
+/mnt/past/openssh-portable/packet.c:2682: High: fixed size local buffer
+/mnt/past/openssh-portable/poly1305.c:45: High: fixed size local buffer
+/mnt/past/openssh-portable/progressmeter.c:122: High: fixed size local buffer
+/mnt/past/openssh-portable/readconf.c:502: High: fixed size local buffer
+/mnt/past/openssh-portable/readconf.c:554: High: fixed size local buffer
+/mnt/past/openssh-portable/readconf.c:555: High: fixed size local buffer
+/mnt/past/openssh-portable/readconf.c:851: High: fixed size local buffer
+/mnt/past/openssh-portable/readconf.c:2637: High: fixed size local buffer
+/mnt/past/openssh-portable/readpass.c:57: High: fixed size local buffer
+/mnt/past/openssh-portable/readpass.c:187: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/check-perm.c:38: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/check-perm.c:97: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/check-perm.c:162: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/misc/kexfuzz/kexfuzz.c:205: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/mkdtemp.c:41: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/modpipe.c:53: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:153: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:397: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:778: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:780: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1003: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1060: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1256: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1257: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1442: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1443: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1460: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/netcat.c:1619: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/conversion/tests.c:26: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/kex/test_kex.c:85: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_misc.c:30: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/test_helper/fuzz.c:186: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/test_helper/fuzz.c:204: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:214: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:239: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:447: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:527: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/utf8/tests.c:23: High: fixed size local buffer
+/mnt/past/openssh-portable/regress/unittests/utf8/tests.c:39: High: fixed size local buffer
+/mnt/past/openssh-portable/sandbox-seccomp-filter.c:339: High: fixed size local buffer
+/mnt/past/openssh-portable/sc25519.c:36: High: fixed size local buffer
+/mnt/past/openssh-portable/scp.c:609: High: fixed size local buffer
+/mnt/past/openssh-portable/scp.c:1071: High: fixed size local buffer
+/mnt/past/openssh-portable/scp.c:1179: High: fixed size local buffer
+/mnt/past/openssh-portable/scp.c:1244: High: fixed size local buffer
+/mnt/past/openssh-portable/scp.c:1565: High: fixed size local buffer
+/mnt/past/openssh-portable/servconf.c:723: High: fixed size local buffer
+/mnt/past/openssh-portable/servconf.c:758: High: fixed size local buffer
+/mnt/past/openssh-portable/servconf.c:2550: High: fixed size local buffer
+/mnt/past/openssh-portable/serverloop.c:183: High: fixed size local buffer
+/mnt/past/openssh-portable/serverloop.c:322: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:667: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:799: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:823: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:986: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:1205: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:1274: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:1310: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:1361: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:1515: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:1606: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:1682: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:2530: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:2568: High: fixed size local buffer
+/mnt/past/openssh-portable/session.c:2569: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-client.c:254: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-common.c:220: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-common.c:221: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-glob.c:68: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-realpath.c:66: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-server.c:247: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-server.c:936: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-server.c:993: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-server.c:1071: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-server.c:1166: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-server.c:1254: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp-server.c:1415: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1065: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1066: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1067: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1183: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1184: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1540: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1880: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:1971: High: fixed size local buffer
+/mnt/past/openssh-portable/sftp.c:2162: High: fixed size local buffer
+/mnt/past/openssh-portable/smult_curve25519_ref.c:252: High: fixed size local buffer
+/mnt/past/openssh-portable/sntrup4591761.c:307: High: fixed size local buffer
+/mnt/past/openssh-portable/sntrup4591761.c:308: High: fixed size local buffer
+/mnt/past/openssh-portable/sntrup4591761.c:368: High: fixed size local buffer
+/mnt/past/openssh-portable/sntrup4591761.c:369: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-add.c:202: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-add.c:441: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-add.c:514: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-add.c:799: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-agent.c:925: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-agent.c:1172: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-keyscan.c:230: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-keyscan.c:352: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-keyscan.c:469: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-keyscan.c:470: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-pkcs11-helper.c:326: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh-pkcs11.c:1324: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:244: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:289: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:320: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:413: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:541: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:595: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:596: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:1189: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:2057: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh.c:2060: High: fixed size local buffer
+/mnt/past/openssh-portable/ssh_api.c:88: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:91: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:149: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:232: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:374: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:465: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:653: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:720: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:721: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:868: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect.c:1158: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect2.c:162: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect2.c:1032: High: fixed size local buffer
+/mnt/past/openssh-portable/sshconnect2.c:1439: High: fixed size local buffer
+/mnt/past/openssh-portable/sshd.c:966: High: fixed size local buffer
+/mnt/past/openssh-portable/sshd.c:1330: High: fixed size local buffer
+/mnt/past/openssh-portable/sshd.c:2271: High: fixed size local buffer
+/mnt/past/openssh-portable/sshkey-xmss.c:400: High: fixed size local buffer
+/mnt/past/openssh-portable/sshkey-xmss.c:571: High: fixed size local buffer
+/mnt/past/openssh-portable/sshkey.c:1054: High: fixed size local buffer
+/mnt/past/openssh-portable/sshkey.c:1159: High: fixed size local buffer
+/mnt/past/openssh-portable/sshkey.c:3134: High: fixed size local buffer
+/mnt/past/openssh-portable/sshlogin.c:93: High: fixed size local buffer
+/mnt/past/openssh-portable/sshsig.c:390: High: fixed size local buffer
+/mnt/past/openssh-portable/sshsig.c:490: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:38: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:154: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:155: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:198: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:267: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:301: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:456: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:560: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:562: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:564: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:568: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:571: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:582: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:583: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:584: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:669: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:670: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:671: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:672: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:673: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:675: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:754: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:801: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:802: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:803: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:805: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:806: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:807: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:808: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:811: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:981: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:982: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:983: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:984: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:985: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_fast.c:987: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:43: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:97: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:98: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:99: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:100: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:121: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:122: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:123: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_hash.c:124: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_wots.c:57: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_wots.c:138: High: fixed size local buffer
+/mnt/past/openssh-portable/xmss_wots.c:176: High: fixed size local buffer
+Extra care should be taken to ensure that character arrays that are allocated
+on the stack are used safely.  They are prime targets for buffer overflow
+attacks.
+
+/mnt/past/openssh-portable/audit-bsm.c:336: High: gettext
+/mnt/past/openssh-portable/audit-bsm.c:341: High: gettext
+/mnt/past/openssh-portable/audit-bsm.c:408: High: gettext
+/mnt/past/openssh-portable/audit-bsm.c:419: High: gettext
+/mnt/past/openssh-portable/audit-bsm.c:429: High: gettext
+/mnt/past/openssh-portable/audit-bsm.c:434: High: gettext
+/mnt/past/openssh-portable/audit-bsm.c:439: High: gettext
+Environment variables are highly untrustable input. They may be of any length, and contain any data. Do not make any assumptions regarding content or length. If at all possible avoid using them, and if it is necessary, sanitize them and truncate them to a reasonable length.  gettext() can utilize the LC_ALL or LC_MESSAGES environment variables.
+
+/mnt/past/openssh-portable/auth-krb5.c:252: High: umask
+/mnt/past/openssh-portable/auth-krb5.c:255: High: umask
+/mnt/past/openssh-portable/channels.c:3590: High: umask
+/mnt/past/openssh-portable/channels.c:3593: High: umask
+/mnt/past/openssh-portable/hostfile.c:532: High: umask
+/mnt/past/openssh-portable/hostfile.c:635: High: umask
+/mnt/past/openssh-portable/mux.c:1318: High: umask
+/mnt/past/openssh-portable/mux.c:1321: High: umask
+/mnt/past/openssh-portable/scp.c:1257: High: umask
+/mnt/past/openssh-portable/scp.c:1259: High: umask
+/mnt/past/openssh-portable/session.c:941: High: umask
+/mnt/past/openssh-portable/sftp-server.c:1645: High: umask
+/mnt/past/openssh-portable/sftp.c:1691: High: umask
+/mnt/past/openssh-portable/ssh-agent.c:1319: High: umask
+/mnt/past/openssh-portable/ssh-agent.c:1326: High: umask
+/mnt/past/openssh-portable/ssh-keygen.c:1320: High: umask
+/mnt/past/openssh-portable/ssh.c:645: High: umask
+/mnt/past/openssh-portable/sshd.c:1908: High: umask
+/mnt/past/openssh-portable/sshd.c:1909: High: umask
+umask() can easily be used to create files with unsafe priviledges.  It should be set to restrictive values.
+
+/mnt/past/openssh-portable/auth-pam.c:481: High: getenv
+/mnt/past/openssh-portable/auth.c:920: High: getenv
+/mnt/past/openssh-portable/authfd.c:129: High: getenv
+/mnt/past/openssh-portable/authfd.c:188: High: getenv
+/mnt/past/openssh-portable/channels.c:4750: High: getenv
+/mnt/past/openssh-portable/contrib/gnome-ssh-askpass1.c:75: High: getenv
+/mnt/past/openssh-portable/contrib/gnome-ssh-askpass1.c:76: High: getenv
+/mnt/past/openssh-portable/contrib/gnome-ssh-askpass2.c:98: High: getenv
+/mnt/past/openssh-portable/contrib/gnome-ssh-askpass2.c:99: High: getenv
+/mnt/past/openssh-portable/contrib/gnome-ssh-askpass2.c:242: High: getenv
+/mnt/past/openssh-portable/misc.c:1499: High: getenv
+/mnt/past/openssh-portable/mux.c:1396: High: getenv
+/mnt/past/openssh-portable/mux.c:1925: High: getenv
+/mnt/past/openssh-portable/openbsd-compat/getopt_long.c:316: High: getenv
+/mnt/past/openssh-portable/openbsd-compat/glob.c:391: High: getenv
+/mnt/past/openssh-portable/openbsd-compat/glob.c:393: High: getenv
+/mnt/past/openssh-portable/readconf.c:486: High: getenv
+/mnt/past/openssh-portable/readpass.c:156: High: getenv
+/mnt/past/openssh-portable/readpass.c:159: High: getenv
+/mnt/past/openssh-portable/readpass.c:160: High: getenv
+/mnt/past/openssh-portable/readpass.c:161: High: getenv
+/mnt/past/openssh-portable/readpass.c:239: High: getenv
+/mnt/past/openssh-portable/readpass.c:241: High: getenv
+/mnt/past/openssh-portable/regress/mkdtemp.c:49: High: getenv
+/mnt/past/openssh-portable/session.c:1035: High: getenv
+/mnt/past/openssh-portable/session.c:1064: High: getenv
+/mnt/past/openssh-portable/session.c:1065: High: getenv
+/mnt/past/openssh-portable/session.c:1079: High: getenv
+/mnt/past/openssh-portable/session.c:1087: High: getenv
+/mnt/past/openssh-portable/sftp-server.c:1666: High: getenv
+/mnt/past/openssh-portable/sftp-server.c:1670: High: getenv
+/mnt/past/openssh-portable/sftp.c:325: High: getenv
+/mnt/past/openssh-portable/ssh-add.c:665: High: getenv
+/mnt/past/openssh-portable/ssh-agent.c:1255: High: getenv
+/mnt/past/openssh-portable/ssh-agent.c:1263: High: getenv
+/mnt/past/openssh-portable/ssh-keygen.c:2966: High: getenv
+/mnt/past/openssh-portable/ssh-pkcs11-client.c:300: High: getenv
+/mnt/past/openssh-portable/ssh-sk-client.c:56: High: getenv
+/mnt/past/openssh-portable/ssh.c:1357: High: getenv
+/mnt/past/openssh-portable/ssh.c:1495: High: getenv
+/mnt/past/openssh-portable/ssh.c:1523: High: getenv
+/mnt/past/openssh-portable/ssh.c:1848: High: getenv
+/mnt/past/openssh-portable/ssh.c:1876: High: getenv
+/mnt/past/openssh-portable/sshconnect.c:136: High: getenv
+/mnt/past/openssh-portable/sshconnect.c:218: High: getenv
+/mnt/past/openssh-portable/sshconnect.c:1382: High: getenv
+/mnt/past/openssh-portable/sshd.c:1619: High: getenv
+/mnt/past/openssh-portable/utf8.c:322: High: getenv
+Environment variables are highly untrustable input. They may be of any length, and contain any data. Do not make any assumptions regarding content or length. If at all possible avoid using them, and if it is necessary, sanitize them and truncate them to a reasonable length.
+
+/mnt/past/openssh-portable/auth-rhosts.c:105: High: sscanf
+/mnt/past/openssh-portable/clientloop.c:403: High: sscanf
+Check to be sure that the format string passed as argument 2 to this function
+call does not come from an untrusted source that could have added formatting
+characters that the code is not prepared to handle.  Additionally, the format
+string could contain `%s' without precision that could result in a buffer
+overflow.
+
+/mnt/past/openssh-portable/clientloop.c:383: High: system
+/mnt/past/openssh-portable/logintest.c:163: High: system
+/mnt/past/openssh-portable/logintest.c:181: High: system
+/mnt/past/openssh-portable/logintest.c:210: High: system
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+/mnt/past/openssh-portable/clientloop.c:401: High: popen
+/mnt/past/openssh-portable/session.c:1220: High: popen
+/mnt/past/openssh-portable/session.c:1233: High: popen
+/mnt/past/openssh-portable/session.c:1255: High: popen
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+/mnt/past/openssh-portable/log.c:475: High: syslog
+Truncate all input strings to a reasonable length 
+before passing them to this function
+
+/mnt/past/openssh-portable/logintest.c:115: High: gethostbyname
+/mnt/past/openssh-portable/openbsd-compat/fake-rfc2553.c:209: High: gethostbyname
+/mnt/past/openssh-portable/session.c:2620: High: gethostbyname
+DNS results can easily be forged by an attacker (or 
+arbitrarily set to large values, etc), and should not be trusted.
+
+/mnt/past/openssh-portable/misc.c:1872: High: realpath
+/mnt/past/openssh-portable/misc.c:1877: High: realpath
+/mnt/past/openssh-portable/regress/check-perm.c:102: High: realpath
+/mnt/past/openssh-portable/regress/check-perm.c:107: High: realpath
+/mnt/past/openssh-portable/ssh-agent.c:671: High: realpath
+/mnt/past/openssh-portable/ssh-agent.c:724: High: realpath
+Be sure the destination buffer is at least MAXPATHLEN
+                   big. This function may still internally overflow a static
+                   buffer, try to avoid using it. If you must, check the size 
+                   the path your pass in is no longer than MAXPATHLEN
+
+/mnt/past/openssh-portable/openbsd-compat/bsd-err.c:44: High: vfprintf
+/mnt/past/openssh-portable/openbsd-compat/bsd-err.c:58: High: vfprintf
+/mnt/past/openssh-portable/openbsd-compat/bsd-err.c:73: High: vfprintf
+/mnt/past/openssh-portable/regress/check-perm.c:28: High: vfprintf
+/mnt/past/openssh-portable/regress/misc/sk-dummy/fatal.c:16: High: vfprintf
+/mnt/past/openssh-portable/regress/misc/sk-dummy/sk-dummy.c:100: High: vfprintf
+/mnt/past/openssh-portable/scp.c:1621: High: vfprintf
+/mnt/past/openssh-portable/sk-usbhid.c:145: High: vfprintf
+Check to be sure that the non-constant format string passed as argument 2 to
+this function call does not come from an untrusted source that could have added
+formatting characters that the code is not prepared to handle.
+
+/mnt/past/openssh-portable/openbsd-compat/bsd-getline.c:109: High: printf
+/mnt/past/openssh-portable/ssh-agent.c:1281: High: printf
+/mnt/past/openssh-portable/ssh-agent.c:1282: High: printf
+/mnt/past/openssh-portable/ssh-agent.c:1337: High: printf
+/mnt/past/openssh-portable/ssh-agent.c:1353: High: printf
+/mnt/past/openssh-portable/ssh-agent.c:1355: High: printf
+Check to be sure that the non-constant format string passed as argument 1 to
+this function call does not come from an untrusted source that could have added
+formatting characters that the code is not prepared to handle.
+
+/mnt/past/openssh-portable/openbsd-compat/fake-rfc2553.c:70: High: gethostbyaddr
+DNS results can easily be forged by an attacker (or 
+arbitrarily set to large values, etc), and should not be trusted.
+
+/mnt/past/openssh-portable/openbsd-compat/getopt_long.c:490: High: getopt
+/mnt/past/openssh-portable/regress/check-perm.c:168: High: getopt
+/mnt/past/openssh-portable/regress/misc/kexfuzz/kexfuzz.c:352: High: getopt
+/mnt/past/openssh-portable/regress/modpipe.c:91: High: getopt
+/mnt/past/openssh-portable/regress/netcat.c:162: High: getopt
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:149: High: getopt
+/mnt/past/openssh-portable/scp.c:430: High: getopt
+/mnt/past/openssh-portable/sftp-server.c:1584: High: getopt
+/mnt/past/openssh-portable/sftp.c:413: High: getopt
+/mnt/past/openssh-portable/sftp.c:448: High: getopt
+/mnt/past/openssh-portable/sftp.c:472: High: getopt
+/mnt/past/openssh-portable/sftp.c:496: High: getopt
+/mnt/past/openssh-portable/sftp.c:549: High: getopt
+/mnt/past/openssh-portable/sftp.c:576: High: getopt
+/mnt/past/openssh-portable/sftp.c:599: High: getopt
+/mnt/past/openssh-portable/sftp.c:2411: High: getopt
+/mnt/past/openssh-portable/ssh-add.c:667: High: getopt
+/mnt/past/openssh-portable/ssh-agent.c:1197: High: getopt
+/mnt/past/openssh-portable/ssh-keygen.c:2969: High: getopt
+/mnt/past/openssh-portable/ssh-keyscan.c:688: High: getopt
+/mnt/past/openssh-portable/ssh-pkcs11-helper.c:336: High: getopt
+/mnt/past/openssh-portable/ssh-sk-helper.c:270: High: getopt
+/mnt/past/openssh-portable/ssh.c:669: High: getopt
+/mnt/past/openssh-portable/sshd.c:1484: High: getopt
+Truncate all input strings to a reasonable length 
+before passing them to this function
+
+/mnt/past/openssh-portable/openbsd-compat/getopt_long.c:510: High: getopt_long
+Truncate all input strings to a reasonable length 
+before passing them to this function
+
+/mnt/past/openssh-portable/openbsd-compat/readpassphrase.c:198: High: getpass
+Truncate all input strings to a reasonable length 
+before passing them to this function
+
+/mnt/past/openssh-portable/ssh-keygen.c:2893: High: fprintf
+Check to be sure that the non-constant format string passed as argument 2 to
+this function call does not come from an untrusted source that could have added
+formatting characters that the code is not prepared to handle.
+
+/mnt/past/openssh-portable/auth-pam.c:158: Medium: signal
+/mnt/past/openssh-portable/auth-pam.c:210: Medium: signal
+/mnt/past/openssh-portable/auth-pam.c:218: Medium: signal
+/mnt/past/openssh-portable/auth-pam.c:230: Medium: signal
+/mnt/past/openssh-portable/auth.c:924: Medium: signal
+/mnt/past/openssh-portable/auth2-pubkey.c:463: Medium: signal
+/mnt/past/openssh-portable/auth2-pubkey.c:551: Medium: signal
+/mnt/past/openssh-portable/auth2-pubkey.c:901: Medium: signal
+/mnt/past/openssh-portable/auth2-pubkey.c:990: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:788: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:886: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1309: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1310: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1311: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1312: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1313: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1314: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1315: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1316: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1317: Medium: signal
+/mnt/past/openssh-portable/clientloop.c:1416: Medium: signal
+/mnt/past/openssh-portable/entropy.c:113: Medium: signal
+/mnt/past/openssh-portable/entropy.c:163: Medium: signal
+/mnt/past/openssh-portable/monitor.c:396: Medium: signal
+/mnt/past/openssh-portable/monitor.c:397: Medium: signal
+/mnt/past/openssh-portable/monitor.c:398: Medium: signal
+/mnt/past/openssh-portable/monitor.c:400: Medium: signal
+/mnt/past/openssh-portable/mux.c:1914: Medium: signal
+/mnt/past/openssh-portable/mux.c:2015: Medium: signal
+/mnt/past/openssh-portable/mux.c:2016: Medium: signal
+/mnt/past/openssh-portable/mux.c:2017: Medium: signal
+/mnt/past/openssh-portable/mux.c:2018: Medium: signal
+/mnt/past/openssh-portable/mux.c:2148: Medium: signal
+/mnt/past/openssh-portable/mux.c:2222: Medium: signal
+/mnt/past/openssh-portable/mux.c:2223: Medium: signal
+/mnt/past/openssh-portable/mux.c:2224: Medium: signal
+/mnt/past/openssh-portable/mux.c:2225: Medium: signal
+/mnt/past/openssh-portable/openbsd-compat/bsd-openpty.c:106: Medium: signal
+/mnt/past/openssh-portable/openbsd-compat/bsd-openpty.c:109: Medium: signal
+/mnt/past/openssh-portable/openbsd-compat/bsd-signal.c:55: Medium: signal
+/mnt/past/openssh-portable/progressmeter.c:255: Medium: signal
+/mnt/past/openssh-portable/progressmeter.c:256: Medium: signal
+/mnt/past/openssh-portable/readconf.c:521: Medium: signal
+/mnt/past/openssh-portable/readpass.c:68: Medium: signal
+/mnt/past/openssh-portable/readpass.c:71: Medium: signal
+/mnt/past/openssh-portable/readpass.c:101: Medium: signal
+/mnt/past/openssh-portable/readpass.c:246: Medium: signal
+/mnt/past/openssh-portable/readpass.c:249: Medium: signal
+/mnt/past/openssh-portable/readpass.c:292: Medium: signal
+/mnt/past/openssh-portable/regress/unittests/test_helper/fuzz.c:236: Medium: signal
+/mnt/past/openssh-portable/regress/unittests/test_helper/fuzz.c:238: Medium: signal
+/mnt/past/openssh-portable/regress/unittests/test_helper/fuzz.c:249: Medium: signal
+/mnt/past/openssh-portable/regress/unittests/test_helper/fuzz.c:251: Medium: signal
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:255: Medium: signal
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:257: Medium: signal
+/mnt/past/openssh-portable/sandbox-systrace.c:108: Medium: signal
+/mnt/past/openssh-portable/sandbox-systrace.c:117: Medium: signal
+/mnt/past/openssh-portable/sandbox-systrace.c:136: Medium: signal
+/mnt/past/openssh-portable/scp.c:218: Medium: signal
+/mnt/past/openssh-portable/scp.c:219: Medium: signal
+/mnt/past/openssh-portable/scp.c:220: Medium: signal
+/mnt/past/openssh-portable/scp.c:271: Medium: signal
+/mnt/past/openssh-portable/scp.c:272: Medium: signal
+/mnt/past/openssh-portable/scp.c:273: Medium: signal
+/mnt/past/openssh-portable/scp.c:310: Medium: signal
+/mnt/past/openssh-portable/scp.c:311: Medium: signal
+/mnt/past/openssh-portable/scp.c:312: Medium: signal
+/mnt/past/openssh-portable/scp.c:564: Medium: signal
+/mnt/past/openssh-portable/serverloop.c:405: Medium: signal
+/mnt/past/openssh-portable/serverloop.c:411: Medium: signal
+/mnt/past/openssh-portable/serverloop.c:412: Medium: signal
+/mnt/past/openssh-portable/serverloop.c:413: Medium: signal
+/mnt/past/openssh-portable/session.c:1641: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2246: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2278: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2285: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2342: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2343: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2349: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2350: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2351: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2352: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2353: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2354: Medium: signal
+/mnt/past/openssh-portable/sftp.c:2355: Medium: signal
+/mnt/past/openssh-portable/ssh-agent.c:1407: Medium: signal
+/mnt/past/openssh-portable/ssh-agent.c:1408: Medium: signal
+/mnt/past/openssh-portable/ssh-agent.c:1409: Medium: signal
+/mnt/past/openssh-portable/ssh-agent.c:1410: Medium: signal
+/mnt/past/openssh-portable/ssh-sk-client.c:68: Medium: signal
+/mnt/past/openssh-portable/ssh-sk-client.c:74: Medium: signal
+/mnt/past/openssh-portable/ssh-sk-client.c:206: Medium: signal
+/mnt/past/openssh-portable/ssh.c:1538: Medium: signal
+/mnt/past/openssh-portable/ssh.c:1539: Medium: signal
+/mnt/past/openssh-portable/sshbuf.c:45: Medium: signal
+/mnt/past/openssh-portable/sshconnect.c:262: Medium: signal
+/mnt/past/openssh-portable/sshconnect.c:1385: Medium: signal
+/mnt/past/openssh-portable/sshconnect.c:1388: Medium: signal
+/mnt/past/openssh-portable/sshconnect.c:1399: Medium: signal
+/mnt/past/openssh-portable/sshconnect2.c:1925: Medium: signal
+/mnt/past/openssh-portable/sshconnect2.c:1997: Medium: signal
+/mnt/past/openssh-portable/sshconnect2.c:2001: Medium: signal
+/mnt/past/openssh-portable/sshd.c:316: Medium: signal
+/mnt/past/openssh-portable/sshd.c:366: Medium: signal
+/mnt/past/openssh-portable/sshd.c:1938: Medium: signal
+/mnt/past/openssh-portable/sshd.c:1947: Medium: signal
+/mnt/past/openssh-portable/sshd.c:1948: Medium: signal
+/mnt/past/openssh-portable/sshd.c:1949: Medium: signal
+/mnt/past/openssh-portable/sshd.c:1950: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2040: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2041: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2042: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2043: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2044: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2045: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2106: Medium: signal
+/mnt/past/openssh-portable/sshd.c:2164: Medium: signal
+When setting signal handlers, do not use the same function to handle multiple signals. There exists the possibility a race condition will result if 2 or more different signals are sent to the process at nearly the same time. Also, when writing signal handlers, it is best to do as little as possible in them. The best strategy is to use the signal handler to set a flag, that another part of the program tests and performs the appropriate action(s) when it is set.
+See also: http://razor.bindview.com/publish/papers/signals.txt
+
+/mnt/past/openssh-portable/channels.c:1958: Medium: read
+/mnt/past/openssh-portable/channels.c:2131: Medium: read
+/mnt/past/openssh-portable/channels.c:2221: Medium: read
+/mnt/past/openssh-portable/clientloop.c:635: Medium: read
+/mnt/past/openssh-portable/mux.c:1494: Medium: read
+/mnt/past/openssh-portable/openbsd-compat/arc4random.c:103: Medium: read
+/mnt/past/openssh-portable/openbsd-compat/readpassphrase.c:132: Medium: read
+/mnt/past/openssh-portable/openbsd-compat/regress/closefromtest.c:54: Medium: read
+/mnt/past/openssh-portable/packet.c:1359: Medium: read
+/mnt/past/openssh-portable/readpass.c:87: Medium: read
+/mnt/past/openssh-portable/regress/modpipe.c:107: Medium: read
+/mnt/past/openssh-portable/regress/netcat.c:981: Medium: read
+/mnt/past/openssh-portable/serverloop.c:159: Medium: read
+/mnt/past/openssh-portable/serverloop.c:326: Medium: read
+/mnt/past/openssh-portable/sftp-client.c:1725: Medium: read
+/mnt/past/openssh-portable/sftp-server.c:763: Medium: read
+/mnt/past/openssh-portable/sftp-server.c:1740: Medium: read
+/mnt/past/openssh-portable/ssh-agent.c:929: Medium: read
+/mnt/past/openssh-portable/ssh-pkcs11-helper.c:396: Medium: read
+/mnt/past/openssh-portable/sshd.c:1125: Medium: read
+/mnt/past/openssh-portable/sshsig.c:511: Medium: read
+Check buffer boundaries if calling this function in a loop 
+and make sure you are not in danger of writing past the allocated space.
+
+/mnt/past/openssh-portable/cipher.c:135: Medium: realloc
+/mnt/past/openssh-portable/kex.c:130: Medium: realloc
+/mnt/past/openssh-portable/mac.c:94: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/bsd-asprintf.c:59: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/bsd-getline.c:82: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/bsd-malloc.c:55: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/getcwd.c:137: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/getcwd.c:199: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/reallocarray.c:44: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/setenv.c:112: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/setenv.c:171: Medium: realloc
+/mnt/past/openssh-portable/openbsd-compat/vis.c:227: Medium: realloc
+/mnt/past/openssh-portable/ssh-rsa.c:304: Medium: realloc
+/mnt/past/openssh-portable/sshkey.c:267: Medium: realloc
+Don't use on memory intended to be secure, because the old structure will not be zeroed out.
+
+/mnt/past/openssh-portable/misc.c:1899: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1893 (dirname)
+
+/mnt/past/openssh-portable/ssh.c:1452: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1456 (mkdir)
+
+/mnt/past/openssh-portable/sshconnect2.c:1905: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1944 (execl)
+
+/mnt/past/openssh-portable/sshpty.c:184: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+193 (chown), 207 (chmod)
+
+/mnt/past/openssh-portable/ssh-pkcs11.c:90: Medium: ERR_error_string
+Use ERR_error_string_n() instead
+
+/mnt/past/openssh-portable/ssh-keygen.c:420: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+632 (fopen), 677 (fopen), 720 (fopen)
+
+/mnt/past/openssh-portable/ssh-keygen.c:1512: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1590 (open)
+
+/mnt/past/openssh-portable/ssh-keygen.c:2388: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+2424 (open)
+
+/mnt/past/openssh-portable/ssh-keygen.c:3398: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+3402 (mkdir)
+
+/mnt/past/openssh-portable/ssh-keygen.c:601: Medium: fgetc
+/mnt/past/openssh-portable/ssh-keygen.c:606: Medium: fgetc
+Check buffer boundaries if calling this function in a loop 
+and make sure you are not in danger of writing past the allocated space.
+
+/mnt/past/openssh-portable/sftp-server.c:1239: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1236 (unlink)
+
+/mnt/past/openssh-portable/sftp-server.c:1204: Medium: lstat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1208 (link)
+
+/mnt/past/openssh-portable/scp.c:1408: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1419 (chmod), 1424 (mkdir)
+
+/mnt/past/openssh-portable/session.c:1286: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1294 (fopen)
+
+/mnt/past/openssh-portable/sftp-client.c:1845: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1879 (opendir)
+
+/mnt/past/openssh-portable/sftp-server.c:835: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+705 (open), 931 (chmod), 949 (chown), 987 (chmod), 1013 (chown)
+
+/mnt/past/openssh-portable/regress/unittests/sshbuf/test_sshbuf_misc.c:35: Medium: tmpfile
+Many calls for generating temporary file names are 
+insecure (susceptible to race conditions).  Use a securely generated file
+name, for example, by pulling 64 bits of randomness from /dev/random, base 
+64 encoding it and using that as a file suffix.
+
+/mnt/past/openssh-portable/regress/unittests/test_helper/test_helper.c:302: Medium: ERR_error_string
+Use ERR_error_string_n() instead
+
+/mnt/past/openssh-portable/regress/check-perm.c:129: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+123 (dirname)
+
+/mnt/past/openssh-portable/openbsd-compat/xcrypt.c:115: Medium: crypt
+/mnt/past/openssh-portable/openbsd-compat/xcrypt.c:120: Medium: crypt
+/mnt/past/openssh-portable/openbsd-compat/xcrypt.c:124: Medium: crypt
+Standard random number generators should not be used to 
+generate randomness used for security reasons.  For security sensitive 
+randomness a crytographic randomness generator that provides sufficient
+entropy should be used.
+
+/mnt/past/openssh-portable/openbsd-compat/regress/utimensattest.c:77: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+39 (unlink)
+
+/mnt/past/openssh-portable/openbsd-compat/getcwd.c:109: Medium: lstat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+148 (opendir)
+
+/mnt/past/openssh-portable/openbsd-compat/glob.c:1019: Medium: lstat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+1007 (opendir)
+
+/mnt/past/openssh-portable/openbsd-compat/mktemp.c:78: Medium: lstat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+82 (open), 87 (mkdir)
+
+/mnt/past/openssh-portable/openbsd-compat/bsd-getline.c:62: Medium: fgetc
+Check buffer boundaries if calling this function in a loop 
+and make sure you are not in danger of writing past the allocated space.
+
+/mnt/past/openssh-portable/logintest.c:108: Default: ttyname
+/mnt/past/openssh-portable/openbsd-compat/bsd-openpty.c:151: Default: ttyname
+/mnt/past/openssh-portable/sshpty.c:75: Default: ttyname
+The results are easy for an attacker to forge, and not reliable.
+
+Total lines analyzed: 130257
+Total time 0.056200 seconds
+2317740 lines per second

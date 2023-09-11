@@ -1,0 +1,333 @@
+Entries in perl database: 33
+Entries in ruby database: 46
+Entries in python database: 62
+Entries in c database: 334
+Entries in php database: 55
+Analyzing /mnt/past/tmux/alerts.c
+Analyzing /mnt/past/tmux/arguments.c
+Analyzing /mnt/past/tmux/attributes.c
+Analyzing /mnt/past/tmux/cfg.c
+Analyzing /mnt/past/tmux/client.c
+Analyzing /mnt/past/tmux/cmd-attach-session.c
+Analyzing /mnt/past/tmux/cmd-bind-key.c
+Analyzing /mnt/past/tmux/cmd-break-pane.c
+Analyzing /mnt/past/tmux/cmd-capture-pane.c
+Analyzing /mnt/past/tmux/cmd-choose-tree.c
+Analyzing /mnt/past/tmux/cmd-command-prompt.c
+Analyzing /mnt/past/tmux/cmd-confirm-before.c
+Analyzing /mnt/past/tmux/cmd-copy-mode.c
+Analyzing /mnt/past/tmux/cmd-detach-client.c
+Analyzing /mnt/past/tmux/cmd-display-menu.c
+Analyzing /mnt/past/tmux/cmd-display-message.c
+Analyzing /mnt/past/tmux/cmd-display-panes.c
+Analyzing /mnt/past/tmux/cmd-find-window.c
+Analyzing /mnt/past/tmux/cmd-find.c
+Analyzing /mnt/past/tmux/cmd-if-shell.c
+Analyzing /mnt/past/tmux/cmd-join-pane.c
+Analyzing /mnt/past/tmux/cmd-kill-pane.c
+Analyzing /mnt/past/tmux/cmd-kill-server.c
+Analyzing /mnt/past/tmux/cmd-kill-session.c
+Analyzing /mnt/past/tmux/cmd-kill-window.c
+Analyzing /mnt/past/tmux/cmd-list-buffers.c
+Analyzing /mnt/past/tmux/cmd-list-clients.c
+Analyzing /mnt/past/tmux/cmd-list-keys.c
+Analyzing /mnt/past/tmux/cmd-list-panes.c
+Analyzing /mnt/past/tmux/cmd-list-sessions.c
+Analyzing /mnt/past/tmux/cmd-list-windows.c
+Analyzing /mnt/past/tmux/cmd-load-buffer.c
+Analyzing /mnt/past/tmux/cmd-lock-server.c
+Analyzing /mnt/past/tmux/cmd-move-window.c
+Analyzing /mnt/past/tmux/cmd-new-session.c
+Analyzing /mnt/past/tmux/cmd-new-window.c
+Analyzing /mnt/past/tmux/cmd-paste-buffer.c
+Analyzing /mnt/past/tmux/cmd-pipe-pane.c
+Analyzing /mnt/past/tmux/cmd-queue.c
+Analyzing /mnt/past/tmux/cmd-refresh-client.c
+Analyzing /mnt/past/tmux/cmd-rename-session.c
+Analyzing /mnt/past/tmux/cmd-rename-window.c
+Analyzing /mnt/past/tmux/cmd-resize-pane.c
+Analyzing /mnt/past/tmux/cmd-resize-window.c
+Analyzing /mnt/past/tmux/cmd-respawn-pane.c
+Analyzing /mnt/past/tmux/cmd-respawn-window.c
+Analyzing /mnt/past/tmux/cmd-rotate-window.c
+Analyzing /mnt/past/tmux/cmd-run-shell.c
+Analyzing /mnt/past/tmux/cmd-save-buffer.c
+Analyzing /mnt/past/tmux/cmd-select-layout.c
+Analyzing /mnt/past/tmux/cmd-select-pane.c
+Analyzing /mnt/past/tmux/cmd-select-window.c
+Analyzing /mnt/past/tmux/cmd-send-keys.c
+Analyzing /mnt/past/tmux/cmd-set-buffer.c
+Analyzing /mnt/past/tmux/cmd-set-environment.c
+Analyzing /mnt/past/tmux/cmd-set-option.c
+Analyzing /mnt/past/tmux/cmd-show-environment.c
+Analyzing /mnt/past/tmux/cmd-show-messages.c
+Analyzing /mnt/past/tmux/cmd-show-options.c
+Analyzing /mnt/past/tmux/cmd-source-file.c
+Analyzing /mnt/past/tmux/cmd-split-window.c
+Analyzing /mnt/past/tmux/cmd-swap-pane.c
+Analyzing /mnt/past/tmux/cmd-swap-window.c
+Analyzing /mnt/past/tmux/cmd-switch-client.c
+Analyzing /mnt/past/tmux/cmd-unbind-key.c
+Analyzing /mnt/past/tmux/cmd-wait-for.c
+Analyzing /mnt/past/tmux/cmd.c
+Analyzing /mnt/past/tmux/colour.c
+Analyzing /mnt/past/tmux/compat/asprintf.c
+Analyzing /mnt/past/tmux/compat/base64.c
+Analyzing /mnt/past/tmux/compat/cfmakeraw.c
+Analyzing /mnt/past/tmux/compat/closefrom.c
+Analyzing /mnt/past/tmux/compat/daemon-darwin.c
+Analyzing /mnt/past/tmux/compat/daemon.c
+Analyzing /mnt/past/tmux/compat/err.c
+Analyzing /mnt/past/tmux/compat/explicit_bzero.c
+Analyzing /mnt/past/tmux/compat/fdforkpty.c
+Analyzing /mnt/past/tmux/compat/fgetln.c
+Analyzing /mnt/past/tmux/compat/forkpty-aix.c
+Analyzing /mnt/past/tmux/compat/forkpty-hpux.c
+Analyzing /mnt/past/tmux/compat/forkpty-sunos.c
+Analyzing /mnt/past/tmux/compat/freezero.c
+Analyzing /mnt/past/tmux/compat/getdtablecount.c
+Analyzing /mnt/past/tmux/compat/getopt.c
+Analyzing /mnt/past/tmux/compat/getprogname.c
+Analyzing /mnt/past/tmux/compat/imsg-buffer.c
+Analyzing /mnt/past/tmux/compat/imsg.c
+Analyzing /mnt/past/tmux/compat/memmem.c
+Analyzing /mnt/past/tmux/compat/reallocarray.c
+Analyzing /mnt/past/tmux/compat/recallocarray.c
+Analyzing /mnt/past/tmux/compat/setenv.c
+Analyzing /mnt/past/tmux/compat/setproctitle.c
+Analyzing /mnt/past/tmux/compat/strcasestr.c
+Analyzing /mnt/past/tmux/compat/strlcat.c
+Analyzing /mnt/past/tmux/compat/strlcpy.c
+Analyzing /mnt/past/tmux/compat/strndup.c
+Analyzing /mnt/past/tmux/compat/strnlen.c
+Analyzing /mnt/past/tmux/compat/strsep.c
+Analyzing /mnt/past/tmux/compat/strtonum.c
+Analyzing /mnt/past/tmux/compat/unvis.c
+Analyzing /mnt/past/tmux/compat/utf8proc.c
+Analyzing /mnt/past/tmux/compat/vis.c
+Analyzing /mnt/past/tmux/control-notify.c
+Analyzing /mnt/past/tmux/control.c
+Analyzing /mnt/past/tmux/environ.c
+Analyzing /mnt/past/tmux/file.c
+Analyzing /mnt/past/tmux/format-draw.c
+Analyzing /mnt/past/tmux/format.c
+Analyzing /mnt/past/tmux/grid-view.c
+Analyzing /mnt/past/tmux/grid.c
+Analyzing /mnt/past/tmux/input-keys.c
+Analyzing /mnt/past/tmux/input.c
+Analyzing /mnt/past/tmux/job.c
+Analyzing /mnt/past/tmux/key-bindings.c
+Analyzing /mnt/past/tmux/key-string.c
+Analyzing /mnt/past/tmux/layout-custom.c
+Analyzing /mnt/past/tmux/layout-set.c
+Analyzing /mnt/past/tmux/layout.c
+Analyzing /mnt/past/tmux/log.c
+Analyzing /mnt/past/tmux/menu.c
+Analyzing /mnt/past/tmux/mode-tree.c
+Analyzing /mnt/past/tmux/names.c
+Analyzing /mnt/past/tmux/notify.c
+Analyzing /mnt/past/tmux/options-table.c
+Analyzing /mnt/past/tmux/options.c
+Analyzing /mnt/past/tmux/osdep-aix.c
+Analyzing /mnt/past/tmux/osdep-cygwin.c
+Analyzing /mnt/past/tmux/osdep-darwin.c
+Analyzing /mnt/past/tmux/osdep-dragonfly.c
+Analyzing /mnt/past/tmux/osdep-freebsd.c
+Analyzing /mnt/past/tmux/osdep-hpux.c
+Analyzing /mnt/past/tmux/osdep-linux.c
+Analyzing /mnt/past/tmux/osdep-netbsd.c
+Analyzing /mnt/past/tmux/osdep-openbsd.c
+Analyzing /mnt/past/tmux/osdep-sunos.c
+Analyzing /mnt/past/tmux/osdep-unknown.c
+Analyzing /mnt/past/tmux/paste.c
+Analyzing /mnt/past/tmux/proc.c
+Analyzing /mnt/past/tmux/regsub.c
+Analyzing /mnt/past/tmux/resize.c
+Analyzing /mnt/past/tmux/screen-redraw.c
+Analyzing /mnt/past/tmux/screen-write.c
+Analyzing /mnt/past/tmux/screen.c
+Analyzing /mnt/past/tmux/server-client.c
+Analyzing /mnt/past/tmux/server-fn.c
+Analyzing /mnt/past/tmux/server.c
+Analyzing /mnt/past/tmux/session.c
+Analyzing /mnt/past/tmux/spawn.c
+Analyzing /mnt/past/tmux/status.c
+Analyzing /mnt/past/tmux/style.c
+Analyzing /mnt/past/tmux/tmux.c
+Analyzing /mnt/past/tmux/tty-acs.c
+Analyzing /mnt/past/tmux/tty-keys.c
+Analyzing /mnt/past/tmux/tty-term.c
+Analyzing /mnt/past/tmux/tty.c
+Analyzing /mnt/past/tmux/utf8.c
+Analyzing /mnt/past/tmux/window-buffer.c
+Analyzing /mnt/past/tmux/window-client.c
+Analyzing /mnt/past/tmux/window-clock.c
+Analyzing /mnt/past/tmux/window-copy.c
+Analyzing /mnt/past/tmux/window-tree.c
+Analyzing /mnt/past/tmux/window.c
+Analyzing /mnt/past/tmux/xmalloc.c
+Analyzing /mnt/past/tmux/xterm-keys.c
+/mnt/past/tmux/arguments.c:78: High: getopt
+/mnt/past/tmux/tmux.c:238: High: getopt
+Truncate all input strings to a reasonable length 
+before passing them to this function
+
+/mnt/past/tmux/attributes.c:28: High: fixed size local buffer
+/mnt/past/tmux/client.c:180: High: fixed size local buffer
+/mnt/past/tmux/cmd-capture-pane.c:79: High: fixed size local buffer
+/mnt/past/tmux/cmd-display-panes.c:61: High: fixed size local buffer
+/mnt/past/tmux/cmd-queue.c:35: High: fixed size local buffer
+/mnt/past/tmux/cmd.c:387: High: fixed size local buffer
+/mnt/past/tmux/colour.c:111: High: fixed size local buffer
+/mnt/past/tmux/colour.c:311: High: fixed size local buffer
+/mnt/past/tmux/compat/closefrom.c:73: High: fixed size local buffer
+/mnt/past/tmux/compat/getdtablecount.c:31: High: fixed size local buffer
+/mnt/past/tmux/compat/imsg-buffer.c:235: High: fixed size local buffer
+/mnt/past/tmux/compat/imsg.c:53: High: fixed size local buffer
+/mnt/past/tmux/compat/setproctitle.c:31: High: fixed size local buffer
+/mnt/past/tmux/compat/vis.c:170: High: fixed size local buffer
+/mnt/past/tmux/file.c:305: High: fixed size local buffer
+/mnt/past/tmux/format.c:140: High: fixed size local buffer
+/mnt/past/tmux/format.c:429: High: fixed size local buffer
+/mnt/past/tmux/format.c:441: High: fixed size local buffer
+/mnt/past/tmux/format.c:494: High: fixed size local buffer
+/mnt/past/tmux/format.c:524: High: fixed size local buffer
+/mnt/past/tmux/format.c:1104: High: fixed size local buffer
+/mnt/past/tmux/format.c:1169: High: fixed size local buffer
+/mnt/past/tmux/format.c:1283: High: fixed size local buffer
+/mnt/past/tmux/format.c:2110: High: fixed size local buffer
+/mnt/past/tmux/grid.c:784: High: fixed size local buffer
+/mnt/past/tmux/grid.c:904: High: fixed size local buffer
+/mnt/past/tmux/input-keys.c:256: High: fixed size local buffer
+/mnt/past/tmux/input.c:2436: High: fixed size local buffer
+/mnt/past/tmux/input.c:2460: High: fixed size local buffer
+/mnt/past/tmux/key-string.c:245: High: fixed size local buffer
+/mnt/past/tmux/key-string.c:246: High: fixed size local buffer
+/mnt/past/tmux/layout-custom.c:63: High: fixed size local buffer
+/mnt/past/tmux/layout-custom.c:78: High: fixed size local buffer
+/mnt/past/tmux/mode-tree.c:524: High: fixed size local buffer
+/mnt/past/tmux/osdep-aix.c:62: High: fixed size local buffer
+/mnt/past/tmux/osdep-cygwin.c:66: High: fixed size local buffer
+/mnt/past/tmux/osdep-darwin.c:74: High: fixed size local buffer
+/mnt/past/tmux/osdep-freebsd.c:140: High: fixed size local buffer
+/mnt/past/tmux/osdep-linux.c:67: High: fixed size local buffer
+/mnt/past/tmux/osdep-netbsd.c:135: High: fixed size local buffer
+/mnt/past/tmux/osdep-openbsd.c:143: High: fixed size local buffer
+/mnt/past/tmux/osdep-sunos.c:70: High: fixed size local buffer
+/mnt/past/tmux/screen-write.c:47: High: fixed size local buffer
+/mnt/past/tmux/server-fn.c:299: High: fixed size local buffer
+/mnt/past/tmux/spawn.c:57: High: fixed size local buffer
+/mnt/past/tmux/status.c:917: High: fixed size local buffer
+/mnt/past/tmux/style.c:54: High: fixed size local buffer
+/mnt/past/tmux/style.c:185: High: fixed size local buffer
+/mnt/past/tmux/style.c:186: High: fixed size local buffer
+/mnt/past/tmux/tmux.c:110: High: fixed size local buffer
+/mnt/past/tmux/tmux.c:169: High: fixed size local buffer
+/mnt/past/tmux/tmux.c:170: High: fixed size local buffer
+/mnt/past/tmux/tty-keys.c:1006: High: fixed size local buffer
+/mnt/past/tmux/tty-term.c:284: High: fixed size local buffer
+/mnt/past/tmux/tty-term.c:312: High: fixed size local buffer
+/mnt/past/tmux/tty-term.c:687: High: fixed size local buffer
+/mnt/past/tmux/tty-term.c:688: High: fixed size local buffer
+/mnt/past/tmux/tty.c:89: High: fixed size local buffer
+/mnt/past/tmux/tty.c:718: High: fixed size local buffer
+/mnt/past/tmux/tty.c:1107: High: fixed size local buffer
+/mnt/past/tmux/tty.c:1234: High: fixed size local buffer
+/mnt/past/tmux/tty.c:2005: High: fixed size local buffer
+/mnt/past/tmux/tty.c:2479: High: fixed size local buffer
+/mnt/past/tmux/tty.c:2511: High: fixed size local buffer
+/mnt/past/tmux/tty.c:2568: High: fixed size local buffer
+/mnt/past/tmux/utf8.c:164: High: fixed size local buffer
+/mnt/past/tmux/window-clock.c:214: High: fixed size local buffer
+/mnt/past/tmux/window-copy.c:2719: High: fixed size local buffer
+/mnt/past/tmux/window.c:800: High: fixed size local buffer
+/mnt/past/tmux/window.c:850: High: fixed size local buffer
+Extra care should be taken to ensure that character arrays that are allocated
+on the stack are used safely.  They are prime targets for buffer overflow
+attacks.
+
+/mnt/past/tmux/client.c:425: High: getenv
+/mnt/past/tmux/tmux.c:67: High: getenv
+/mnt/past/tmux/tmux.c:120: High: getenv
+/mnt/past/tmux/tmux.c:175: High: getenv
+/mnt/past/tmux/tmux.c:200: High: getenv
+/mnt/past/tmux/tmux.c:300: High: getenv
+/mnt/past/tmux/tmux.c:303: High: getenv
+/mnt/past/tmux/tmux.c:305: High: getenv
+/mnt/past/tmux/tmux.c:307: High: getenv
+/mnt/past/tmux/tmux.c:341: High: getenv
+/mnt/past/tmux/tmux.c:341: High: getenv
+/mnt/past/tmux/tmux.c:358: High: getenv
+Environment variables are highly untrustable input. They may be of any length, and contain any data. Do not make any assumptions regarding content or length. If at all possible avoid using them, and if it is necessary, sanitize them and truncate them to a reasonable length.
+
+/mnt/past/tmux/client.c:943: High: system
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+/mnt/past/tmux/compat/err.c:37: High: vfprintf
+/mnt/past/tmux/compat/err.c:55: High: vfprintf
+/mnt/past/tmux/compat/err.c:72: High: vfprintf
+/mnt/past/tmux/compat/err.c:89: High: vfprintf
+Check to be sure that the non-constant format string passed as argument 2 to
+this function call does not come from an untrusted source that could have added
+formatting characters that the code is not prepared to handle.
+
+/mnt/past/tmux/server.c:119: High: umask
+/mnt/past/tmux/server.c:126: High: umask
+umask() can easily be used to create files with unsafe priviledges.  It should be set to restrictive values.
+
+/mnt/past/tmux/tmux.c:124: High: realpath
+/mnt/past/tmux/tmux.c:182: High: realpath
+/mnt/past/tmux/tmux.c:184: High: realpath
+Be sure the destination buffer is at least MAXPATHLEN
+                   big. This function may still internally overflow a static
+                   buffer, try to avoid using it. If you must, check the size 
+                   the path your pass in is no longer than MAXPATHLEN
+
+/mnt/past/tmux/client.c:249: Medium: signal
+When setting signal handlers, do not use the same function to handle multiple signals. There exists the possibility a race condition will result if 2 or more different signals are sent to the process at nearly the same time. Also, when writing signal handlers, it is best to do as little as possible in them. The best strategy is to use the signal handler to set a flag, that another part of the program tests and performs the appropriate action(s) when it is set.
+See also: http://razor.bindview.com/publish/papers/signals.txt
+
+/mnt/past/tmux/compat/fgetln.c:45: Medium: getc
+Check buffer boundaries if calling this function in a loop 
+and make sure you are not in danger of writing past the allocated space.
+
+/mnt/past/tmux/compat/forkpty-aix.c:61: Medium: read
+/mnt/past/tmux/osdep-aix.c:51: Medium: read
+/mnt/past/tmux/osdep-sunos.c:56: Medium: read
+Check buffer boundaries if calling this function in a loop 
+and make sure you are not in danger of writing past the allocated space.
+
+/mnt/past/tmux/compat/reallocarray.c:39: Medium: realloc
+/mnt/past/tmux/compat/vis.c:220: Medium: realloc
+/mnt/past/tmux/osdep-dragonfly.c:91: Medium: realloc
+/mnt/past/tmux/osdep-freebsd.c:105: Medium: realloc
+/mnt/past/tmux/osdep-netbsd.c:99: Medium: realloc
+/mnt/past/tmux/osdep-openbsd.c:106: Medium: realloc
+Don't use on memory intended to be secure, because the old structure will not be zeroed out.
+
+/mnt/past/tmux/osdep-cygwin.c:50: Medium: fgetc
+/mnt/past/tmux/osdep-linux.c:51: Medium: fgetc
+Check buffer boundaries if calling this function in a loop 
+and make sure you are not in danger of writing past the allocated space.
+
+/mnt/past/tmux/server.c:309: Medium: stat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+321 (chmod)
+
+/mnt/past/tmux/tmux.c:134: Medium: lstat
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists.  This is
+the first line where a check has occured.
+The following line(s) contain uses that may match up with this check:
+132 (mkdir)
+
+/mnt/past/tmux/client.c:302: Default: ttyname
+/mnt/past/tmux/compat/forkpty-aix.c:45: Default: ttyname
+The results are easy for an attacker to forge, and not reliable.
+
+Total lines analyzed: 58078
+Total time 0.082073 seconds
+707638 lines per second

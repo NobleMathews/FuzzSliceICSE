@@ -1,0 +1,7 @@
+numpy
+loguru
+lxml
+libclang
+psutil
+compiledb
+timeout-decorator

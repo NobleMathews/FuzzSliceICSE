@@ -1,0 +1,772 @@
+{
+    "git log -L279,297:tmux.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tmux.c b/tmux.c--- a/tmux.c+++ b/tmux.c@@ -171,18 +182,19 @@+const char * find_cwd(void) { \tchar\t\t resolved1[PATH_MAX], resolved2[PATH_MAX]; \tstatic char\t cwd[PATH_MAX]; \tconst char\t*pwd; \tif (getcwd(cwd, sizeof cwd) == NULL) \t\treturn (NULL); \tif ((pwd = getenv(\"PWD\")) == NULL || *pwd == '\\0') \t\treturn (cwd); \t/* \t * We want to use PWD so that symbolic links are maintained, \t * but only if it matches the actual working directory. \t */ \tif (realpath(pwd, resolved1) == NULL) \t\treturn (cwd); \tif (realpath(cwd, resolved2) == NULL)",
+            "commit_date": "2020-04-16 07:28:36+00:00",
+            "commit_hash": "a2e47b527986af6140a9dfa43c9448347dc0a050",
+            "message": "Show signal name when process exits rather than number."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tmux.c b/tmux.c--- a/tmux.c+++ b/tmux.c@@ -170,0 +170,18 @@+find_cwd(void)+{+\tchar\t\t resolved1[PATH_MAX], resolved2[PATH_MAX];+\tstatic char\t cwd[PATH_MAX];+\tconst char\t*pwd;++\tif (getcwd(cwd, sizeof cwd) == NULL)+\t\treturn (NULL);+\tif ((pwd = getenv(\"PWD\")) == NULL || *pwd == '\\0')+\t\treturn (cwd);++\t/*+\t * We want to use PWD so that symbolic links are maintained,+\t * but only if it matches the actual working directory.+\t */+\tif (realpath(pwd, resolved1) == NULL)+\t\treturn (cwd);+\tif (realpath(cwd, resolved2) == NULL)",
+            "commit_date": "2018-11-22 10:36:40+00:00",
+            "commit_hash": "3a7b9d57355c4b2b521f05049a5c6f5eb2939b5d",
+            "message": "Do not use PWD unless it actually matches the real working directory."
+        }
+    ],
+    "git log -L279,295:tmux.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tmux.c b/tmux.c--- a/tmux.c+++ b/tmux.c@@ -171,16 +182,17 @@+const char * find_cwd(void) { \tchar\t\t resolved1[PATH_MAX], resolved2[PATH_MAX]; \tstatic char\t cwd[PATH_MAX]; \tconst char\t*pwd; \tif (getcwd(cwd, sizeof cwd) == NULL) \t\treturn (NULL); \tif ((pwd = getenv(\"PWD\")) == NULL || *pwd == '\\0') \t\treturn (cwd); \t/* \t * We want to use PWD so that symbolic links are maintained, \t * but only if it matches the actual working directory. \t */ \tif (realpath(pwd, resolved1) == NULL)",
+            "commit_date": "2020-04-16 07:28:36+00:00",
+            "commit_hash": "a2e47b527986af6140a9dfa43c9448347dc0a050",
+            "message": "Show signal name when process exits rather than number."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tmux.c b/tmux.c--- a/tmux.c+++ b/tmux.c@@ -170,0 +170,16 @@+find_cwd(void)+{+\tchar\t\t resolved1[PATH_MAX], resolved2[PATH_MAX];+\tstatic char\t cwd[PATH_MAX];+\tconst char\t*pwd;++\tif (getcwd(cwd, sizeof cwd) == NULL)+\t\treturn (NULL);+\tif ((pwd = getenv(\"PWD\")) == NULL || *pwd == '\\0')+\t\treturn (cwd);++\t/*+\t * We want to use PWD so that symbolic links are maintained,+\t * but only if it matches the actual working directory.+\t */+\tif (realpath(pwd, resolved1) == NULL)",
+            "commit_date": "2018-11-22 10:36:40+00:00",
+            "commit_hash": "3a7b9d57355c4b2b521f05049a5c6f5eb2939b5d",
+            "message": "Do not use PWD unless it actually matches the real working directory."
+        }
+    ],
+    "git log -L141,159:tmux.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tmux.c b/tmux.c--- a/tmux.c+++ b/tmux.c@@ -145,18 +145,19 @@-void-expand_paths(const char *s, char ***paths, u_int *n)+static void+expand_paths(const char *s, char ***paths, u_int *n, int ignore_errors) { \tconst char\t*home = find_home(); \tchar\t\t*copy, *next, *tmp, resolved[PATH_MAX], *expanded;+\tchar\t\t*path; \tu_int\t\t i; \t*paths = NULL; \t*n = 0; \tcopy = tmp = xstrdup(s); \twhile ((next = strsep(&tmp, \":\")) != NULL) { \t\texpanded = expand_path(next, home); \t\tif (expanded == NULL) { \t\t\tlog_debug(\"%s: invalid path: %s\", __func__, next); \t\t\tcontinue; \t\t} \t\tif (realpath(expanded, resolved) == NULL) {",
+            "commit_date": "2021-02-22 08:18:13+00:00",
+            "commit_hash": "6876381276ff2c2a40d304ada27651fdaf1cd8a7",
+            "message": "Move config file path expansion much earlier, keep the list of paths\naround rather than freeing later, and add a config_files format variable\ncontaining it. Suggested by kn@ a while back."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tmux.c b/tmux.c--- a/tmux.c+++ b/tmux.c@@ -113,0 +145,18 @@+void+expand_paths(const char *s, char ***paths, u_int *n)+{+\tconst char\t*home = find_home();+\tchar\t\t*copy, *next, *tmp, resolved[PATH_MAX], *expanded;+\tu_int\t\t i;++\t*paths = NULL;+\t*n = 0;++\tcopy = tmp = xstrdup(s);+\twhile ((next = strsep(&tmp, \":\")) != NULL) {+\t\texpanded = expand_path(next, home);+\t\tif (expanded == NULL) {+\t\t\tlog_debug(\"%s: invalid path: %s\", __func__, next);+\t\t\tcontinue;+\t\t}+\t\tif (realpath(expanded, resolved) == NULL) {",
+            "commit_date": "2020-05-16 14:26:33+00:00",
+            "commit_hash": "a29196ca6a6401053d3a17d0ffe2d560918683a4",
+            "message": "Build list of paths and weed out duplicates before loading configs, and\nadd TMUX_SOCK like TMUX_PATH for the socket directory."
+        }
+    ],
+    "git log -L29,50:osdep-linux.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/osdep-linux.c b/osdep-linux.c--- a/osdep-linux.c+++ b/osdep-linux.c@@ -30,22 +30,22 @@ char *-osdep_get_name(int fd, unused char *tty)+osdep_get_name(int fd, __unused char *tty) { \tFILE\t*f; \tchar\t*path, *buf; \tsize_t\t len; \tint\t ch; \tpid_t\t pgrp; \tif ((pgrp = tcgetpgrp(fd)) == -1) \t\treturn (NULL); \txasprintf(&path, \"/proc/%lld/cmdline\", (long long) pgrp); \tif ((f = fopen(path, \"r\")) == NULL) { \t\tfree(path); \t\treturn (NULL); \t} \tfree(path); \tlen = 0; \tbuf = NULL; \twhile ((ch = fgetc(f)) != EOF) {",
+            "commit_date": "2015-11-18 16:45:44+00:00",
+            "commit_hash": "c15487318b08a88aebc9cf583cbdc591b1bc34c8",
+            "message": "unused -> __unused."
+        },
+        {
+            "author": {
+                "email": "tcunha@gmx.com",
+                "name": "Tiago Cunha"
+            },
+            "changes": "diff --git a/osdep-linux.c b/osdep-linux.c--- a/osdep-linux.c+++ b/osdep-linux.c@@ -29,22 +29,22 @@ char * osdep_get_name(int fd, unused char *tty) { \tFILE\t*f; \tchar\t*path, *buf; \tsize_t\t len; \tint\t ch; \tpid_t\t pgrp; \tif ((pgrp = tcgetpgrp(fd)) == -1) \t\treturn (NULL); \txasprintf(&path, \"/proc/%lld/cmdline\", (long long) pgrp); \tif ((f = fopen(path, \"r\")) == NULL) {-\t\txfree(path);+\t\tfree(path); \t\treturn (NULL); \t}-\txfree(path);+\tfree(path); \tlen = 0; \tbuf = NULL; \twhile ((ch = fgetc(f)) != EOF) {",
+            "commit_date": "2012-07-11 19:50:46+00:00",
+            "commit_hash": "513bd8f62d4159bae1d9825c1300bcf83287c1d3",
+            "message": "Remove remaining xfree calls from the portable version."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/osdep-linux.c b/osdep-linux.c--- a/osdep-linux.c+++ b/osdep-linux.c@@ -29,24 +29,22 @@-int-osdep_get_name(int fd, unused char *tty, unused pid_t *last_pid, char **name)+char *+osdep_get_name(int fd, unused char *tty) { \tFILE\t*f; \tchar\t*path, *buf; \tsize_t\t len; \tint\t ch; \tpid_t\t pgrp;-\t*name = NULL;- \tif ((pgrp = tcgetpgrp(fd)) == -1)-\t\treturn (-1);+\t\treturn (NULL); \txasprintf(&path, \"/proc/%lld/cmdline\", (long long) pgrp); \tif ((f = fopen(path, \"r\")) == NULL) { \t\txfree(path);-\t\treturn (-1);+\t\treturn (NULL); \t} \txfree(path); \tlen = 0; \tbuf = NULL; \twhile ((ch = fgetc(f)) != EOF) {",
+            "commit_date": "2009-02-13 00:43:04+00:00",
+            "commit_hash": "cce03e138b6363036d9b6c3c96925b3a372e421b",
+            "message": "Looking up argv[0] is expensive, so just use p_comm for the window name which is good enough. Also increase name update time to 500 ms."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/osdep-linux.c b/osdep-linux.c--- a/osdep-linux.c+++ b/osdep-linux.c@@ -29,22 +29,24 @@-char *-get_argv0(int fd, unused char *tty)+int+osdep_get_name(int fd, unused char *tty, unused pid_t *last_pid, char **name) { \tFILE\t*f; \tchar\t*path, *buf; \tsize_t\t len; \tint\t ch; \tpid_t\t pgrp;+\t*name = NULL;+ \tif ((pgrp = tcgetpgrp(fd)) == -1)-\t\treturn (NULL);+\t\treturn (-1); \txasprintf(&path, \"/proc/%lld/cmdline\", (long long) pgrp); \tif ((f = fopen(path, \"r\")) == NULL) { \t\txfree(path);-\t\treturn (NULL);+\t\treturn (-1); \t} \txfree(path); \tlen = 0; \tbuf = NULL; \twhile ((ch = fgetc(f)) != EOF) {",
+            "commit_date": "2009-02-09 18:08:01+00:00",
+            "commit_hash": "c9cfc9a9f356386e07e6273f91dd3d46ca076c12",
+            "message": "Don't try to change the window name unless the pid of the process chosen has\nchanged. Reduces CPU use.\nosdep-* stuff is a bit horrible now but there we go :-/."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/osdep-linux.c b/osdep-linux.c--- a/osdep-linux.c+++ b/osdep-linux.c@@ -29,15 +29,22 @@ char *-get_argv0(pid_t pgrp)+get_argv0(int fd, unused char *tty) { \tFILE\t*f; \tchar\t*path, *buf; \tsize_t\t len; \tint\t ch;+\tpid_t\t pgrp;++\tif ((pgrp = tcgetpgrp(fd)) == -1)+\t\treturn (NULL); \txasprintf(&path, \"/proc/%lld/cmdline\", (long long) pgrp);-\tif ((f = fopen(path, \"r\")) == NULL)+\tif ((f = fopen(path, \"r\")) == NULL) {+\t\txfree(path); \t\treturn (NULL);+\t}+\txfree(path); \tlen = 0; \tbuf = NULL; \twhile ((ch = fgetc(f)) != EOF) {",
+            "commit_date": "2009-01-26 22:57:20+00:00",
+            "commit_hash": "9cde0c24779e8f43b6d122bc62fa22b6022d9ef0",
+            "message": "Be more clever about picking window name."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/osdep-linux.c b/osdep-linux.c--- /dev/null+++ b/osdep-linux.c@@ -0,0 +29,15 @@+char *+get_argv0(pid_t pgrp)+{+\tFILE\t*f;+\tchar\t*path, *buf;+\tsize_t\t len;+\tint\t ch;++\txasprintf(&path, \"/proc/%lld/cmdline\", (long long) pgrp);+\tif ((f = fopen(path, \"r\")) == NULL)+\t\treturn (NULL);++\tlen = 0;+\tbuf = NULL;+\twhile ((ch = fgetc(f)) != EOF) {",
+            "commit_date": "2009-01-20 19:35:03+00:00",
+            "commit_hash": "2d15f5985930f493d6df7f58399639ae64057c4a",
+            "message": "Try to change the window title to match the command running it in. This is done\nby reading argv[0] from the process group leader of the group that owns the tty\n(tcgetpgrp()). This can't be done portably so some OS-dependent code is\nintroduced (ugh); OpenBSD, FreeBSD and Linux are supported at the moment.\nA new window flag, automatic-rename, is available: if this is set to off, the\nwindow name is not changed. Specifying a name with the new-window, new-session\nor rename-window commands will automatically set this flag to off for the\nwindow in question. To disable it entirely set the option to off globally (setw\n-g automatic-rename off)."
+        }
+    ],
+    "git log -L60,66:layout-custom.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/layout-custom.c b/layout-custom.c--- a/layout-custom.c+++ b/layout-custom.c@@ -60,7 +60,7 @@ char * layout_dump(struct layout_cell *root) {-\tchar\tlayout[BUFSIZ], *out;+\tchar\tlayout[8192], *out; \t*layout = '\\0'; \tif (layout_append(root, layout, sizeof layout) != 0)",
+            "commit_date": "2019-10-03 10:24:05+00:00",
+            "commit_hash": "f4c7141f5d2abd06bb90443ad9edc7c1a985eb40",
+            "message": "Do not lazily use BUFSIZ for \"I don't care what size\" when building\nstrings because it is only guaranteed to be 256 bytes and even the\ndefault 1024 is not always enough. Reported by Gregory Pakosz."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/layout-custom.c b/layout-custom.c--- a/layout-custom.c+++ b/layout-custom.c@@ -57,7 +57,7 @@ char *-layout_dump(struct window *w)+layout_dump(struct layout_cell *root) { \tchar\tlayout[BUFSIZ], *out; \t*layout = '\\0';-\tif (layout_append(w->layout_root, layout, sizeof layout) != 0)+\tif (layout_append(root, layout, sizeof layout) != 0)",
+            "commit_date": "2015-04-21 22:38:49+00:00",
+            "commit_hash": "69f292a90e2fb9d48a77a9753127da13554715de",
+            "message": "Always format real layout even when zoomed."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/layout-custom.c b/layout-custom.c--- /dev/null+++ b/layout-custom.c@@ -0,0 +46,7 @@+char *+layout_dump(struct window *w)+{+\tchar\tlayout[BUFSIZ], *out;++\t*layout = '\\0';+\tif (layout_append(w->layout_root, layout, sizeof layout) != 0)",
+            "commit_date": "2010-06-29 03:30:13+00:00",
+            "commit_hash": "552c9cd83f7207759b41947f63ada828683b7892",
+            "message": "Custom layouts. list-windows command displays the layout as a string (such as\n\"bb62,159x48,0,0{79x48,0,0,79x48,80,0}\") and it can be applied to another\nwindow (with the same number of panes or fewer) using select-layout."
+        }
+    ],
+    "git log -L50,168:style.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -50,119 +50,119 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved;-\tconst char\tdelimiters[] = \" ,\", *cp;+\tconst char\tdelimiters[] = \" ,\\n\", *cp; \tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy); \tlog_debug(\"%s: %s\", __func__, in); \tdo { \t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) \t\t\tin++; \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tlog_debug(\"%s: %s\", __func__, tmp); \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags; \t\t} else if (strcasecmp(tmp, \"ignore\") == 0) \t\t\tsy->ignore = 1; \t\telse if (strcasecmp(tmp, \"noignore\") == 0) \t\t\tsy->ignore = 0; \t\telse if (strcasecmp(tmp, \"push-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_PUSH; \t\telse if (strcasecmp(tmp, \"pop-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_POP; \t\telse if (strcasecmp(tmp, \"nolist\") == 0) \t\t\tsy->list = STYLE_LIST_OFF; \t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) { \t\t\tif (strcasecmp(tmp + 5, \"on\") == 0) \t\t\t\tsy->list = STYLE_LIST_ON; \t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0) \t\t\t\tsy->list = STYLE_LIST_FOCUS; \t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER; \t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER; \t\t\telse \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"norange\") == 0) { \t\t\tsy->range_type = style_default.range_type; \t\t\tsy->range_argument = style_default.range_type; \t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) { \t\t\tfound = strchr(tmp + 6, '|'); \t\t\tif (found != NULL) { \t\t\t\t*found++ = '\\0'; \t\t\t\tif (*found == '\\0') \t\t\t\t\tgoto error; \t\t\t\tfor (cp = found; *cp != '\\0'; cp++) { \t\t\t\t\tif (!isdigit((u_char)*cp)) \t\t\t\t\t\tgoto error; \t\t\t\t} \t\t\t} \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_LEFT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_RIGHT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) { \t\t\t\tif (found == NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_WINDOW; \t\t\t\tsy->range_argument = atoi(found); \t\t\t} \t\t} else if (strcasecmp(tmp, \"noalign\") == 0) \t\t\tsy->align = style_default.align; \t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) { \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_LEFT; \t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_CENTRE; \t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_RIGHT; \t\t\telse if (strcasecmp(tmp + 6, \"absolute-centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_ABSOLUTE_CENTRE; \t\t\telse \t\t\t\tgoto error; \t\t} else if (end > 5 && strncasecmp(tmp, \"fill=\", 5) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 5)) == -1) \t\t\t\tgoto error; \t\t\tsy->fill = value; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2021-08-12 20:46:30+00:00",
+            "commit_hash": "e2f6f58fe50e233dcd0d924bd30c94d1161c666d",
+            "message": "Make newline a style delimiter as well so they can cross multiple lines\nfor readability."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -50,117 +50,119 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved; \tconst char\tdelimiters[] = \" ,\", *cp; \tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy); \tlog_debug(\"%s: %s\", __func__, in); \tdo { \t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) \t\t\tin++; \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tlog_debug(\"%s: %s\", __func__, tmp); \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags; \t\t} else if (strcasecmp(tmp, \"ignore\") == 0) \t\t\tsy->ignore = 1; \t\telse if (strcasecmp(tmp, \"noignore\") == 0) \t\t\tsy->ignore = 0; \t\telse if (strcasecmp(tmp, \"push-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_PUSH; \t\telse if (strcasecmp(tmp, \"pop-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_POP; \t\telse if (strcasecmp(tmp, \"nolist\") == 0) \t\t\tsy->list = STYLE_LIST_OFF; \t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) { \t\t\tif (strcasecmp(tmp + 5, \"on\") == 0) \t\t\t\tsy->list = STYLE_LIST_ON; \t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0) \t\t\t\tsy->list = STYLE_LIST_FOCUS; \t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER; \t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER; \t\t\telse \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"norange\") == 0) { \t\t\tsy->range_type = style_default.range_type; \t\t\tsy->range_argument = style_default.range_type; \t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) { \t\t\tfound = strchr(tmp + 6, '|'); \t\t\tif (found != NULL) { \t\t\t\t*found++ = '\\0'; \t\t\t\tif (*found == '\\0') \t\t\t\t\tgoto error; \t\t\t\tfor (cp = found; *cp != '\\0'; cp++) { \t\t\t\t\tif (!isdigit((u_char)*cp)) \t\t\t\t\t\tgoto error; \t\t\t\t} \t\t\t} \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_LEFT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_RIGHT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) { \t\t\t\tif (found == NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_WINDOW; \t\t\t\tsy->range_argument = atoi(found); \t\t\t} \t\t} else if (strcasecmp(tmp, \"noalign\") == 0) \t\t\tsy->align = style_default.align; \t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) { \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_LEFT; \t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_CENTRE; \t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_RIGHT;+\t\t\telse if (strcasecmp(tmp + 6, \"absolute-centre\") == 0)+\t\t\t\tsy->align = STYLE_ALIGN_ABSOLUTE_CENTRE; \t\t\telse \t\t\t\tgoto error; \t\t} else if (end > 5 && strncasecmp(tmp, \"fill=\", 5) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 5)) == -1) \t\t\t\tgoto error; \t\t\tsy->fill = value; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2021-03-11 06:41:04+00:00",
+            "commit_hash": "3eb91efba160eff0b077a5fee902edb632f7fdca",
+            "message": "Add an \"absolute-centre\" alignment to use the centre of the total space\ninstead of only the available space. From Magnus Gross in GitHub issue 2578."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -49,113 +50,117 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved; \tconst char\tdelimiters[] = \" ,\", *cp; \tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy); \tlog_debug(\"%s: %s\", __func__, in); \tdo { \t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) \t\t\tin++; \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tlog_debug(\"%s: %s\", __func__, tmp); \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags;-\t\t} else if (strcasecmp(tmp, \"push-default\") == 0)+\t\t} else if (strcasecmp(tmp, \"ignore\") == 0)+\t\t\tsy->ignore = 1;+\t\telse if (strcasecmp(tmp, \"noignore\") == 0)+\t\t\tsy->ignore = 0;+\t\telse if (strcasecmp(tmp, \"push-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_PUSH; \t\telse if (strcasecmp(tmp, \"pop-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_POP; \t\telse if (strcasecmp(tmp, \"nolist\") == 0) \t\t\tsy->list = STYLE_LIST_OFF; \t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) { \t\t\tif (strcasecmp(tmp + 5, \"on\") == 0) \t\t\t\tsy->list = STYLE_LIST_ON; \t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0) \t\t\t\tsy->list = STYLE_LIST_FOCUS; \t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER; \t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER; \t\t\telse \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"norange\") == 0) { \t\t\tsy->range_type = style_default.range_type; \t\t\tsy->range_argument = style_default.range_type; \t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) { \t\t\tfound = strchr(tmp + 6, '|'); \t\t\tif (found != NULL) { \t\t\t\t*found++ = '\\0'; \t\t\t\tif (*found == '\\0') \t\t\t\t\tgoto error; \t\t\t\tfor (cp = found; *cp != '\\0'; cp++) { \t\t\t\t\tif (!isdigit((u_char)*cp)) \t\t\t\t\t\tgoto error; \t\t\t\t} \t\t\t} \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_LEFT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_RIGHT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) { \t\t\t\tif (found == NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_WINDOW; \t\t\t\tsy->range_argument = atoi(found); \t\t\t} \t\t} else if (strcasecmp(tmp, \"noalign\") == 0) \t\t\tsy->align = style_default.align; \t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) { \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_LEFT; \t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_CENTRE; \t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_RIGHT; \t\t\telse \t\t\t\tgoto error; \t\t} else if (end > 5 && strncasecmp(tmp, \"fill=\", 5) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 5)) == -1) \t\t\t\tgoto error; \t\t\tsy->fill = value; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2020-05-16 16:02:24+00:00",
+            "commit_hash": "d67245c734c9c600ad6d186570a1230aa21b80c8",
+            "message": "Add a customize mode where keys and options may be browsed and changed,\nincludes adding a brief description of each option. Bound to \"C\" by\ndefault."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -49,111 +49,113 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved; \tconst char\tdelimiters[] = \" ,\", *cp; \tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy);+\tlog_debug(\"%s: %s\", __func__, in); \tdo { \t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) \t\t\tin++; \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0';+\t\tlog_debug(\"%s: %s\", __func__, tmp); \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags; \t\t} else if (strcasecmp(tmp, \"push-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_PUSH; \t\telse if (strcasecmp(tmp, \"pop-default\") == 0) \t\t\tsy->default_type = STYLE_DEFAULT_POP; \t\telse if (strcasecmp(tmp, \"nolist\") == 0) \t\t\tsy->list = STYLE_LIST_OFF; \t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) { \t\t\tif (strcasecmp(tmp + 5, \"on\") == 0) \t\t\t\tsy->list = STYLE_LIST_ON; \t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0) \t\t\t\tsy->list = STYLE_LIST_FOCUS; \t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER; \t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER; \t\t\telse \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"norange\") == 0) { \t\t\tsy->range_type = style_default.range_type; \t\t\tsy->range_argument = style_default.range_type; \t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) { \t\t\tfound = strchr(tmp + 6, '|'); \t\t\tif (found != NULL) { \t\t\t\t*found++ = '\\0'; \t\t\t\tif (*found == '\\0') \t\t\t\t\tgoto error; \t\t\t\tfor (cp = found; *cp != '\\0'; cp++) { \t\t\t\t\tif (!isdigit((u_char)*cp)) \t\t\t\t\t\tgoto error; \t\t\t\t} \t\t\t} \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_LEFT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_RIGHT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) { \t\t\t\tif (found == NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_WINDOW; \t\t\t\tsy->range_argument = atoi(found); \t\t\t} \t\t} else if (strcasecmp(tmp, \"noalign\") == 0) \t\t\tsy->align = style_default.align; \t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) { \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_LEFT; \t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_CENTRE; \t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_RIGHT; \t\t\telse \t\t\t\tgoto error; \t\t} else if (end > 5 && strncasecmp(tmp, \"fill=\", 5) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 5)) == -1) \t\t\t\tgoto error; \t\t\tsy->fill = value; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2020-05-16 14:53:23+00:00",
+            "commit_hash": "5bf96c2f2c40e93b8e66d7100f7b3dc9074a1ca6",
+            "message": "Use a grid cell not a style for the pane style."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -47,107 +49,111 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved; \tconst char\tdelimiters[] = \" ,\", *cp; \tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy); \tdo { \t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) \t\t\tin++; \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags;-\t\t} else if (strcasecmp(tmp, \"nolist\") == 0)+\t\t} else if (strcasecmp(tmp, \"push-default\") == 0)+\t\t\tsy->default_type = STYLE_DEFAULT_PUSH;+\t\telse if (strcasecmp(tmp, \"pop-default\") == 0)+\t\t\tsy->default_type = STYLE_DEFAULT_POP;+\t\telse if (strcasecmp(tmp, \"nolist\") == 0) \t\t\tsy->list = STYLE_LIST_OFF; \t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) { \t\t\tif (strcasecmp(tmp + 5, \"on\") == 0) \t\t\t\tsy->list = STYLE_LIST_ON; \t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0) \t\t\t\tsy->list = STYLE_LIST_FOCUS; \t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER; \t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER; \t\t\telse \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"norange\") == 0) { \t\t\tsy->range_type = style_default.range_type; \t\t\tsy->range_argument = style_default.range_type; \t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) { \t\t\tfound = strchr(tmp + 6, '|'); \t\t\tif (found != NULL) { \t\t\t\t*found++ = '\\0'; \t\t\t\tif (*found == '\\0') \t\t\t\t\tgoto error; \t\t\t\tfor (cp = found; *cp != '\\0'; cp++) { \t\t\t\t\tif (!isdigit((u_char)*cp)) \t\t\t\t\t\tgoto error; \t\t\t\t} \t\t\t} \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_LEFT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_RIGHT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) { \t\t\t\tif (found == NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_WINDOW; \t\t\t\tsy->range_argument = atoi(found); \t\t\t} \t\t} else if (strcasecmp(tmp, \"noalign\") == 0) \t\t\tsy->align = style_default.align; \t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) { \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_LEFT; \t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_CENTRE; \t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_RIGHT; \t\t\telse \t\t\t\tgoto error; \t\t} else if (end > 5 && strncasecmp(tmp, \"fill=\", 5) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 5)) == -1) \t\t\t\tgoto error; \t\t\tsy->fill = value; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2019-09-15 21:42:57+00:00",
+            "commit_hash": "63e07b245f898af17657c4655f1251aa43e19d0c",
+            "message": "Add push-default and pop-default in styles to change the default colours\nand attributes and use them to restore the previous behaviour of\nwindow-status-style being the default for window-status-format in the\nstatus line. From John Drouhard in GitHub issue 1912."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -46,103 +47,107 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved; \tconst char\tdelimiters[] = \" ,\", *cp; \tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy); \tdo { \t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) \t\t\tin++; \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags; \t\t} else if (strcasecmp(tmp, \"nolist\") == 0) \t\t\tsy->list = STYLE_LIST_OFF; \t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) { \t\t\tif (strcasecmp(tmp + 5, \"on\") == 0) \t\t\t\tsy->list = STYLE_LIST_ON; \t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0) \t\t\t\tsy->list = STYLE_LIST_FOCUS; \t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER; \t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER; \t\t\telse \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"norange\") == 0) { \t\t\tsy->range_type = style_default.range_type; \t\t\tsy->range_argument = style_default.range_type; \t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) { \t\t\tfound = strchr(tmp + 6, '|'); \t\t\tif (found != NULL) { \t\t\t\t*found++ = '\\0'; \t\t\t\tif (*found == '\\0') \t\t\t\t\tgoto error; \t\t\t\tfor (cp = found; *cp != '\\0'; cp++) { \t\t\t\t\tif (!isdigit((u_char)*cp)) \t\t\t\t\t\tgoto error; \t\t\t\t} \t\t\t} \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_LEFT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_RIGHT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) { \t\t\t\tif (found == NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_WINDOW; \t\t\t\tsy->range_argument = atoi(found); \t\t\t} \t\t} else if (strcasecmp(tmp, \"noalign\") == 0) \t\t\tsy->align = style_default.align; \t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) { \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_LEFT; \t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_CENTRE; \t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_RIGHT; \t\t\telse \t\t\t\tgoto error;+\t\t} else if (end > 5 && strncasecmp(tmp, \"fill=\", 5) == 0) {+\t\t\tif ((value = colour_fromstring(tmp + 5)) == -1)+\t\t\t\tgoto error;+\t\t\tsy->fill = value; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2019-07-01 06:56:00+00:00",
+            "commit_hash": "2da050413c17e587be8bede710112096ce6b5f5a",
+            "message": "Add a \"fill\" style attribute to clear the entire format drawing area in\na colour, GitHub issue 1815."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -46,105 +46,103 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved; \tconst char\tdelimiters[] = \" ,\", *cp; \tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy); \tdo {-\t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) {+\t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) \t\t\tin++;-\t\t\tend--;-\t\t} \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags; \t\t} else if (strcasecmp(tmp, \"nolist\") == 0) \t\t\tsy->list = STYLE_LIST_OFF; \t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) { \t\t\tif (strcasecmp(tmp + 5, \"on\") == 0) \t\t\t\tsy->list = STYLE_LIST_ON; \t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0) \t\t\t\tsy->list = STYLE_LIST_FOCUS; \t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER; \t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0) \t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER; \t\t\telse \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"norange\") == 0) { \t\t\tsy->range_type = style_default.range_type; \t\t\tsy->range_argument = style_default.range_type; \t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) { \t\t\tfound = strchr(tmp + 6, '|'); \t\t\tif (found != NULL) { \t\t\t\t*found++ = '\\0'; \t\t\t\tif (*found == '\\0') \t\t\t\t\tgoto error; \t\t\t\tfor (cp = found; *cp != '\\0'; cp++) { \t\t\t\t\tif (!isdigit((u_char)*cp)) \t\t\t\t\t\tgoto error; \t\t\t\t} \t\t\t} \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_LEFT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) { \t\t\t\tif (found != NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_RIGHT; \t\t\t\tsy->range_argument = 0; \t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) { \t\t\t\tif (found == NULL) \t\t\t\t\tgoto error; \t\t\t\tsy->range_type = STYLE_RANGE_WINDOW; \t\t\t\tsy->range_argument = atoi(found); \t\t\t} \t\t} else if (strcasecmp(tmp, \"noalign\") == 0) \t\t\tsy->align = style_default.align; \t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) { \t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_LEFT; \t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_CENTRE; \t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0) \t\t\t\tsy->align = STYLE_ALIGN_RIGHT; \t\t\telse \t\t\t\tgoto error; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2019-05-12 18:16:33+00:00",
+            "commit_hash": "00f19b7f9160f32b3736da08116e5ea4f2409bb1",
+            "message": "Fix some indentation and dead assignments."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -39,51 +46,105 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) { \tstruct style\tsaved;-\tconst char\tdelimiters[] = \" ,\";-\tchar\t\ttmp[32];+\tconst char\tdelimiters[] = \" ,\", *cp;+\tchar\t\ttmp[256], *found; \tint\t\tvalue; \tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0); \tstyle_copy(&saved, sy); \tdo { \t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) { \t\t\tin++; \t\t\tend--; \t\t} \t\tif (*in == '\\0') \t\t\tbreak; \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tsy->gc.fg = base->fg; \t\t\tsy->gc.bg = base->bg; \t\t\tsy->gc.attr = base->attr; \t\t\tsy->gc.flags = base->flags;+\t\t} else if (strcasecmp(tmp, \"nolist\") == 0)+\t\t\tsy->list = STYLE_LIST_OFF;+\t\telse if (strncasecmp(tmp, \"list=\", 5) == 0) {+\t\t\tif (strcasecmp(tmp + 5, \"on\") == 0)+\t\t\t\tsy->list = STYLE_LIST_ON;+\t\t\telse if (strcasecmp(tmp + 5, \"focus\") == 0)+\t\t\t\tsy->list = STYLE_LIST_FOCUS;+\t\t\telse if (strcasecmp(tmp + 5, \"left-marker\") == 0)+\t\t\t\tsy->list = STYLE_LIST_LEFT_MARKER;+\t\t\telse if (strcasecmp(tmp + 5, \"right-marker\") == 0)+\t\t\t\tsy->list = STYLE_LIST_RIGHT_MARKER;+\t\t\telse+\t\t\t\tgoto error;+\t\t} else if (strcasecmp(tmp, \"norange\") == 0) {+\t\t\tsy->range_type = style_default.range_type;+\t\t\tsy->range_argument = style_default.range_type;+\t\t} else if (end > 6 && strncasecmp(tmp, \"range=\", 6) == 0) {+\t\t\tfound = strchr(tmp + 6, '|');+\t\t\tif (found != NULL) {+\t\t\t\t*found++ = '\\0';+\t\t\t\tif (*found == '\\0')+\t\t\t\t\tgoto error;+\t\t\t\tfor (cp = found; *cp != '\\0'; cp++) {+\t\t\t\t\tif (!isdigit((u_char)*cp))+\t\t\t\t\t\tgoto error;+\t\t\t\t}+\t\t\t}+\t\t\tif (strcasecmp(tmp + 6, \"left\") == 0) {+\t\t\t\tif (found != NULL)+\t\t\t\t\tgoto error;+\t\t\t\tsy->range_type = STYLE_RANGE_LEFT;+\t\t\t\tsy->range_argument = 0;+\t\t\t} else if (strcasecmp(tmp + 6, \"right\") == 0) {+\t\t\t\tif (found != NULL)+\t\t\t\t\tgoto error;+\t\t\t\tsy->range_type = STYLE_RANGE_RIGHT;+\t\t\t\tsy->range_argument = 0;+\t\t\t} else if (strcasecmp(tmp + 6, \"window\") == 0) {+\t\t\t\tif (found == NULL)+\t\t\t\t\tgoto error;+\t\t\t\tsy->range_type = STYLE_RANGE_WINDOW;+\t\t\t\tsy->range_argument = atoi(found);+\t\t\t}+\t\t} else if (strcasecmp(tmp, \"noalign\") == 0)+\t\t\tsy->align = style_default.align;+\t\telse if (end > 6 && strncasecmp(tmp, \"align=\", 6) == 0) {+\t\t\tif (strcasecmp(tmp + 6, \"left\") == 0)+\t\t\t\tsy->align = STYLE_ALIGN_LEFT;+\t\t\telse if (strcasecmp(tmp + 6, \"centre\") == 0)+\t\t\t\tsy->align = STYLE_ALIGN_CENTRE;+\t\t\telse if (strcasecmp(tmp + 6, \"right\") == 0)+\t\t\t\tsy->align = STYLE_ALIGN_RIGHT;+\t\t\telse+\t\t\t\tgoto error; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.fg = value; \t\t\t\telse \t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tsy->gc.bg = value; \t\t\t\telse \t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2019-03-18 20:53:33+00:00",
+            "commit_hash": "979313832ce1d5f6cdc2c512e8524d6c517422e0",
+            "message": "Extend the #[] style syntax and use that together with previous format\nchanges to allow the status line to be entirely configured with a single\noption.\nNow that it is possible to configure their content, enable the existing\ncode that lets the status line be multiple lines in height. The status\noption can now take a value of 2, 3, 4 or 5 (as well as the previous on\nor off) to configure more than one line. The new status-format array\noption configures the format of each line, the default just references\nthe existing status-* options, although some of the more obscure status\noptions may be eliminated in time.\nAdditions to the #[] syntax are: \"align\" to specify alignment (left,\ncentre, right), \"list\" for the window list and \"range\" to configure\nranges of text for the mouse bindings.\nThe \"align\" keyword can also be used to specify alignment of entries in\ntree mode and the pane status lines."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -39,51 +39,51 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) {-\tstruct style\t saved;-\tconst char\t delimiters[] = \" ,\";-\tchar\t\t tmp[32];-\tint\t\t value, fg, bg, attr, flags;-\tsize_t\t\t end;+\tstruct style\tsaved;+\tconst char\tdelimiters[] = \" ,\";+\tchar\t\ttmp[32];+\tint\t\tvalue;+\tsize_t\t\tend; \tif (*in == '\\0') \t\treturn (0);-\tif (strchr(delimiters, in[strlen(in) - 1]) != NULL)-\t\treturn (-1); \tstyle_copy(&saved, sy);-\tfg = sy->gc.fg;-\tbg = sy->gc.bg;-\tattr = sy->gc.attr;-\tflags = sy->gc.flags;- \tdo {+\t\twhile (*in != '\\0' && strchr(delimiters, *in) != NULL) {+\t\t\tin++;+\t\t\tend--;+\t\t}+\t\tif (*in == '\\0')+\t\t\tbreak;+ \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) {-\t\t\tfg = base->fg;-\t\t\tbg = base->bg;-\t\t\tattr = base->attr;-\t\t\tflags = base->flags;+\t\t\tsy->gc.fg = base->fg;+\t\t\tsy->gc.bg = base->bg;+\t\t\tsy->gc.attr = base->attr;+\t\t\tsy->gc.flags = base->flags; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8)-\t\t\t\t\tfg = value;+\t\t\t\t\tsy->gc.fg = value; \t\t\t\telse-\t\t\t\t\tfg = base->fg;+\t\t\t\t\tsy->gc.fg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8)-\t\t\t\t\tbg = value;+\t\t\t\t\tsy->gc.bg = value; \t\t\t\telse-\t\t\t\t\tbg = base->bg;+\t\t\t\t\tsy->gc.bg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0)-\t\t\tattr = 0;+\t\t\tsy->gc.attr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2019-03-14 21:46:08+00:00",
+            "commit_hash": "bace79a5715932f093d4c17db5d49af8e6594916",
+            "message": "Remove some unnecessary temporary variables and be much less strict\nabout spacing in style_parse."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -39,52 +39,51 @@ int style_parse(struct style *sy, const struct grid_cell *base, const char *in) {-\tstruct grid_cell\t*gc = &sy->gc;-\tstruct grid_cell\t saved;-\tconst char\t\t delimiters[] = \" ,\";-\tchar\t\t\t tmp[32];-\tint\t\t\t value, fg, bg, attr, flags;-\tsize_t\t\t\t end;+\tstruct style\t saved;+\tconst char\t delimiters[] = \" ,\";+\tchar\t\t tmp[32];+\tint\t\t value, fg, bg, attr, flags;+\tsize_t\t\t end; \tif (*in == '\\0') \t\treturn (0); \tif (strchr(delimiters, in[strlen(in) - 1]) != NULL) \t\treturn (-1);-\tmemcpy(&saved, base, sizeof saved);+\tstyle_copy(&saved, sy);-\tfg = gc->fg;-\tbg = gc->bg;-\tattr = gc->attr;-\tflags = gc->flags;+\tfg = sy->gc.fg;+\tbg = sy->gc.bg;+\tattr = sy->gc.attr;+\tflags = sy->gc.flags; \tdo { \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tfg = base->fg; \t\t\tbg = base->bg; \t\t\tattr = base->attr; \t\t\tflags = base->flags; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (value != 8) \t\t\t\t\tfg = value; \t\t\t\telse \t\t\t\t\tfg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (value != 8) \t\t\t\t\tbg = value; \t\t\t\telse \t\t\t\t\tbg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tattr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2019-03-14 10:19:52+00:00",
+            "commit_hash": "0425e3178d2f7cc0d33cd9aa8ed74b096b31727e",
+            "message": "A little tidying in style_parse."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -27,51 +39,52 @@ int-style_parse(const struct grid_cell *defgc, struct grid_cell *gc,-    const char *in)+style_parse(struct style *sy, const struct grid_cell *base, const char *in) {-\tstruct grid_cell\tsavedgc;-\tconst char\t\tdelimiters[] = \" ,\";-\tchar\t\t\ttmp[32];-\tint\t\t\tval, fg, bg, attr, flags;-\tsize_t\t\t\tend;+\tstruct grid_cell\t*gc = &sy->gc;+\tstruct grid_cell\t saved;+\tconst char\t\t delimiters[] = \" ,\";+\tchar\t\t\t tmp[32];+\tint\t\t\t value, fg, bg, attr, flags;+\tsize_t\t\t\t end; \tif (*in == '\\0') \t\treturn (0); \tif (strchr(delimiters, in[strlen(in) - 1]) != NULL) \t\treturn (-1);-\tmemcpy(&savedgc, gc, sizeof savedgc);+\tmemcpy(&saved, base, sizeof saved); \tfg = gc->fg; \tbg = gc->bg; \tattr = gc->attr; \tflags = gc->flags;+ \tdo { \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) {-\t\t\tfg = defgc->fg;-\t\t\tbg = defgc->bg;-\t\t\tattr = defgc->attr;-\t\t\tflags = defgc->flags;+\t\t\tfg = base->fg;+\t\t\tbg = base->bg;+\t\t\tattr = base->attr;+\t\t\tflags = base->flags; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) {-\t\t\tif ((val = colour_fromstring(tmp + 3)) == -1)+\t\t\tif ((value = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') {-\t\t\t\tif (val != 8)-\t\t\t\t\tfg = val;+\t\t\t\tif (value != 8)+\t\t\t\t\tfg = value; \t\t\t\telse-\t\t\t\t\tfg = defgc->fg;+\t\t\t\t\tfg = base->fg; \t\t\t} else if (*in == 'b' || *in == 'B') {-\t\t\t\tif (val != 8)-\t\t\t\t\tbg = val;+\t\t\t\tif (value != 8)+\t\t\t\t\tbg = value; \t\t\t\telse-\t\t\t\t\tbg = defgc->bg;+\t\t\t\t\tbg = base->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tattr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) {-\t\t\tif ((val = attributes_fromstring(tmp + 2)) == -1)+\t\t\tif ((value = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2019-03-14 09:53:52+00:00",
+            "commit_hash": "13f9a061acd966757ae2f42c3a8ac24765ac65bd",
+            "message": "Add a wrapper (struct style) around styles rather than using the\ngrid_cell directly. There will be some non-cell members soon."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -27,53 +27,51 @@ int style_parse(const struct grid_cell *defgc, struct grid_cell *gc, { \tstruct grid_cell\tsavedgc; \tconst char\t\tdelimiters[] = \" ,\"; \tchar\t\t\ttmp[32];-\tint\t\t\tval;+\tint\t\t\tval, fg, bg, attr, flags; \tsize_t\t\t\tend;-\tint\t\t\tfg, bg;-\tu_char\t\t\tattr, flags; \tif (*in == '\\0') \t\treturn (0); \tif (strchr(delimiters, in[strlen(in) - 1]) != NULL) \t\treturn (-1); \tmemcpy(&savedgc, gc, sizeof savedgc); \tfg = gc->fg; \tbg = gc->bg; \tattr = gc->attr; \tflags = gc->flags; \tdo { \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tfg = defgc->fg; \t\t\tbg = defgc->bg; \t\t\tattr = defgc->attr; \t\t\tflags = defgc->flags; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((val = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (val != 8) \t\t\t\t\tfg = val; \t\t\t\telse \t\t\t\t\tfg = defgc->fg; \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (val != 8) \t\t\t\t\tbg = val; \t\t\t\telse \t\t\t\t\tbg = defgc->bg; \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tattr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((val = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2017-03-22 07:16:54+00:00",
+            "commit_hash": "df3ab87964fc52c6f44b2bbe014c8bec202d0528",
+            "message": "Add support for the strikethrough attribute (SGR 9), using the new smxx\nterminfo capability. This means there are now nine attribute bits, so\nanything above 0xff uses an extended cell.\nconst char *in)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -27,70 +27,53 @@ int style_parse(const struct grid_cell *defgc, struct grid_cell *gc, { \tstruct grid_cell\tsavedgc; \tconst char\t\tdelimiters[] = \" ,\"; \tchar\t\t\ttmp[32]; \tint\t\t\tval; \tsize_t\t\t\tend;-\tu_char\t\t\tfg, bg, attr, flags;+\tint\t\t\tfg, bg;+\tu_char\t\t\tattr, flags; \tif (*in == '\\0') \t\treturn (0); \tif (strchr(delimiters, in[strlen(in) - 1]) != NULL) \t\treturn (-1); \tmemcpy(&savedgc, gc, sizeof savedgc); \tfg = gc->fg; \tbg = gc->bg; \tattr = gc->attr; \tflags = gc->flags; \tdo { \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1) \t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tfg = defgc->fg; \t\t\tbg = defgc->bg; \t\t\tattr = defgc->attr;-\t\t\tflags &= ~(GRID_FLAG_FG256|GRID_FLAG_BG256);-\t\t\tflags |=-\t\t\t    defgc->flags & (GRID_FLAG_FG256|GRID_FLAG_BG256);+\t\t\tflags = defgc->flags; \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((val = colour_fromstring(tmp + 3)) == -1) \t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') {-\t\t\t\tif (val != 8) {-\t\t\t\t\tif (val & 0x100) {-\t\t\t\t\t\tflags |= GRID_FLAG_FG256;-\t\t\t\t\t\tval &= ~0x100;-\t\t\t\t\t} else-\t\t\t\t\t\tflags &= ~GRID_FLAG_FG256;+\t\t\t\tif (val != 8) \t\t\t\t\tfg = val;-\t\t\t\t} else {+\t\t\t\telse \t\t\t\t\tfg = defgc->fg;-\t\t\t\t\tflags &= ~GRID_FLAG_FG256;-\t\t\t\t\tflags |= defgc->flags & GRID_FLAG_FG256;-\t\t\t\t} \t\t\t} else if (*in == 'b' || *in == 'B') {-\t\t\t\tif (val != 8) {-\t\t\t\t\tif (val & 0x100) {-\t\t\t\t\t\tflags |= GRID_FLAG_BG256;-\t\t\t\t\t\tval &= ~0x100;-\t\t\t\t\t} else-\t\t\t\t\t\tflags &= ~GRID_FLAG_BG256;+\t\t\t\tif (val != 8) \t\t\t\t\tbg = val;-\t\t\t\t} else {+\t\t\t\telse \t\t\t\t\tbg = defgc->bg;-\t\t\t\t\tflags &= ~GRID_FLAG_BG256;-\t\t\t\t\tflags |= defgc->flags & GRID_FLAG_BG256;-\t\t\t\t} \t\t\t} else \t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tattr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((val = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2016-07-15 00:42:56+00:00",
+            "commit_hash": "1fd6ca2260bc738f1e467e7e32d03cc225327ebf",
+            "message": "Instead of representing colours in several different forms with various\ncell flags, convert to use an int with flags marking 256 or RGB colours\nin the top byte (except in cells, which we don't want to make any\nbigger). From Brad Town.\nconst char *in)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- a/style.c+++ b/style.c@@ -27,68 +27,70 @@ int style_parse(const struct grid_cell *defgc, struct grid_cell *gc, {-\tconst char\tdelimiters[] = \" ,\";-\tchar\t\ttmp[32];-\tint\t\tval;-\tsize_t\t\tend;-\tu_char\t\tfg, bg, attr, flags;+\tstruct grid_cell\tsavedgc;+\tconst char\t\tdelimiters[] = \" ,\";+\tchar\t\t\ttmp[32];+\tint\t\t\tval;+\tsize_t\t\t\tend;+\tu_char\t\t\tfg, bg, attr, flags; \tif (*in == '\\0') \t\treturn (0); \tif (strchr(delimiters, in[strlen(in) - 1]) != NULL) \t\treturn (-1);+\tmemcpy(&savedgc, gc, sizeof savedgc); \tfg = gc->fg; \tbg = gc->bg; \tattr = gc->attr; \tflags = gc->flags; \tdo { \t\tend = strcspn(in, delimiters); \t\tif (end > (sizeof tmp) - 1)-\t\t\treturn (-1);+\t\t\tgoto error; \t\tmemcpy(tmp, in, end); \t\ttmp[end] = '\\0'; \t\tif (strcasecmp(tmp, \"default\") == 0) { \t\t\tfg = defgc->fg; \t\t\tbg = defgc->bg; \t\t\tattr = defgc->attr; \t\t\tflags &= ~(GRID_FLAG_FG256|GRID_FLAG_BG256); \t\t\tflags |= \t\t\t    defgc->flags & (GRID_FLAG_FG256|GRID_FLAG_BG256); \t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) { \t\t\tif ((val = colour_fromstring(tmp + 3)) == -1)-\t\t\t\treturn (-1);+\t\t\t\tgoto error; \t\t\tif (*in == 'f' || *in == 'F') { \t\t\t\tif (val != 8) { \t\t\t\t\tif (val & 0x100) { \t\t\t\t\t\tflags |= GRID_FLAG_FG256; \t\t\t\t\t\tval &= ~0x100; \t\t\t\t\t} else \t\t\t\t\t\tflags &= ~GRID_FLAG_FG256; \t\t\t\t\tfg = val; \t\t\t\t} else { \t\t\t\t\tfg = defgc->fg; \t\t\t\t\tflags &= ~GRID_FLAG_FG256; \t\t\t\t\tflags |= defgc->flags & GRID_FLAG_FG256; \t\t\t\t} \t\t\t} else if (*in == 'b' || *in == 'B') { \t\t\t\tif (val != 8) { \t\t\t\t\tif (val & 0x100) { \t\t\t\t\t\tflags |= GRID_FLAG_BG256; \t\t\t\t\t\tval &= ~0x100; \t\t\t\t\t} else \t\t\t\t\t\tflags &= ~GRID_FLAG_BG256; \t\t\t\t\tbg = val; \t\t\t\t} else { \t\t\t\t\tbg = defgc->bg; \t\t\t\t\tflags &= ~GRID_FLAG_BG256; \t\t\t\t\tflags |= defgc->flags & GRID_FLAG_BG256; \t\t\t\t} \t\t\t} else-\t\t\t\treturn (-1);+\t\t\t\tgoto error; \t\t} else if (strcasecmp(tmp, \"none\") == 0) \t\t\tattr = 0; \t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) { \t\t\tif ((val = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2015-02-18 15:32:37+00:00",
+            "commit_hash": "568f5ef3c6263004c5f6f1278346e18c66d02be3",
+            "message": "When given an invalid style, don't set the option to the default. Fix\nfrom J Raynor. Also make style_parse not alter the grid_cell when it\nfails.\nconst char *in)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/style.c b/style.c--- /dev/null+++ b/style.c@@ -0,0 +25,68 @@+int+style_parse(const struct grid_cell *defgc, struct grid_cell *gc,+    const char *in)+{+\tconst char\tdelimiters[] = \" ,\";+\tchar\t\ttmp[32];+\tint\t\tval;+\tsize_t\t\tend;+\tu_char\t\tfg, bg, attr, flags;++\tif (*in == '\\0')+\t\treturn (0);+\tif (strchr(delimiters, in[strlen(in) - 1]) != NULL)+\t\treturn (-1);++\tfg = gc->fg;+\tbg = gc->bg;+\tattr = gc->attr;+\tflags = gc->flags;+\tdo {+\t\tend = strcspn(in, delimiters);+\t\tif (end > (sizeof tmp) - 1)+\t\t\treturn (-1);+\t\tmemcpy(tmp, in, end);+\t\ttmp[end] = '\\0';++\t\tif (strcasecmp(tmp, \"default\") == 0) {+\t\t\tfg = defgc->fg;+\t\t\tbg = defgc->bg;+\t\t\tattr = defgc->attr;+\t\t\tflags &= ~(GRID_FLAG_FG256|GRID_FLAG_BG256);+\t\t\tflags |=+\t\t\t    defgc->flags & (GRID_FLAG_FG256|GRID_FLAG_BG256);+\t\t} else if (end > 3 && strncasecmp(tmp + 1, \"g=\", 2) == 0) {+\t\t\tif ((val = colour_fromstring(tmp + 3)) == -1)+\t\t\t\treturn (-1);+\t\t\tif (*in == 'f' || *in == 'F') {+\t\t\t\tif (val != 8) {+\t\t\t\t\tif (val & 0x100) {+\t\t\t\t\t\tflags |= GRID_FLAG_FG256;+\t\t\t\t\t\tval &= ~0x100;+\t\t\t\t\t} else+\t\t\t\t\t\tflags &= ~GRID_FLAG_FG256;+\t\t\t\t\tfg = val;+\t\t\t\t} else {+\t\t\t\t\tfg = defgc->fg;+\t\t\t\t\tflags &= ~GRID_FLAG_FG256;+\t\t\t\t\tflags |= defgc->flags & GRID_FLAG_FG256;+\t\t\t\t}+\t\t\t} else if (*in == 'b' || *in == 'B') {+\t\t\t\tif (val != 8) {+\t\t\t\t\tif (val & 0x100) {+\t\t\t\t\t\tflags |= GRID_FLAG_BG256;+\t\t\t\t\t\tval &= ~0x100;+\t\t\t\t\t} else+\t\t\t\t\t\tflags &= ~GRID_FLAG_BG256;+\t\t\t\t\tbg = val;+\t\t\t\t} else {+\t\t\t\t\tbg = defgc->bg;+\t\t\t\t\tflags &= ~GRID_FLAG_BG256;+\t\t\t\t\tflags |= defgc->flags & GRID_FLAG_BG256;+\t\t\t\t}+\t\t\t} else+\t\t\t\treturn (-1);+\t\t} else if (strcasecmp(tmp, \"none\") == 0)+\t\t\tattr = 0;+\t\telse if (end > 2 && strncasecmp(tmp, \"no\", 2) == 0) {+\t\t\tif ((val = attributes_fromstring(tmp + 2)) == -1)",
+            "commit_date": "2014-01-28 23:07:09+00:00",
+            "commit_hash": "945339b443affdaaca260605e15b5a3b9a3c6e16",
+            "message": "Allow replacing each of the many sets of separate foo-{fg,bg,attr}\noptions with a single foo-style option. For example:\nset -g status-fg yellow\nset -g status-bg red\nset -g status-attr blink\nBecomes:\nset -g status-style fg=yellow,bg=red,blink\nThe -a flag to set can be used to add to rather than replace a style. So:\nset -g status-bg red\nBecomes:\nset -ag status-style bg=red\nCurrently this is fully backwards compatible (all *-{fg,bg,attr} options\nremain) but the plan is to deprecate them over time.\nFrom Tiago Cunha."
+        }
+    ],
+    "git log -L1003,1036:input.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/input.c b/input.c--- a/input.c+++ b/input.c@@ -902,22 +921,34 @@ static int input_split(struct input_ctx *ictx) {-\tconst char\t*errstr;-\tchar\t\t*ptr, *out;-\tint\t\t n;+\tconst char\t\t*errstr;+\tchar\t\t\t*ptr, *out;+\tstruct input_param\t*ip;+\tu_int\t\t\t i;+\tfor (i = 0; i < ictx->param_list_len; i++) {+\t\tif (ictx->param_list[i].type == INPUT_STRING)+\t\t\tfree(ictx->param_list[i].str);+\t} \tictx->param_list_len = 0;+ \tif (ictx->param_len == 0) \t\treturn (0);+\tip = &ictx->param_list[0]; \tptr = ictx->param_buf; \twhile ((out = strsep(&ptr, \";\")) != NULL) { \t\tif (*out == '\\0')-\t\t\tn = -1;+\t\t\tip->type = INPUT_MISSING; \t\telse {-\t\t\tn = strtonum(out, 0, INT_MAX, &errstr);-\t\t\tif (errstr != NULL)-\t\t\t\treturn (-1);+\t\t\tif (strchr(out, ':') != NULL) {+\t\t\t\tip->type = INPUT_STRING;+\t\t\t\tip->str = xstrdup(out);+\t\t\t} else {+\t\t\t\tip->type = INPUT_NUMBER;+\t\t\t\tip->num = strtonum(out, 0, INT_MAX, &errstr);+\t\t\t\tif (errstr != NULL)+\t\t\t\t\treturn (-1);+\t\t\t} \t\t}--\t\tictx->param_list[ictx->param_list_len++] = n;+\t\tip = &ictx->param_list[++ictx->param_list_len];",
+            "commit_date": "2018-02-19 21:20:10+00:00",
+            "commit_hash": "6ae04dd5a01cbdc2fe2e4908ef444faaf50656f4",
+            "message": "Support ISO colon-separated SGR."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/input.c b/input.c--- a/input.c+++ b/input.c@@ -921,23 +921,22 @@ static int input_split(struct input_ctx *ictx)- { \tconst char\t*errstr; \tchar\t\t*ptr, *out; \tint\t\t n; \tictx->param_list_len = 0; \tif (ictx->param_len == 0) \t\treturn (0); \tptr = ictx->param_buf; \twhile ((out = strsep(&ptr, \";\")) != NULL) { \t\tif (*out == '\\0') \t\t\tn = -1; \t\telse { \t\t\tn = strtonum(out, 0, INT_MAX, &errstr); \t\t\tif (errstr != NULL) \t\t\t\treturn (-1); \t\t} \t\tictx->param_list[ictx->param_list_len++] = n;",
+            "commit_date": "2017-02-08 15:49:29+00:00",
+            "commit_hash": "7475165cd87d443da34da11298e638d3d17f43e9",
+            "message": "Some other tidying bits."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/input.c b/input.c--- a/input.c+++ b/input.c@@ -909,23 +910,23 @@-int+static int input_split(struct input_ctx *ictx) { \tconst char\t*errstr; \tchar\t\t*ptr, *out; \tint\t\t n; \tictx->param_list_len = 0; \tif (ictx->param_len == 0) \t\treturn (0); \tptr = ictx->param_buf; \twhile ((out = strsep(&ptr, \";\")) != NULL) { \t\tif (*out == '\\0') \t\t\tn = -1; \t\telse { \t\t\tn = strtonum(out, 0, INT_MAX, &errstr); \t\t\tif (errstr != NULL) \t\t\t\treturn (-1); \t\t} \t\tictx->param_list[ictx->param_list_len++] = n;",
+            "commit_date": "2016-10-03 22:52:11+00:00",
+            "commit_hash": "1b31d148c94f48932f439baa4d336e7de1035ddf",
+            "message": "Remove some dead code in cmd-move-window.c and make a load of local\nfunctions static."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/input.c b/input.c--- a/input.c+++ b/input.c@@ -837,50 +741,23 @@-void-input_handle_sequence_cud(struct input_ctx *ictx)-{-\tuint16_t\tn;--\tif (ictx->private != '\\0')-\t\treturn;--\tif (ARRAY_LENGTH(&ictx->args) > 1)-\t\treturn;-\tif (input_get_argument(ictx, 0, &n, 1) != 0)-\t\treturn;-\tif (n == 0)-\t\tn = 1;--\tscreen_write_cursordown(&ictx->ctx, n);-}+int+input_split(struct input_ctx *ictx)-void-input_handle_sequence_cuf(struct input_ctx *ictx) {-\tuint16_t n;+\tconst char\t*errstr;+\tchar\t\t*ptr, *out;+\tint\t\t n;-\tif (ictx->private != '\\0')-\t\treturn;--\tif (ARRAY_LENGTH(&ictx->args) > 1)-\t\treturn;-\tif (input_get_argument(ictx, 0, &n, 1) != 0)-\t\treturn;-\tif (n == 0)-\t\tn = 1;--\tscreen_write_cursorright(&ictx->ctx, n);-}--void-input_handle_sequence_cub(struct input_ctx *ictx)-{-\tuint16_t\tn;+\tictx->param_list_len = 0;+\tif (ictx->param_len == 0)+\t\treturn (0);-\tif (ictx->private != '\\0')-\t\treturn;+\tptr = ictx->param_buf;+\twhile ((out = strsep(&ptr, \";\")) != NULL) {+\t\tif (*out == '\\0')+\t\t\tn = -1;+\t\telse {+\t\t\tn = strtonum(out, 0, INT_MAX, &errstr);+\t\t\tif (errstr != NULL)+\t\t\t\treturn (-1);+\t\t}-\tif (ARRAY_LENGTH(&ictx->args) > 1)-\t\treturn;-\tif (input_get_argument(ictx, 0, &n, 1) != 0)-\t\treturn;-\tif (n == 0)-\t\tn = 1;+\t\tictx->param_list[ictx->param_list_len++] = n;",
+            "commit_date": "2010-03-22 19:02:54+00:00",
+            "commit_hash": "4baafd81262a2b1961e9b710b6f9c9cff9b2b828",
+            "message": "New input parser based on http://vt100.net/emu/dec_ansi_parser."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/input.c b/input.c--- /dev/null+++ b/input.c@@ -0,0 +784,50 @@+void+input_handle_sequence_cud(struct input_ctx *ictx)+{+\tuint16_t\tn;++\tif (ictx->private != '\\0')+\t\treturn;++\tif (ARRAY_LENGTH(&ictx->args) > 1)+\t\treturn;+\tif (input_get_argument(ictx, 0, &n, 1) != 0)+\t\treturn;+\tif (n == 0)+\t\tn = 1;++\tscreen_write_cursordown(&ictx->ctx, n);+}++void+input_handle_sequence_cuf(struct input_ctx *ictx)+{+\tuint16_t n;++\tif (ictx->private != '\\0')+\t\treturn;++\tif (ARRAY_LENGTH(&ictx->args) > 1)+\t\treturn;+\tif (input_get_argument(ictx, 0, &n, 1) != 0)+\t\treturn;+\tif (n == 0)+\t\tn = 1;++\tscreen_write_cursorright(&ictx->ctx, n);+}++void+input_handle_sequence_cub(struct input_ctx *ictx)+{+\tuint16_t\tn;++\tif (ictx->private != '\\0')+\t\treturn;++\tif (ARRAY_LENGTH(&ictx->args) > 1)+\t\treturn;+\tif (input_get_argument(ictx, 0, &n, 1) != 0)+\t\treturn;+\tif (n == 0)+\t\tn = 1;",
+            "commit_date": "2009-06-01 22:58:49+00:00",
+            "commit_hash": "35876eaab991efc7759802f184cdd54663ea8a94",
+            "message": "Import tmux, a terminal multiplexor allowing (among other things) a single\nterminal to be switched between several different windows and programs\ndisplayed on one terminal be detached from one terminal and moved to another.\nok deraadt pirofti"
+        }
+    ],
+    "git log -L2685,2714:tty.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2683,28 +2683,30 @@ static void tty_check_fg(struct tty *tty, struct colour_palette *palette, { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright-\t * attribute is set, use the bright entry in the palette by changing to-\t * the aixterm colour.+\t * attribute is set and Nobr is not present, use the bright entry in+\t * the palette by changing to the aixterm colour \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg;-\t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT)+\t\tif (c < 8 &&+\t\t    gc->attr & GRID_ATTR_BRIGHT &&+\t\t    !tty_term_has(tty->term, TTYC_NOBR)) \t\t\tc += 90; \t\tif ((c = colour_palette_get(palette, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (tty->term->flags & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\tgc->fg = colour_find_rgb(r, g, b);",
+            "commit_date": "2022-08-15 08:54:03+00:00",
+            "commit_hash": "03149bf7f62e2c92d0e60087c52604d2dd51794f",
+            "message": "Add a Nobr terminfo capability to tell tmux the terminal does not use\nbright colours for bold (makes a difference to how tmux applies palette\ndifferences). From Damien Tardy-Panis in GitHub issue 3301.\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2541,27 +2528,28 @@ static void-tty_check_fg(struct tty *tty, int *palette, struct grid_cell *gc)+tty_check_fg(struct tty *tty, struct colour_palette *palette,+    struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright \t * attribute is set, use the bright entry in the palette by changing to \t * the aixterm colour. \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg; \t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT) \t\t\tc += 90;-\t\tif ((c = tty_get_palette(palette, c)) != -1)+\t\tif ((c = colour_palette_get(palette, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (tty->term->flags & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\tgc->fg = colour_find_rgb(r, g, b);",
+            "commit_date": "2021-08-11 20:49:55+00:00",
+            "commit_hash": "7eea3d7ab850bb8fbeeccbb4b0fe84b9274965af",
+            "message": "Break the colour palette into a struct rather than just a single array\nand use that to support the OSC palette-setting sequences in popups.\nAlso add a pane-colours array option to specify the defaults. GitHub\nissue 2815."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2443,27 +2406,27 @@ static void-tty_check_fg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc)+tty_check_fg(struct tty *tty, int *palette, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright \t * attribute is set, use the bright entry in the palette by changing to \t * the aixterm colour. \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg; \t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT) \t\t\tc += 90;-\t\tif ((c = window_pane_get_palette(wp, c)) != -1)+\t\tif ((c = tty_get_palette(palette, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (tty->term->flags & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\tgc->fg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-05-16 15:34:08+00:00",
+            "commit_hash": "9605b080f6c942ff2e51a2ba538cccc91c91c161",
+            "message": "Do not hoke into struct window_pane from the tty code and instead set\neverything up in tty_ctx. Provide a way to initialize the tty_ctx from a\ncallback and use it to let popups draw directly through input_parse in\nthe same way as panes do, rather than forcing a full redraw on every\nchange."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2460,27 +2447,27 @@ static void tty_check_fg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright \t * attribute is set, use the bright entry in the palette by changing to \t * the aixterm colour. \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg; \t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT) \t\t\tc += 90; \t\tif ((c = window_pane_get_palette(wp, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif (tty_get_flags(tty) & TERM_RGBCOLOURS)+\t\tif (tty->term->flags & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\tgc->fg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-04-20 13:25:36+00:00",
+            "commit_hash": "c91b4b2e142b5b3fc9ca88afec6bfa9b2711e01b",
+            "message": "Tidy up the terminal detection and feature code and add named sets of\nterminal features, each of which are defined in one place and map to a\nbuiltin set of terminfo(5) capabilities. Features can be specified based\non TERM with a new terminal-features option or with the -T flag when\nrunning tmux. tmux will also detect a few common terminals from the DA\nand DSR responses.\nThis is intended to make it easier to configure tmux's use of\nterminfo(5) even in the presence of outdated ncurses(3) or terminfo(5)\ndatabases or for features which do not yet have a terminfo(5) entry.\nInstead of having to grok terminfo(5) capability names and what they\nshould be set to in the terminal-overrides option, the user can\nhopefully just give tmux a feature name and let it do the right thing.\nThe terminal-overrides option remains both for backwards compatibility\nand to allow tweaks of individual capabilities.\ntmux already did much of this already, this makes it tidier and simpler\nto configure."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2427,27 +2435,27 @@ static void tty_check_fg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright \t * attribute is set, use the bright entry in the palette by changing to \t * the aixterm colour. \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg; \t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT) \t\t\tc += 90; \t\tif ((c = window_pane_get_palette(wp, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif ((tty->term->flags|tty->term_flags) & TERM_RGBCOLOURS)+\t\tif (tty_get_flags(tty) & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\tgc->fg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-04-16 14:03:51+00:00",
+            "commit_hash": "4744aa43af47815a9c4c110cceb3959b1662e54b",
+            "message": "Add a helper function to get the terminal flags."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2366,28 +2366,27 @@ static void tty_check_fg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright \t * attribute is set, use the bright entry in the palette by changing to \t * the aixterm colour. \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg; \t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT) \t\t\tc += 90; \t\tif ((c = window_pane_get_palette(wp, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif (!tty_term_has(tty->term, TTYC_SETRGBF)) {-\t\t\tcolour_split_rgb(gc->fg, &r, &g, &b);-\t\t\tgc->fg = colour_find_rgb(r, g, b);-\t\t} else+\t\tif ((tty->term->flags|tty->term_flags) & TERM_RGBCOLOURS) \t\t\treturn;+\t\tcolour_split_rgb(gc->fg, &r, &g, &b);+\t\tgc->fg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-01-28 11:39:51+00:00",
+            "commit_hash": "a6129e99749d2bbc8b4a991c7b5d09300aa55f39",
+            "message": "If we can identify the terminal as iTerm2 or as tmux, we can be sure\nthey support 256 and RGB colours, so set those flags too."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2267,29 +2264,28 @@ static void-tty_check_fg(struct tty *tty, const struct window_pane *wp,-    struct grid_cell *gc)+tty_check_fg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright \t * attribute is set, use the bright entry in the palette by changing to \t * the aixterm colour. \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg; \t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT) \t\t\tc += 90; \t\tif ((c = window_pane_get_palette(wp, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_has(tty->term, TTYC_SETRGBF)) { \t\t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\t\tgc->fg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2019-03-14 09:53:52+00:00",
+            "commit_hash": "13f9a061acd966757ae2f42c3a8ac24765ac65bd",
+            "message": "Add a wrapper (struct style) around styles rather than using the\ngrid_cell directly. There will be some non-cell members soon."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1836,29 +1836,29 @@ static void tty_check_fg(struct tty *tty, const struct window_pane *wp, { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* \t * Perform substitution if this pane has a palette. If the bright \t * attribute is set, use the bright entry in the palette by changing to \t * the aixterm colour. \t */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tc = gc->fg;-\t\tif (gc->fg < 8 && gc->attr & GRID_ATTR_BRIGHT)+\t\tif (c < 8 && gc->attr & GRID_ATTR_BRIGHT) \t\t\tc += 90; \t\tif ((c = window_pane_get_palette(wp, c)) != -1) \t\t\tgc->fg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_has(tty->term, TTYC_SETRGBF)) { \t\t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\t\tgc->fg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-06-04 08:02:20+00:00",
+            "commit_hash": "184039044a92b83f38b880b0a4a1c5ebc272af9c",
+            "message": "Typo/style; plus man page escaping from jmc.\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1836,21 +1836,29 @@ static void tty_check_fg(struct tty *tty, const struct window_pane *wp, { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc;-\t/* Perform substitution if this pane has a palette */-\tif ((~gc->flags & GRID_FLAG_NOPALETTE) &&-\t    (c = window_pane_get_palette(wp, gc->fg)) != -1)-\t\tgc->fg = c;+\t/*+\t * Perform substitution if this pane has a palette. If the bright+\t * attribute is set, use the bright entry in the palette by changing to+\t * the aixterm colour.+\t */+\tif (~gc->flags & GRID_FLAG_NOPALETTE) {+\t\tc = gc->fg;+\t\tif (gc->fg < 8 && gc->attr & GRID_ATTR_BRIGHT)+\t\t\tc += 90;+\t\tif ((c = window_pane_get_palette(wp, c)) != -1)+\t\t\tgc->fg = c;+\t} \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_has(tty->term, TTYC_SETRGBF)) { \t\t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\t\tgc->fg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-06-03 07:15:23+00:00",
+            "commit_hash": "493a1846d070f647655bed663c1cb444ee132093",
+            "message": "Foreground colours with the bright attribute set need to use the bright\nentries in the palette. GitHub issue 954.\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1834,21 +1842,21 @@ static void tty_check_fg(struct tty *tty, const struct window_pane *wp, { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette */ \tif ((~gc->flags & GRID_FLAG_NOPALETTE) && \t    (c = window_pane_get_palette(wp, gc->fg)) != -1) \t\tgc->fg = c; \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif (!tty_term_flag(tty->term, TTYC_TC)) {+\t\tif (!tty_term_has(tty->term, TTYC_SETRGBF)) { \t\t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\t\tgc->fg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-05-31 08:43:44+00:00",
+            "commit_hash": "7eb496c00c313c2f8ab8debe6d154d5ac0db277b",
+            "message": "Look for setrgbf and setrgbb terminfo extensions for RGB colour. This is\nthe most reasonable of the various (some bizarre) suggestions for\ncapabilities.\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1606,20 +1606,21 @@ static void tty_check_fg(struct tty *tty, const struct window_pane *wp, { \tu_char\tr, g, b; \tu_int\tcolours;+\tint\tc; \t/* Perform substitution if this pane has a palette */ \tif ((~gc->flags & GRID_FLAG_NOPALETTE) &&-\t    gc->fg != 8 && WINDOW_PANE_PALETTE_HAS(wp, gc->fg))-\t\tgc->fg = wp->palette[gc->fg & 0xff];+\t    (c = window_pane_get_palette(wp, gc->fg)) != -1)+\t\tgc->fg = c; \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) { \t\t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\t\tgc->fg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-01-12 00:19:32+00:00",
+            "commit_hash": "9e786030df1e68428fb2fdfa00a26c367ebb475c",
+            "message": "Fix setting the palette of aixterm colours (90-97).\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1607,14 +1609,20 @@-void-tty_check_fg(struct tty *tty, struct grid_cell *gc)+static void+tty_check_fg(struct tty *tty, const struct window_pane *wp,+    struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours;+\t/* Perform substitution if this pane has a palette */+\tif ((~gc->flags & GRID_FLAG_NOPALETTE) &&+\t    gc->fg != 8 && WINDOW_PANE_PALETTE_HAS(wp, gc->fg))+\t\tgc->fg = wp->palette[gc->fg & 0xff];+ \t/* Is this a 24-bit colour? */ \tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) { \t\t\tcolour_split_rgb(gc->fg, &r, &g, &b); \t\t\tgc->fg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-01-07 15:28:13+00:00",
+            "commit_hash": "314e933914de4096c40e623c793049d26484d53a",
+            "message": "Add support for the OSC 4 and OSC 104 palette setting escape sequences,\nfrom S Gilles."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1567,16 +1483,14 @@ void tty_check_fg(struct tty *tty, struct grid_cell *gc) {-\tstruct grid_cell_rgb\t*rgb = &gc->fg_rgb;-\tu_int\t\t\t colours;+\tu_char\tr, g, b;+\tu_int\tcolours; \t/* Is this a 24-bit colour? */-\tif (gc->flags & GRID_FLAG_FGRGB) {+\tif (gc->fg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) {-\t\t\tgc->flags &= ~GRID_FLAG_FGRGB;-\t\t\tgc->flags |= GRID_FLAG_FG256;-\t\t\tgc->fg = colour_find_rgb(rgb->r, rgb->g, rgb->b);-\t\t}-\t\telse+\t\t\tcolour_split_rgb(gc->fg, &r, &g, &b);+\t\t\tgc->fg = colour_find_rgb(r, g, b);+\t\t} else \t\t\treturn;",
+            "commit_date": "2016-07-15 00:49:08+00:00",
+            "commit_hash": "0f73af876f1222000a9eea76c70ae9a51ecb95e1",
+            "message": "Don't update cells in each block of data read from a pane immediately,\ninstead track them as change (dirty) and update them once at the end,\nsaves much time if repeatedly writing the same cell. Also fix comparison\nof cells being equal in a few places (memcmp is not enough)."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1558,14 +1558,16 @@ void tty_check_fg(struct tty *tty, struct grid_cell *gc) { \tstruct grid_cell_rgb\t*rgb = &gc->fg_rgb; \tu_int\t\t\t colours; \t/* Is this a 24-bit colour? */ \tif (gc->flags & GRID_FLAG_FGRGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) { \t\t\tgc->flags &= ~GRID_FLAG_FGRGB; \t\t\tgc->flags |= GRID_FLAG_FG256; \t\t\tgc->fg = colour_find_rgb(rgb->r, rgb->g, rgb->b); \t\t}+\t\telse+\t\t\treturn;",
+            "commit_date": "2016-03-03 12:58:15+00:00",
+            "commit_hash": "bcb41a09b3d3f0c61d2e98c0b91fcea52f745efb",
+            "message": "RGB colours shouldn't be mixed up with aixterm colours, return before\nthat happens when working out if they are supported."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1491,5 +1558,14 @@ void tty_check_fg(struct tty *tty, struct grid_cell *gc) {-\tu_int\tcolours;+\tstruct grid_cell_rgb\t*rgb = &gc->fg_rgb;+\tu_int\t\t\t colours;+\t/* Is this a 24-bit colour? */+\tif (gc->flags & GRID_FLAG_FGRGB) {+\t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */+\t\tif (!tty_term_flag(tty->term, TTYC_TC)) {+\t\t\tgc->flags &= ~GRID_FLAG_FGRGB;+\t\t\tgc->flags |= GRID_FLAG_FG256;+\t\t\tgc->fg = colour_find_rgb(rgb->r, rgb->g, rgb->b);+\t\t}",
+            "commit_date": "2016-01-29 11:13:56+00:00",
+            "commit_hash": "427b8204268af5548d09b830e101c59daa095df9",
+            "message": "Support for RGB colour, using the extended cell mechanism to avoid\nwasting unnecessary space. The 'Tc' flag must be set in the external\nTERM entry (using terminal-overrides or a custom terminfo entry), if not\ntmux will map to the closest of the 256 or 16 colour palettes.\nMostly from Suraj N Kurapati, based on a diff originally by someone else."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1288,2 +1280,5 @@ void-tty_colours_fg(struct tty *tty, const struct grid_cell *gc, u_char *attr)+tty_check_fg(struct tty *tty, struct grid_cell *gc)+{+\tu_int\tcolours;+",
+            "commit_date": "2010-03-01 22:44:31+00:00",
+            "commit_hash": "c7046b9a0c338323fc478e9146371f80b843e336",
+            "message": "Check for colour and attribute modifications early so the translated\nvalues can be stored in the cached terminal attributes rather than the\nrequested (untranslated) values. Prevents tmux clearing and setting the\nattributes for every character when using aixterm colours."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1286,2 +1285,2 @@ void-tty_colours_fg(struct tty *tty, const struct grid_cell *gc, int *attr)+tty_colours_fg(struct tty *tty, const struct grid_cell *gc, u_char *attr)",
+            "commit_date": "2009-11-26 22:47:14+00:00",
+            "commit_hash": "e7f4319ac6c1341c0a31582693de54a02458a2b9",
+            "message": "Fix type - attributes should be u_char not int."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1219,2 +1246,2 @@ void-tty_attributes_fg(struct tty *tty, const struct grid_cell *gc)+tty_colours_fg(struct tty *tty, const struct grid_cell *gc, int *attr)",
+            "commit_date": "2009-10-28 08:27:33+00:00",
+            "commit_hash": "eb5f4460d1dcee0e53197f4d3c4f28768da4b7f8",
+            "message": "Setting SGR0 when setting the fg and bg has problems if only one of the two is\nmeant to be default, so rewrite the code to move this outside, move setting\ncolours before attributes and generally clean up.\nTested by sthen@, fixes problems he was seeing with mutt and should fix some\nexisting problems with (rarely) lost attributes."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- /dev/null+++ b/tty.c@@ -0,0 +1022,2 @@+void+tty_attributes_fg(struct tty *tty, const struct grid_cell *gc)",
+            "commit_date": "2009-06-01 22:58:49+00:00",
+            "commit_hash": "35876eaab991efc7759802f184cdd54663ea8a94",
+            "message": "Import tmux, a terminal multiplexor allowing (among other things) a single\nterminal to be switched between several different windows and programs\ndisplayed on one terminal be detached from one terminal and moved to another.\nok deraadt pirofti"
+        }
+    ],
+    "git log -L2744,2764:tty.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2597,20 +2585,21 @@ static void-tty_check_bg(struct tty *tty, int *palette, struct grid_cell *gc)+tty_check_bg(struct tty *tty, struct colour_palette *palette,+    struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette. */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) {-\t\tif ((c = tty_get_palette(palette, gc->bg)) != -1)+\t\tif ((c = colour_palette_get(palette, gc->bg)) != -1) \t\t\tgc->bg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (tty->term->flags & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\tgc->bg = colour_find_rgb(r, g, b);",
+            "commit_date": "2021-08-11 20:49:55+00:00",
+            "commit_hash": "7eea3d7ab850bb8fbeeccbb4b0fe84b9274965af",
+            "message": "Break the colour palette into a struct rather than just a single array\nand use that to support the OSC palette-setting sequences in popups.\nAlso add a pane-colours array option to specify the defaults. GitHub\nissue 2815."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2499,20 +2462,20 @@ static void-tty_check_bg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc)+tty_check_bg(struct tty *tty, int *palette, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette. */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) {-\t\tif ((c = window_pane_get_palette(wp, gc->bg)) != -1)+\t\tif ((c = tty_get_palette(palette, gc->bg)) != -1) \t\t\tgc->bg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (tty->term->flags & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\tgc->bg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-05-16 15:34:08+00:00",
+            "commit_hash": "9605b080f6c942ff2e51a2ba538cccc91c91c161",
+            "message": "Do not hoke into struct window_pane from the tty code and instead set\neverything up in tty_ctx. Provide a way to initialize the tty_ctx from a\ncallback and use it to let popups draw directly through input_parse in\nthe same way as panes do, rather than forcing a full redraw on every\nchange."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2516,20 +2503,20 @@ static void tty_check_bg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette. */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tif ((c = window_pane_get_palette(wp, gc->bg)) != -1) \t\t\tgc->bg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif (tty_get_flags(tty) & TERM_RGBCOLOURS)+\t\tif (tty->term->flags & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\tgc->bg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-04-20 13:25:36+00:00",
+            "commit_hash": "c91b4b2e142b5b3fc9ca88afec6bfa9b2711e01b",
+            "message": "Tidy up the terminal detection and feature code and add named sets of\nterminal features, each of which are defined in one place and map to a\nbuiltin set of terminfo(5) capabilities. Features can be specified based\non TERM with a new terminal-features option or with the -T flag when\nrunning tmux. tmux will also detect a few common terminals from the DA\nand DSR responses.\nThis is intended to make it easier to configure tmux's use of\nterminfo(5) even in the presence of outdated ncurses(3) or terminfo(5)\ndatabases or for features which do not yet have a terminfo(5) entry.\nInstead of having to grok terminfo(5) capability names and what they\nshould be set to in the terminal-overrides option, the user can\nhopefully just give tmux a feature name and let it do the right thing.\nThe terminal-overrides option remains both for backwards compatibility\nand to allow tweaks of individual capabilities.\ntmux already did much of this already, this makes it tidier and simpler\nto configure."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2483,20 +2491,20 @@ static void tty_check_bg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette. */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tif ((c = window_pane_get_palette(wp, gc->bg)) != -1) \t\t\tgc->bg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif ((tty->term->flags|tty->term_flags) & TERM_RGBCOLOURS)+\t\tif (tty_get_flags(tty) & TERM_RGBCOLOURS) \t\t\treturn; \t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\tgc->bg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-04-16 14:03:51+00:00",
+            "commit_hash": "4744aa43af47815a9c4c110cceb3959b1662e54b",
+            "message": "Add a helper function to get the terminal flags."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2423,21 +2422,20 @@ static void tty_check_bg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette. */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tif ((c = window_pane_get_palette(wp, gc->bg)) != -1) \t\t\tgc->bg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif (!tty_term_has(tty->term, TTYC_SETRGBB)) {-\t\t\tcolour_split_rgb(gc->bg, &r, &g, &b);-\t\t\tgc->bg = colour_find_rgb(r, g, b);-\t\t} else+\t\tif ((tty->term->flags|tty->term_flags) & TERM_RGBCOLOURS) \t\t\treturn;+\t\tcolour_split_rgb(gc->bg, &r, &g, &b);+\t\tgc->bg = colour_find_rgb(r, g, b);",
+            "commit_date": "2020-01-28 11:39:51+00:00",
+            "commit_hash": "a6129e99749d2bbc8b4a991c7b5d09300aa55f39",
+            "message": "If we can identify the terminal as iTerm2 or as tmux, we can be sure\nthey support 256 and RGB colours, so set those flags too."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -2328,22 +2324,21 @@ static void-tty_check_bg(struct tty *tty, const struct window_pane *wp,-    struct grid_cell *gc)+tty_check_bg(struct tty *tty, struct window_pane *wp, struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette. */ \tif (~gc->flags & GRID_FLAG_NOPALETTE) { \t\tif ((c = window_pane_get_palette(wp, gc->bg)) != -1) \t\t\tgc->bg = c; \t} \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_has(tty->term, TTYC_SETRGBB)) { \t\t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\t\tgc->bg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2019-03-14 09:53:52+00:00",
+            "commit_hash": "13f9a061acd966757ae2f42c3a8ac24765ac65bd",
+            "message": "Add a wrapper (struct style) around styles rather than using the\ngrid_cell directly. There will be some non-cell members soon."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1889,21 +1897,22 @@ static void tty_check_bg(struct tty *tty, const struct window_pane *wp, { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc;-\t/* Perform substitution if this pane has a palette */-\tif ((~gc->flags & GRID_FLAG_NOPALETTE) &&-\t    (c = window_pane_get_palette(wp, gc->bg)) != -1)-\t\tgc->bg = c;+\t/* Perform substitution if this pane has a palette. */+\tif (~gc->flags & GRID_FLAG_NOPALETTE) {+\t\tif ((c = window_pane_get_palette(wp, gc->bg)) != -1)+\t\t\tgc->bg = c;+\t} \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_has(tty->term, TTYC_SETRGBB)) { \t\t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\t\tgc->bg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-06-03 07:15:23+00:00",
+            "commit_hash": "493a1846d070f647655bed663c1cb444ee132093",
+            "message": "Foreground colours with the bright attribute set need to use the bright\nentries in the palette. GitHub issue 954.\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1887,21 +1895,21 @@ static void tty_check_bg(struct tty *tty, const struct window_pane *wp, { \tu_char\tr, g, b; \tu_int\tcolours; \tint\tc; \t/* Perform substitution if this pane has a palette */ \tif ((~gc->flags & GRID_FLAG_NOPALETTE) && \t    (c = window_pane_get_palette(wp, gc->bg)) != -1) \t\tgc->bg = c; \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */-\t\tif (!tty_term_flag(tty->term, TTYC_TC)) {+\t\tif (!tty_term_has(tty->term, TTYC_SETRGBB)) { \t\t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\t\tgc->bg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-05-31 08:43:44+00:00",
+            "commit_hash": "7eb496c00c313c2f8ab8debe6d154d5ac0db277b",
+            "message": "Look for setrgbf and setrgbb terminfo extensions for RGB colour. This is\nthe most reasonable of the various (some bizarre) suggestions for\ncapabilities.\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1654,20 +1655,21 @@ static void tty_check_bg(struct tty *tty, const struct window_pane *wp, { \tu_char\tr, g, b; \tu_int\tcolours;+\tint\tc; \t/* Perform substitution if this pane has a palette */ \tif ((~gc->flags & GRID_FLAG_NOPALETTE) &&-\t    gc->bg != 8 && WINDOW_PANE_PALETTE_HAS(wp, gc->bg))-\t\tgc->bg = wp->palette[gc->bg & 0xff];+\t    (c = window_pane_get_palette(wp, gc->bg)) != -1)+\t\tgc->bg = c; \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) { \t\t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\t\tgc->bg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-01-12 00:19:32+00:00",
+            "commit_hash": "9e786030df1e68428fb2fdfa00a26c367ebb475c",
+            "message": "Fix setting the palette of aixterm colours (90-97).\nstruct grid_cell *gc)"
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1649,14 +1657,20 @@-void-tty_check_bg(struct tty *tty, struct grid_cell *gc)+static void+tty_check_bg(struct tty *tty, const struct window_pane *wp,+    struct grid_cell *gc) { \tu_char\tr, g, b; \tu_int\tcolours;+\t/* Perform substitution if this pane has a palette */+\tif ((~gc->flags & GRID_FLAG_NOPALETTE) &&+\t    gc->bg != 8 && WINDOW_PANE_PALETTE_HAS(wp, gc->bg))+\t\tgc->bg = wp->palette[gc->bg & 0xff];+ \t/* Is this a 24-bit colour? */ \tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) { \t\t\tcolour_split_rgb(gc->bg, &r, &g, &b); \t\t\tgc->bg = colour_find_rgb(r, g, b); \t\t} else \t\t\treturn;",
+            "commit_date": "2017-01-07 15:28:13+00:00",
+            "commit_hash": "314e933914de4096c40e623c793049d26484d53a",
+            "message": "Add support for the OSC 4 and OSC 104 palette setting escape sequences,\nfrom S Gilles."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1612,16 +1525,14 @@ void tty_check_bg(struct tty *tty, struct grid_cell *gc) {-\tstruct grid_cell_rgb\t*rgb = &gc->bg_rgb;-\tu_int\t\t\t colours;+\tu_char\tr, g, b;+\tu_int\tcolours; \t/* Is this a 24-bit colour? */-\tif (gc->flags & GRID_FLAG_BGRGB) {+\tif (gc->bg & COLOUR_FLAG_RGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) {-\t\t\tgc->flags &= ~GRID_FLAG_BGRGB;-\t\t\tgc->flags |= GRID_FLAG_BG256;-\t\t\tgc->bg = colour_find_rgb(rgb->r, rgb->g, rgb->b);-\t\t}-\t\telse+\t\t\tcolour_split_rgb(gc->bg, &r, &g, &b);+\t\t\tgc->bg = colour_find_rgb(r, g, b);+\t\t} else \t\t\treturn;",
+            "commit_date": "2016-07-15 00:49:08+00:00",
+            "commit_hash": "0f73af876f1222000a9eea76c70ae9a51ecb95e1",
+            "message": "Don't update cells in each block of data read from a pane immediately,\ninstead track them as change (dirty) and update them once at the end,\nsaves much time if repeatedly writing the same cell. Also fix comparison\nof cells being equal in a few places (memcmp is not enough)."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1601,14 +1603,16 @@ void tty_check_bg(struct tty *tty, struct grid_cell *gc) { \tstruct grid_cell_rgb\t*rgb = &gc->bg_rgb; \tu_int\t\t\t colours; \t/* Is this a 24-bit colour? */ \tif (gc->flags & GRID_FLAG_BGRGB) { \t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */ \t\tif (!tty_term_flag(tty->term, TTYC_TC)) { \t\t\tgc->flags &= ~GRID_FLAG_BGRGB; \t\t\tgc->flags |= GRID_FLAG_BG256; \t\t\tgc->bg = colour_find_rgb(rgb->r, rgb->g, rgb->b); \t\t}+\t\telse+\t\t\treturn;",
+            "commit_date": "2016-03-03 12:58:15+00:00",
+            "commit_hash": "bcb41a09b3d3f0c61d2e98c0b91fcea52f745efb",
+            "message": "RGB colours shouldn't be mixed up with aixterm colours, return before\nthat happens when working out if they are supported."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1524,5 +1601,14 @@ void tty_check_bg(struct tty *tty, struct grid_cell *gc) {-\tu_int\tcolours;+\tstruct grid_cell_rgb\t*rgb = &gc->bg_rgb;+\tu_int\t\t\t colours;+\t/* Is this a 24-bit colour? */+\tif (gc->flags & GRID_FLAG_BGRGB) {+\t\t/* Not a 24-bit terminal? Translate to 256-colour palette. */+\t\tif (!tty_term_flag(tty->term, TTYC_TC)) {+\t\t\tgc->flags &= ~GRID_FLAG_BGRGB;+\t\t\tgc->flags |= GRID_FLAG_BG256;+\t\t\tgc->bg = colour_find_rgb(rgb->r, rgb->g, rgb->b);+\t\t}",
+            "commit_date": "2016-01-29 11:13:56+00:00",
+            "commit_hash": "427b8204268af5548d09b830e101c59daa095df9",
+            "message": "Support for RGB colour, using the extended cell mechanism to avoid\nwasting unnecessary space. The 'Tc' flag must be set in the external\nTERM entry (using terminal-overrides or a custom terminfo entry), if not\ntmux will map to the closest of the 256 or 16 colour palettes.\nMostly from Suraj N Kurapati, based on a diff originally by someone else."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1289,1 +1311,5 @@-tty_colours_fg(struct tty *tty, const struct grid_cell *gc, u_char *attr)+void+tty_check_bg(struct tty *tty, struct grid_cell *gc)+{+\tu_int\tcolours;+",
+            "commit_date": "2010-03-01 22:44:31+00:00",
+            "commit_hash": "c7046b9a0c338323fc478e9146371f80b843e336",
+            "message": "Check for colour and attribute modifications early so the translated\nvalues can be stored in the cached terminal attributes rather than the\nrequested (untranslated) values. Prevents tmux clearing and setting the\nattributes for every character when using aixterm colours."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1287,1 +1286,1 @@-tty_colours_fg(struct tty *tty, const struct grid_cell *gc, int *attr)+tty_colours_fg(struct tty *tty, const struct grid_cell *gc, u_char *attr)",
+            "commit_date": "2009-11-26 22:47:14+00:00",
+            "commit_hash": "e7f4319ac6c1341c0a31582693de54a02458a2b9",
+            "message": "Fix type - attributes should be u_char not int."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- a/tty.c+++ b/tty.c@@ -1220,1 +1247,1 @@-tty_attributes_fg(struct tty *tty, const struct grid_cell *gc)+tty_colours_fg(struct tty *tty, const struct grid_cell *gc, int *attr)",
+            "commit_date": "2009-10-28 08:27:33+00:00",
+            "commit_hash": "eb5f4460d1dcee0e53197f4d3c4f28768da4b7f8",
+            "message": "Setting SGR0 when setting the fg and bg has problems if only one of the two is\nmeant to be default, so rewrite the code to move this outside, move setting\ncolours before attributes and generally clean up.\nTested by sthen@, fixes problems he was seeing with mutt and should fix some\nexisting problems with (rarely) lost attributes."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/tty.c b/tty.c--- /dev/null+++ b/tty.c@@ -0,0 +1023,1 @@+tty_attributes_fg(struct tty *tty, const struct grid_cell *gc)",
+            "commit_date": "2009-06-01 22:58:49+00:00",
+            "commit_hash": "35876eaab991efc7759802f184cdd54663ea8a94",
+            "message": "Import tmux, a terminal multiplexor allowing (among other things) a single\nterminal to be switched between several different windows and programs\ndisplayed on one terminal be detached from one terminal and moved to another.\nok deraadt pirofti"
+        }
+    ],
+    "git log -L449,493:cmd.c": [
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/cmd.c b/cmd.c--- a/cmd.c+++ b/cmd.c@@ -383,45 +383,45 @@ static const struct cmd_entry * cmd_find(const char *name, char **cause) { \tconst struct cmd_entry\t**loop, *entry, *found = NULL; \tint\t\t\t  ambiguous;-\tchar\t\t\t  s[BUFSIZ];+\tchar\t\t\t  s[8192]; \tambiguous = 0; \tfor (loop = cmd_table; *loop != NULL; loop++) { \t\tentry = *loop; \t\tif (entry->alias != NULL && strcmp(entry->alias, name) == 0) { \t\t\tambiguous = 0; \t\t\tfound = entry; \t\t\tbreak; \t\t} \t\tif (strncmp(entry->name, name, strlen(name)) != 0) \t\t\tcontinue; \t\tif (found != NULL) \t\t\tambiguous = 1; \t\tfound = entry; \t\tif (strcmp(entry->name, name) == 0) \t\t\tbreak; \t} \tif (ambiguous) \t\tgoto ambiguous; \tif (found == NULL) { \t\txasprintf(cause, \"unknown command: %s\", name); \t\treturn (NULL); \t} \treturn (found); ambiguous: \t*s = '\\0'; \tfor (loop = cmd_table; *loop != NULL; loop++) { \t\tentry = *loop; \t\tif (strncmp(entry->name, name, strlen(name)) != 0) \t\t\tcontinue; \t\tif (strlcat(s, entry->name, sizeof s) >= sizeof s) \t\t\tbreak; \t\tif (strlcat(s, \", \", sizeof s) >= sizeof s) \t\t\tbreak; \t} \ts[strlen(s) - 2] = '\\0';",
+            "commit_date": "2019-10-03 10:24:05+00:00",
+            "commit_hash": "f4c7141f5d2abd06bb90443ad9edc7c1a985eb40",
+            "message": "Do not lazily use BUFSIZ for \"I don't care what size\" when building\nstrings because it is only guaranteed to be 256 bytes and even the\ndefault 1024 is not always enough. Reported by Gregory Pakosz."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/cmd.c b/cmd.c--- a/cmd.c+++ b/cmd.c@@ -381,45 +383,45 @@ static const struct cmd_entry * cmd_find(const char *name, char **cause) {-\tconst struct cmd_entry **loop, *entry, *found = NULL;-\tint\t\t\t ambiguous;-\tchar\t\t\t s[BUFSIZ];+\tconst struct cmd_entry\t**loop, *entry, *found = NULL;+\tint\t\t\t  ambiguous;+\tchar\t\t\t  s[BUFSIZ]; \tambiguous = 0; \tfor (loop = cmd_table; *loop != NULL; loop++) { \t\tentry = *loop; \t\tif (entry->alias != NULL && strcmp(entry->alias, name) == 0) { \t\t\tambiguous = 0; \t\t\tfound = entry; \t\t\tbreak; \t\t} \t\tif (strncmp(entry->name, name, strlen(name)) != 0) \t\t\tcontinue; \t\tif (found != NULL) \t\t\tambiguous = 1; \t\tfound = entry; \t\tif (strcmp(entry->name, name) == 0) \t\t\tbreak; \t} \tif (ambiguous) \t\tgoto ambiguous; \tif (found == NULL) { \t\txasprintf(cause, \"unknown command: %s\", name); \t\treturn (NULL); \t} \treturn (found); ambiguous: \t*s = '\\0'; \tfor (loop = cmd_table; *loop != NULL; loop++) { \t\tentry = *loop; \t\tif (strncmp(entry->name, name, strlen(name)) != 0) \t\t\tcontinue; \t\tif (strlcat(s, entry->name, sizeof s) >= sizeof s) \t\t\tbreak; \t\tif (strlcat(s, \", \", sizeof s) >= sizeof s) \t\t\tbreak; \t} \ts[strlen(s) - 2] = '\\0';",
+            "commit_date": "2019-05-25 10:44:09+00:00",
+            "commit_hash": "d7586d3d65bb1361928205751ea7a69f69a4aa87",
+            "message": "Use client name when logging command queue."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/cmd.c b/cmd.c--- a/cmd.c+++ b/cmd.c@@ -350,17 +374,45 @@-\tif (cmd_string_split(cp + 1, &new_argc, &new_argv) != 0)-\t\treturn (-1);+static const struct cmd_entry *+cmd_find(const char *name, char **cause)+{+\tconst struct cmd_entry **loop, *entry, *found = NULL;+\tint\t\t\t ambiguous;+\tchar\t\t\t s[BUFSIZ];-\t*argc = new_argc + old_argc - 1;-\t*argv = xcalloc((*argc) + 1, sizeof **argv);+\tambiguous = 0;+\tfor (loop = cmd_table; *loop != NULL; loop++) {+\t\tentry = *loop;+\t\tif (entry->alias != NULL && strcmp(entry->alias, name) == 0) {+\t\t\tambiguous = 0;+\t\t\tfound = entry;+\t\t\tbreak;+\t\t}-\tfor (i = 0; i < new_argc; i++)-\t\t(*argv)[i] = xstrdup(new_argv[i]);-\tfor (i = 1; i < old_argc; i++)-\t\t(*argv)[new_argc + i - 1] = xstrdup(old_argv[i]);+\t\tif (strncmp(entry->name, name, strlen(name)) != 0)+\t\t\tcontinue;+\t\tif (found != NULL)+\t\t\tambiguous = 1;+\t\tfound = entry;-\tlog_debug(\"alias: %s=%s\", old_argv[0], cp + 1);-\tfor (i = 0; i < *argc; i++)-\t\tlog_debug(\"alias: argv[%d] = %s\", i, (*argv)[i]);+\t\tif (strcmp(entry->name, name) == 0)+\t\t\tbreak;+\t}+\tif (ambiguous)+\t\tgoto ambiguous;+\tif (found == NULL) {+\t\txasprintf(cause, \"unknown command: %s\", name);+\t\treturn (NULL);+\t}+\treturn (found);-\tcmd_free_argv(new_argc, new_argv);-\treturn (0);+ambiguous:+\t*s = '\\0';+\tfor (loop = cmd_table; *loop != NULL; loop++) {+\t\tentry = *loop;+\t\tif (strncmp(entry->name, name, strlen(name)) != 0)+\t\t\tcontinue;+\t\tif (strlcat(s, entry->name, sizeof s) >= sizeof s)+\t\t\tbreak;+\t\tif (strlcat(s, \", \", sizeof s) >= sizeof s)+\t\t\tbreak;+\t}+\ts[strlen(s) - 2] = '\\0';",
+            "commit_date": "2019-05-23 11:13:30+00:00",
+            "commit_hash": "723010ba72e337832402f8e44981c02caa30b476",
+            "message": "Replace the split parser code (cfg.c and cmd-string.c) with a single\nparser using yacc(1). This is a major change but is clearer and simpler\nand allows some edge cases to be made more consistent, as well as\ntidying up how aliases are handled. It will also allow some further\nimprovements later.\nEntirely the same parser is now used for parsing the configuration file\nand for string commands. This means that constructs previously only\navailable in .tmux.conf, such as %if, can now be used in string commands\n(for example, those given to if-shell - not commands invoked from the\nshell, they are still parsed by the shell itself).\nThe only syntax change I am aware of is that #{} outside quotes or a\ncomment is now considered a format and not a comment, so #{ is now a\nsyntax error (notably, if it is at the start of a line).\nThis also adds two new sections to the man page documenting the syntax\nand outlining how parsing and command execution works.\nThanks to everyone who sent me test configs (they still all parse\nwithout errors - but this doesn't mean they still work as intended!).\nThanks to Avi Halachmi for testing and man page improvements, also to\njmc@ for reviewing the man page changes."
+        },
+        {
+            "author": {
+                "email": "nicholas.marriott@gmail.com",
+                "name": "Nicholas Marriott"
+            },
+            "changes": "diff --git a/cmd.c b/cmd.c--- a/cmd.c+++ b/cmd.c@@ -311,0 +339,17 @@+\tif (cmd_string_split(cp + 1, &new_argc, &new_argv) != 0)+\t\treturn (-1);++\t*argc = new_argc + old_argc - 1;+\t*argv = xcalloc((*argc) + 1, sizeof **argv);++\tfor (i = 0; i < new_argc; i++)+\t\t(*argv)[i] = xstrdup(new_argv[i]);+\tfor (i = 1; i < old_argc; i++)+\t\t(*argv)[new_argc + i - 1] = xstrdup(old_argv[i]);++\tlog_debug(\"alias: %s=%s\", old_argv[0], cp + 1);+\tfor (i = 0; i < *argc; i++)+\t\tlog_debug(\"alias: argv[%d] = %s\", i, (*argv)[i]);++\tcmd_free_argv(new_argc, new_argv);+\treturn (0);",
+            "commit_date": "2017-01-24 19:59:19+00:00",
+            "commit_hash": "126d364abe2e8c063efa5a888de6997ca05641fc",
+            "message": "server-info can become an alias rather than a command."
+        }
+    ]
+}

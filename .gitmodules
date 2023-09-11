@@ -1,0 +1,15 @@
+[submodule "test_lib/openssl"]
+	path = test_lib/openssl
+	url = https://github.com/openssl/openssl.git
+[submodule "tools/rats"]
+	path = tools/rats
+	url = https://github.com/andrew-d/rough-auditing-tool-for-security.git
+[submodule "tools/srcml"]
+	path = tools/srcml
+	url = https://github.com/srcML/srcML.git
+[submodule "test_lib/tmux"]
+	path = test_lib/tmux
+	url = https://github.com/tmux/tmux
+[submodule "test_lib/openssh-portable"]
+	path = test_lib/openssh-portable
+	url = https://github.com/openssh/openssh-portable.git

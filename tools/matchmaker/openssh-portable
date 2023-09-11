@@ -1,0 +1,15 @@
+misc.c:2185:2176
+misc.c:2190:2176
+ssh-keygen.c:616:609
+openbsd-compat/readpassphrase.c:132:53
+openbsd-compat/blowfish.c:107:95
+openbsd-compat/blowfish.c:82:70
+openbsd-compat/glob.c:621:613
+openbsd-compat/blowfish.c:444:420
+openbsd-compat/blowfish.c:452:420
+openbsd-compat/blowfish.c:485:458
+openbsd-compat/blowfish.c:495:458
+sc25519.c:77:50
+smult_curve25519_ref.c:161:123
+smult_curve25519_ref.c:171:123
+smult_curve25519_ref.c:195:179

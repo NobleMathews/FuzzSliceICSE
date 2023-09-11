@@ -1,0 +1,10 @@
+-Lfind_cwd,297:tmux.c
+-Lfind_cwd,295:tmux.c
+-Lexpand_paths,159:tmux.c
+-Losdep_get_name,50:osdep-linux.c
+-Llayout_dump,66:layout-custom.c
+-Lstyle_parse,168:style.c
+-Linput_split,1036:input.c
+-Ltty_check_fg,2714:tty.c
+-Ltty_check_bg,2764:tty.c
+-Lcmd_find,493:cmd.c

@@ -1,0 +1,3902 @@
+#0
+environ.c:33: error: Null Dereference
+  pointer `tmp` last assigned on line 33 could be null and is dereferenced at line 33, column 1.
+  31. RB_HEAD(environ, environ_entry);
+  32. static int environ_cmp(struct environ_entry *, struct environ_entry *);
+  33. RB_GENERATE_STATIC(environ, environ_entry, entry, environ_cmp);
+      ^
+  34. 
+  35. static int
+
+#1
+file.c:33: error: Null Dereference
+  pointer `tmp` last assigned on line 33 could be null and is dereferenced at line 33, column 1.
+  31. static int	file_next_stream = 3;
+  32. 
+  33. RB_GENERATE(client_files, client_file, entry, file_cmp);
+      ^
+  34. 
+  35. static char *
+
+#2
+cmd-rotate-window.c:70: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `window_pane_resize`.
+  68. 				wp->layout_cell->wp = wp;
+  69. 			wp->xoff = wp2->xoff; wp->yoff = wp2->yoff;
+  70. 			window_pane_resize(wp, wp2->sx, wp2->sy);
+         ^
+  71. 		}
+  72. 		wp->layout_cell = lc;
+
+#3
+cmd-swap-pane.c:109: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `window_pane_resize`.
+  107. 	window_pane_resize(src_wp, dst_wp->sx, dst_wp->sy);
+  108. 	dst_wp->xoff = xoff; dst_wp->yoff = yoff;
+  109. 	window_pane_resize(dst_wp, sx, sy);
+        ^
+  110. 
+  111. 	if (!args_has(args, 'd')) {
+
+#4
+cmd-paste-buffer.c:104: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `paste_free`.
+  102. 
+  103. 	if (pb != NULL && args_has(args, 'd'))
+  104. 		paste_free(pb);
+         ^
+  105. 
+  106. 	return (CMD_RETURN_NORMAL);
+
+#5
+compat/imsg.c:56: error: Dead Store
+  The value written to &n (type long) is never used.
+  54. 	} cmsgbuf;
+  55. 	struct iovec		 iov;
+  56. 	ssize_t			 n = -1;
+       ^
+  57. 	int			 fd;
+  58. 	struct imsg_fd		*ifd;
+
+#6
+compat/imsg.c:74: error: Integer Overflow L2
+  ([0, 34] - [0, 30]):unsigned64.
+  72. 
+  73. again:
+  74. 	if (getdtablecount() + imsg_fd_overhead +
+           ^
+  75. 	    (int)((CMSG_SPACE(sizeof(int))-CMSG_SPACE(0))/sizeof(int))
+  76. 	    >= getdtablesize()) {
+
+#7
+arguments.c:47: error: Null Dereference
+  pointer `tmp` last assigned on line 47 could be null and is dereferenced at line 47, column 1.
+  45. 
+  46. static int	args_cmp(struct args_entry *, struct args_entry *);
+  47. RB_GENERATE_STATIC(args_tree, args_entry, entry, args_cmp);
+      ^
+  48. 
+  49. /* Arguments tree comparison function. */
+
+#8
+options.c:47: error: Null Dereference
+  pointer `tmp` last assigned on line 47 could be null and is dereferenced at line 47, column 1.
+  45. 	return (0);
+  46. }
+  47. RB_GENERATE_STATIC(options_array, options_array_item, entry, options_array_cmp);
+      ^
+  48. 
+  49. struct options_entry {
+
+#9
+session.c:48: error: Null Dereference
+  pointer `tmp` last assigned on line 48 could be null and is dereferenced at line 48, column 1.
+  46. 	return (strcmp(s1->name, s2->name));
+  47. }
+  48. RB_GENERATE(sessions, session, entry, session_cmp);
+      ^
+  49. 
+  50. static int
+
+#10
+cmd-display-panes.c:144: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_cursor`.
+  142. 		for (j = 0; j < 5; j++) {
+  143. 			for (i = px; i < px + 5; i++) {
+  144. 				tty_cursor(tty, xoff + i, yoff + py + j);
+           ^
+  145. 				if (window_clock_table[idx][j][i - px])
+  146. 					tty_putc(tty, ' ');
+
+#11
+style.c:159: error: Buffer Overrun L2
+  Offset: [1, 256] (<= 2 + [-1, 254]) Size: 256 by call to `attributes_fromstring`.
+  157. 			sy->gc.attr = 0;
+  158. 		else if (end > 2 && strncasecmp(tmp, "no", 2) == 0) {
+  159. 			if ((value = attributes_fromstring(tmp + 2)) == -1)
+                       ^
+  160. 				goto error;
+  161. 			sy->gc.attr &= ~value;
+
+#12
+style.c:163: error: Buffer Overrun L3
+  Offset: [-1, 254] Size: 256 by call to `attributes_fromstring`.
+  161. 			sy->gc.attr &= ~value;
+  162. 		} else {
+  163. 			if ((value = attributes_fromstring(tmp)) == -1)
+                       ^
+  164. 				goto error;
+  165. 			sy->gc.attr |= value;
+
+#13
+style.c:159: error: Integer Overflow L2
+  ([0, 255] - 1):unsigned64 by call to `attributes_fromstring`.
+  157. 			sy->gc.attr = 0;
+  158. 		else if (end > 2 && strncasecmp(tmp, "no", 2) == 0) {
+  159. 			if ((value = attributes_fromstring(tmp + 2)) == -1)
+                       ^
+  160. 				goto error;
+  161. 			sy->gc.attr &= ~value;
+
+#14
+cmd-new-window.c:97: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `spawn_window`.
+  95. 		sc.flags |= SPAWN_KILL;
+  96. 
+  97. 	if ((new_wl = spawn_window(&sc, &cause)) == NULL) {
+                     ^
+  98. 		cmdq_error(item, "create window failed: %s", cause);
+  99. 		free(cause);
+
+#15
+cmd-new-window.c:97: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `spawn_window`.
+  95. 		sc.flags |= SPAWN_KILL;
+  96. 
+  97. 	if ((new_wl = spawn_window(&sc, &cause)) == NULL) {
+                     ^
+  98. 		cmdq_error(item, "create window failed: %s", cause);
+  99. 		free(cause);
+
+#16
+alerts.c:66: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_remove_ref`.
+  64. 
+  65. 		w->flags &= ~WINDOW_ALERTFLAGS;
+  66. 		window_remove_ref(w, __func__);
+        ^
+  67. 	}
+  68. 	alerts_fired = 0;
+
+#17
+compat/getopt.c:91: error: Dead Store
+  The value written to &oli (type char*) is never used.
+  89. 		return (BADCH);
+  90. 	}
+  91. 	if (*++oli != ':') {			/* don't need argument */
+            ^
+  92. 		BSDoptarg = NULL;
+  93. 		if (!*place)
+
+#18
+paste.c:53: error: Null Dereference
+  pointer `tmp` last assigned on line 53 could be null and is dereferenced at line 53, column 1.
+  51. static int	paste_cmp_names(const struct paste_buffer *,
+  52. 		    const struct paste_buffer *);
+  53. RB_GENERATE_STATIC(paste_name_tree, paste_buffer, name_entry, paste_cmp_names);
+      ^
+  54. 
+  55. static int	paste_cmp_times(const struct paste_buffer *,
+
+#19
+cmd-set-buffer.c:76: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `paste_free`.
+  74. 			return (CMD_RETURN_ERROR);
+  75. 		}
+  76. 		paste_free(pb);
+        ^
+  77. 		return (CMD_RETURN_NORMAL);
+  78. 	}
+
+#20
+cmd-copy-mode.c:81: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_pageup`.
+  79. 	}
+  80. 	if (args_has(self->args, 'u'))
+  81. 		window_copy_pageup(wp, 0);
+        ^
+  82. 
+  83. 	return (CMD_RETURN_NORMAL);
+
+#21
+cmd-pipe-pane.c:134: error: Unreachable Code
+  Unreachable code after statement.
+  132. 		if (out) {
+  133. 			if (dup2(pipe_fd[1], STDIN_FILENO) == -1)
+  134. 				_exit(1);
+           ^
+  135. 		} else {
+  136. 			if (dup2(null_fd, STDIN_FILENO) == -1)
+
+#22
+cmd-pipe-pane.c:137: error: Unreachable Code
+  Unreachable code after statement.
+  135. 		} else {
+  136. 			if (dup2(null_fd, STDIN_FILENO) == -1)
+  137. 				_exit(1);
+           ^
+  138. 		}
+  139. 		if (in) {
+
+#23
+cmd-pipe-pane.c:141: error: Unreachable Code
+  Unreachable code after statement.
+  139. 		if (in) {
+  140. 			if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+  141. 				_exit(1);
+           ^
+  142. 			if (pipe_fd[1] != STDOUT_FILENO)
+  143. 				close(pipe_fd[1]);
+
+#24
+cmd-pipe-pane.c:146: error: Unreachable Code
+  Unreachable code after statement.
+  144. 		} else {
+  145. 			if (dup2(null_fd, STDOUT_FILENO) == -1)
+  146. 				_exit(1);
+           ^
+  147. 		}
+  148. 		if (dup2(null_fd, STDERR_FILENO) == -1)
+
+#25
+cmd-pipe-pane.c:149: error: Unreachable Code
+  Unreachable code after statement.
+  147. 		}
+  148. 		if (dup2(null_fd, STDERR_FILENO) == -1)
+  149. 			_exit(1);
+          ^
+  150. 		closefrom(STDERR_FILENO + 1);
+  151. 
+
+#26
+cmd-pipe-pane.c:153: error: Unreachable Code
+  Unreachable code after statement.
+  151. 
+  152. 		execl(_PATH_BSHELL, "sh", "-c", cmd, (char *) NULL);
+  153. 		_exit(1);
+         ^
+  154. 	default:
+  155. 		/* Parent process. */
+
+#27
+session.c:55: error: Null Dereference
+  pointer `tmp` last assigned on line 55 could be null and is dereferenced at line 55, column 1.
+  53. 	return (strcmp(s1->name, s2->name));
+  54. }
+  55. RB_GENERATE_STATIC(session_groups, session_group, entry, session_group_cmp);
+      ^
+  56. 
+  57. /*
+
+#28
+cmd-list-keys.c:87: error: Buffer Overrun L3
+  Offset: [-1, +oo] Size: [4, 21] by call to `args_escape`.
+  85. 		bd = key_bindings_first(table);
+  86. 		while (bd != NULL) {
+  87. 			key = args_escape(key_string_lookup_key(bd->key));
+               ^
+  88. 
+  89. 			if (bd->flags & KEY_BINDING_REPEAT)
+
+#29
+cmd-list-keys.c:132: error: Dead Store
+  The value written to &tmpused (type unsigned long) is never used.
+  130. 				tmp = xrealloc(tmp, tmpsize);
+  131. 			}
+  132. 			tmpused = strlcat(tmp, cp, tmpsize);
+          ^
+  133. 			tmpused = strlcat(tmp, " ", tmpsize);
+  134. 			free(cp);
+
+#30
+cmd-list-keys.c:142: error: Dead Store
+  The value written to &tmpused (type unsigned long) is never used.
+  140. 				tmp = xrealloc(tmp, tmpsize);
+  141. 			}
+  142. 			tmpused = strlcat(tmp, cp, tmpsize);
+          ^
+  143. 			tmpused = strlcat(tmp, " ", tmpsize);
+  144. 			free(cp);
+
+#31
+cmd-run-shell.c:82: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_add`.
+  80. 	if (wme == NULL || wme->mode != &window_view_mode)
+  81. 		window_pane_set_mode(wp, &window_view_mode, NULL, NULL);
+  82. 	window_copy_add(wp, "%s", msg);
+       ^
+  83. }
+  84. 
+
+#32
+paste.c:57: error: Null Dereference
+  pointer `tmp` last assigned on line 57 could be null and is dereferenced at line 57, column 1.
+  55. static int	paste_cmp_times(const struct paste_buffer *,
+  56. 		    const struct paste_buffer *);
+  57. RB_GENERATE_STATIC(paste_time_tree, paste_buffer, time_entry, paste_cmp_times);
+      ^
+  58. 
+  59. static int
+
+#33
+cmd-send-keys.c:80: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `key_bindings_unref_table`.
+  78. 		table->references++;
+  79. 		item = key_bindings_dispatch(bd, item, c, NULL, &item->target);
+  80. 		key_bindings_unref_table(table);
+        ^
+  81. 	}
+  82. 	return (item);
+
+#34
+layout-custom.c:66: error: Buffer Overrun L1
+  Offset: -1 Size: 8192 by call to `layout_append`.
+  64. 
+  65. 	*layout = '\0';
+  66. 	if (layout_append(root, layout, sizeof layout) != 0)
+           ^
+  67. 		return (NULL);
+  68. 
+
+#35
+layout-custom.c:66: error: Integer Overflow L1
+  (0 - 1):unsigned64 by call to `layout_append`.
+  64. 
+  65. 	*layout = '\0';
+  66. 	if (layout_append(root, layout, sizeof layout) != 0)
+           ^
+  67. 		return (NULL);
+  68. 
+
+#36
+regsub.c:117: error: Null Dereference
+  pointer `buf` last assigned on line 68 could be null and is dereferenced at line 117, column 2.
+  115. 		}
+  116. 	}
+  117. 	buf[len] = '\0';
+        ^
+  118. 
+  119. 	regfree(&r);
+
+#37
+cmd-wait-for.c:63: error: Null Dereference
+  pointer `tmp` last assigned on line 63 could be null and is dereferenced at line 63, column 1.
+  61. 
+  62. static int wait_channel_cmp(struct wait_channel *, struct wait_channel *);
+  63. RB_GENERATE_STATIC(wait_channels, wait_channel, entry, wait_channel_cmp);
+      ^
+  64. 
+  65. static int
+
+#38
+proc.c:77: error: Buffer Overrun L3
+  Offset added: [0, 16368] Size: [1, 16368] by call to `imsg_get`.
+  75. 		}
+  76. 		for (;;) {
+  77. 			if ((n = imsg_get(&peer->ibuf, &imsg)) == -1) {
+                  ^
+  78. 				peer->dispatchcb(NULL, peer->arg);
+  79. 				return;
+
+#39
+proc.c:88: error: Integer Overflow L2
+  ([0, +oo] - 16):unsigned64 by call to `imsg_free`.
+  86. 				if (imsg.fd != -1)
+  87. 					close(imsg.fd);
+  88. 				imsg_free(&imsg);
+          ^
+  89. 				break;
+  90. 			}
+
+#40
+proc.c:77: error: Integer Overflow L2
+  ([16, +oo] - [16, 16384]):unsigned64 by call to `imsg_get`.
+  75. 		}
+  76. 		for (;;) {
+  77. 			if ((n = imsg_get(&peer->ibuf, &imsg)) == -1) {
+                  ^
+  78. 				peer->dispatchcb(NULL, peer->arg);
+  79. 				return;
+
+#41
+cmd-new-session.c:278: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `spawn_window`.
+  276. 	sc.flags = 0;
+  277. 
+  278. 	if (spawn_window(&sc, &cause) == NULL) {
+            ^
+  279. 		session_destroy(s, 0, __func__);
+  280. 		cmdq_error(item, "create window failed: %s", cause);
+
+#42
+cmd-new-session.c:240: error: Uninitialized Value
+  The value read from dsx was never initialized.
+  238. 		}
+  239. 		if (args_has(args, 'x'))
+  240. 			sx = dsx;
+          ^
+  241. 		if (args_has(args, 'y'))
+  242. 			sy = dsy;
+
+#43
+cmd-new-session.c:256: error: Uninitialized Value
+  The value read from dsx was never initialized.
+  254. 		if (!args_has(args, 'y'))
+  255. 			dsy = sy;
+  256. 		options_set_string(oo, "default-size", 0, "%ux%u", dsx, dsy);
+         ^
+  257. 	}
+  258. 	env = environ_create();
+
+#44
+cmd-new-session.c:242: error: Uninitialized Value
+  The value read from dsy was never initialized.
+  240. 			sx = dsx;
+  241. 		if (args_has(args, 'y'))
+  242. 			sy = dsy;
+          ^
+  243. 	}
+  244. 	if (sx == 0)
+
+#45
+cmd-new-session.c:256: error: Uninitialized Value
+  The value read from dsy was never initialized.
+  254. 		if (!args_has(args, 'y'))
+  255. 			dsy = sy;
+  256. 		options_set_string(oo, "default-size", 0, "%ux%u", dsx, dsy);
+         ^
+  257. 	}
+  258. 	env = environ_create();
+
+#46
+key-bindings.c:67: error: Null Dereference
+  pointer `tmp` last assigned on line 67 could be null and is dereferenced at line 67, column 1.
+  65. 
+  66. static int key_bindings_cmp(struct key_binding *, struct key_binding *);
+  67. RB_GENERATE_STATIC(key_bindings, key_binding, entry, key_bindings_cmp);
+      ^
+  68. static int key_table_cmp(struct key_table *, struct key_table *);
+  69. RB_GENERATE_STATIC(key_tables, key_table, entry, key_table_cmp);
+
+#47
+key-bindings.c:69: error: Null Dereference
+  pointer `tmp` last assigned on line 69 could be null and is dereferenced at line 69, column 1.
+  67. RB_GENERATE_STATIC(key_bindings, key_binding, entry, key_bindings_cmp);
+  68. static int key_table_cmp(struct key_table *, struct key_table *);
+  69. RB_GENERATE_STATIC(key_tables, key_table, entry, key_table_cmp);
+      ^
+  70. static struct key_tables key_tables = RB_INITIALIZER(&key_tables);
+  71. 
+
+#48
+screen.c:86: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_reinit`.
+  84. 	s->sel = NULL;
+  85. 
+  86. 	screen_reinit(s);
+       ^
+  87. }
+  88. 
+
+#49
+spawn.c:173: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `spawn_pane`.
+  171. 
+  172. 	/* Spawn the pane. */
+  173. 	wp = spawn_pane(sc, cause);
+             ^
+  174. 	if (wp == NULL) {
+  175. 		if (~sc->flags & SPAWN_RESPAWN)
+
+#50
+spawn.c:139: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `winlink_remove`.
+  137. 			notify_session_window("window-unlinked", s, wl->window);
+  138. 			winlink_stack_remove(&s->lastw, wl);
+  139. 			winlink_remove(&s->windows, wl);
+          ^
+  140. 
+  141. 			if (s->curw == wl) {
+
+#51
+format.c:79: error: Null Dereference
+  pointer `tmp` last assigned on line 79 could be null and is dereferenced at line 79, column 1.
+  77. static int format_job_cmp(struct format_job *, struct format_job *);
+  78. static RB_HEAD(format_job_tree, format_job) format_jobs = RB_INITIALIZER();
+  79. RB_GENERATE_STATIC(format_job_tree, format_job, entry, format_job_cmp);
+      ^
+  80. 
+  81. /* Format job tree comparison function. */
+
+#52
+cmd-set-option.c:228: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `server_client_set_key_table`.
+  226. 	if (strcmp(name, "key-table") == 0) {
+  227. 		TAILQ_FOREACH(loop, &clients, entry)
+  228. 			server_client_set_key_table(loop, NULL);
+          ^
+  229. 	}
+  230. 	if (strcmp(name, "user-keys") == 0) {
+
+#53
+window.c:84: error: Null Dereference
+  pointer `tmp` last assigned on line 84 could be null and is dereferenced at line 84, column 1.
+  82. static void	window_pane_destroy(struct window_pane *);
+  83. 
+  84. RB_GENERATE(windows, window, entry, window_cmp);
+      ^
+  85. RB_GENERATE(winlinks, winlink, entry, winlink_cmp);
+  86. RB_GENERATE(window_pane_tree, window_pane, tree_entry, window_pane_cmp);
+
+#54
+window.c:85: error: Null Dereference
+  pointer `tmp` last assigned on line 85 could be null and is dereferenced at line 85, column 1.
+  83. 
+  84. RB_GENERATE(windows, window, entry, window_cmp);
+  85. RB_GENERATE(winlinks, winlink, entry, winlink_cmp);
+      ^
+  86. RB_GENERATE(window_pane_tree, window_pane, tree_entry, window_pane_cmp);
+  87. 
+
+#55
+window.c:86: error: Null Dereference
+  pointer `tmp` last assigned on line 86 could be null and is dereferenced at line 86, column 1.
+  84. RB_GENERATE(windows, window, entry, window_cmp);
+  85. RB_GENERATE(winlinks, winlink, entry, winlink_cmp);
+  86. RB_GENERATE(window_pane_tree, window_pane, tree_entry, window_pane_cmp);
+      ^
+  87. 
+  88. int
+
+#56
+options.c:88: error: Null Dereference
+  pointer `tmp` last assigned on line 88 could be null and is dereferenced at line 88, column 1.
+  86. 
+  87. static int	options_cmp(struct options_entry *, struct options_entry *);
+  88. RB_GENERATE_STATIC(options_tree, options_entry, entry, options_cmp);
+      ^
+  89. 
+  90. static int
+
+#57
+screen-redraw.c:117: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  115. 
+  116. 			if (pane_status == PANE_STATUS_TOP)
+  117. 				line = wp->yoff - 1;
+           ^
+  118. 			else
+  119. 				line = wp->yoff + wp->sy;
+
+#58
+screen-redraw.c:133: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  131. 
+  132. 		/* If outside the pane and its border, skip it. */
+  133. 		if ((wp->xoff != 0 && px < wp->xoff - 1) ||
+                               ^
+  134. 		    px > wp->xoff + wp->sx ||
+  135. 		    (wp->yoff != 0 && py < wp->yoff - 1) ||
+
+#59
+cmd-capture-pane.c:144: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  142. 		else
+  143. 			top = gd->hsize + n;
+  144. 		if (top > gd->hsize + gd->sy - 1)
+             ^
+  145. 			top = gd->hsize + gd->sy - 1;
+  146. 	}
+
+#60
+options.c:153: error: Uninitialized Value
+  The value read from s was never initialized.
+  151. 			fatalx("not a number option type");
+  152. 		}
+  153. 		return (s);
+         ^
+  154. 	}
+  155. 	if (OPTIONS_IS_STRING(o))
+
+#61
+layout-custom.c:137: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  135. 			n += lcchild->sx + 1;
+  136. 		}
+  137. 		if (n - 1 != lc->sx)
+             ^
+  138. 			return (0);
+  139. 		break;
+
+#62
+tty.c:154: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_invalidate`.
+  152. 	    xpixel, ypixel);
+  153. 	tty_set_size(tty, sx, sy, xpixel, ypixel);
+  154. 	tty_invalidate(tty);
+        ^
+  155. }
+  156. 
+
+#63
+menu.c:152: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_draw_line`.
+  150. 
+  151. 	for (i = 0; i < screen_size_y(&md->s); i++)
+  152. 		tty_draw_line(tty, NULL, s, 0, i, menu->width + 4, px, py + i);
+         ^
+  153. 
+  154. 	if (~md->flags & MENU_NOMOUSE)
+
+#64
+format.c:136: error: Null Dereference
+  pointer `tmp` last assigned on line 136 could be null and is dereferenced at line 136, column 1.
+  134. };
+  135. static int format_entry_cmp(struct format_entry *, struct format_entry *);
+  136. RB_GENERATE_STATIC(format_entry_tree, format_entry, entry, format_entry_cmp);
+       ^
+  137. 
+  138. /* Format modifier. */
+
+#65
+paste.c:178: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `paste_free`.
+  176. 			break;
+  177. 		if (pb->automatic)
+  178. 			paste_free(pb);
+          ^
+  179. 	}
+  180. 
+
+#66
+utf8.c:175: error: Buffer Overrun L2
+  Offset added: [1, 18] Size: 16.
+  173. 		return (UTF8_ERROR);
+  174. 
+  175. 	memcpy(ud->data, s, slen);
+        ^
+  176. 	ud->size = slen;
+  177. 
+
+#67
+cmd-resize-pane.c:203: error: Uninitialized Value
+  The value read from cells[_] was never initialized.
+  201. 
+  202. 		for (j = 0; j < ncells; j++) {
+  203. 			if (cells[j] == lc) {
+              ^
+  204. 				lc = NULL;
+  205. 				break;
+
+#68
+compat/imsg.c:174: error: Buffer Overrun S2
+  Offset added: [max(1, `datalen`), +oo] (<= [0, +oo] + [max(1, `datalen`), `datalen`]) Size: [0, +oo] by call to `imsg_add`.
+  172. 		return (-1);
+  173. 
+  174. 	if (imsg_add(wbuf, data, datalen) == -1)
+            ^
+  175. 		return (-1);
+  176. 
+
+#69
+tty.c:177: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `server_client_lost`.
+  175. 	if (nread == 0 || nread == -1) {
+  176. 		event_del(&tty->event_in);
+  177. 		server_client_lost(tty->client);
+         ^
+  178. 		return;
+  179. 	}
+
+#70
+cmd-display-panes.c:181: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `cmd_display_panes_draw_pane`.
+  179. 	TAILQ_FOREACH(wp, &w->panes, entry) {
+  180. 		if (window_pane_visible(wp))
+  181. 			cmd_display_panes_draw_pane(ctx, wp);
+          ^
+  182. 	}
+  183. }
+
+#71
+screen-write.c:197: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned64.
+  195. 
+  196. 			left = strlen(ptr);
+  197. 			if (left < (size_t)ud.size - 1)
+              ^
+  198. 				break;
+  199. 			while ((more = utf8_append(&ud, *ptr)) == UTF8_MORE)
+
+#72
+style.c:253: error: Dead Store
+  The value written to &comma (type char const *) is never used.
+  251. 		xsnprintf(s + off, sizeof s - off, "%s%s", comma,
+  252. 		    attributes_tostring(gc->attr));
+  253. 		comma = ",";
+         ^
+  254. 	}
+  255. 
+
+#73
+style.c:251: error: Integer Overflow L2
+  (256 - [0, 1785]):unsigned64.
+  249. 	}
+  250. 	if (gc->attr != 0 && gc->attr != GRID_ATTR_CHARSET) {
+  251. 		xsnprintf(s + off, sizeof s - off, "%s%s", comma,
+         ^
+  252. 		    attributes_tostring(gc->attr));
+  253. 		comma = ",";
+
+#74
+style.c:223: error: Integer Overflow L2
+  (256 - [0, 510]):unsigned64.
+  221. 		else if (sy->align == STYLE_ALIGN_RIGHT)
+  222. 			tmp = "right";
+  223. 		off += xsnprintf(s + off, sizeof s - off, "%salign=%s", comma,
+                ^
+  224. 		    tmp);
+  225. 		comma = ",";
+
+#75
+style.c:232: error: Integer Overflow L2
+  (256 - [0, 765]):unsigned64.
+  230. 		else if (sy->default_type == STYLE_DEFAULT_POP)
+  231. 			tmp = "pop-default";
+  232. 		off += xsnprintf(s + off, sizeof s - off, "%s%s", comma, tmp);
+                ^
+  233. 		comma = ",";
+  234. 	}
+
+#76
+compat/imsg.c:198: error: Buffer Overrun S2
+  Offset added: [max(1, `iov->iov_len`), +oo] (<= [0, +oo] + [max(1, `iov->iov_len`), `iov->iov_len`]) Size: [0, +oo] by call to `imsg_add`.
+  196. 
+  197. 	for (i = 0; i < iovcnt; i++)
+  198. 		if (imsg_add(wbuf, iov[i].iov_base, iov[i].iov_len) == -1)
+             ^
+  199. 			return (-1);
+  200. 
+
+#77
+key-bindings.c:207: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `key_bindings_unref_table`.
+  205. 	if (RB_EMPTY(&table->key_bindings)) {
+  206. 		RB_REMOVE(key_tables, &key_tables, table);
+  207. 		key_bindings_unref_table(table);
+         ^
+  208. 	}
+  209. }
+
+#78
+server-fn.c:210: error: Integer Overflow L2
+  ([0, 1] - 1):unsigned32 by call to `session_detach`.
+  208. 		server_unzoom_window(w);
+  209. 		while ((wl = winlink_find_by_window(&s->windows, w)) != NULL) {
+  210. 			if (session_detach(s, wl)) {
+              ^
+  211. 				server_destroy_session_group(s);
+  212. 				break;
+
+#79
+compat/imsg-buffer.c:207: error: Integer Overflow L2
+  ([0, `msgbuf->queued`] - 1):unsigned32 by call to `ibuf_dequeue`.
+  205. 		if (buf->rpos + n >= buf->wpos) {
+  206. 			n -= buf->wpos - buf->rpos;
+  207. 			ibuf_dequeue(msgbuf, buf);
+          ^
+  208. 		} else {
+  209. 			buf->rpos += n;
+
+#80
+spawn.c:386: error: Unreachable Code
+  Unreachable code after statement.
+  384. 	 */
+  385. 	if (tcgetattr(STDIN_FILENO, &now) != 0)
+  386. 		_exit(1);
+         ^
+  387. 	if (s->tio != NULL)
+  388. 		memcpy(now.c_cc, s->tio->c_cc, sizeof now.c_cc);
+
+#81
+spawn.c:395: error: Unreachable Code
+  Unreachable code after statement.
+  393. 		now.c_cc[VERASE] = key;
+  394. 	if (tcsetattr(STDIN_FILENO, TCSANOW, &now) != 0)
+  395. 		_exit(1);
+         ^
+  396. 
+  397. 	/* Clean up file descriptors and signals and update the environment. */
+
+#82
+spawn.c:411: error: Unreachable Code
+  Unreachable code after statement.
+  409. 		argvp = cmd_copy_argv(new_wp->argc, new_wp->argv);
+  410. 		execvp(argvp[0], argvp);
+  411. 		_exit(1);
+         ^
+  412. 	}
+  413. 
+
+#83
+spawn.c:426: error: Unreachable Code
+  Unreachable code after statement.
+  424. 			xasprintf(&argv0, "%s", new_wp->shell);
+  425. 		execl(new_wp->shell, argv0, "-c", tmp, (char *)NULL);
+  426. 		_exit(1);
+         ^
+  427. 	}
+  428. 	if (cp != NULL && cp[1] != '\0')
+
+#84
+spawn.c:433: error: Unreachable Code
+  Unreachable code after statement.
+  431. 		xasprintf(&argv0, "-%s", new_wp->shell);
+  432. 	execl(new_wp->shell, argv0, (char *)NULL);
+  433. 	_exit(1);
+        ^
+  434. 
+  435. complete:
+
+#85
+session.c:226: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `winlink_remove`.
+  224. 		wl = RB_ROOT(&s->windows);
+  225. 		notify_session_window("window-unlinked", s, wl->window);
+  226. 		winlink_remove(&s->windows, wl);
+         ^
+  227. 	}
+  228. 
+
+#86
+window-client.c:232: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_hline`.
+  230. 	else
+  231. 		screen_write_cursormove(ctx, cx, cy + sy - 1 - lines, 0);
+  232. 	screen_write_hline(ctx, sx, 0, 0);
+        ^
+  233. 
+  234. 	if (at != 0)
+
+#87
+window-client.c:232: error: Integer Overflow L2
+  ([1, `ctx->s->rlower` + `ctx->s->grid->hsize` + 2] - [1, `ctx->s->rupper` + `ctx->s->grid->hsize` + 2]):unsigned32 by call to `screen_write_hline`.
+  230. 	else
+  231. 		screen_write_cursormove(ctx, cx, cy + sy - 1 - lines, 0);
+  232. 	screen_write_hline(ctx, sx, 0, 0);
+        ^
+  233. 
+  234. 	if (at != 0)
+
+#88
+window-client.c:226: error: Integer Overflow L2
+  (`sy` - 2 - [0, -1+max(1, `sy`)]):unsigned32.
+  224. 
+  225. 	screen_write_cursormove(ctx, cx, cy + at, 0);
+  226. 	screen_write_preview(ctx, &wp->base, sx, sy - 2 - lines);
+        ^
+  227. 
+  228. 	if (at != 0)
+
+#89
+window-buffer.c:225: error: Dead Store
+  The value written to &len (type unsigned long) is never used.
+  223. 			end++;
+  224. 		buf = xreallocarray(buf, 4, end - start + 1);
+  225. 		len = utf8_strvis(buf, start, end - start, VIS_OCTAL|VIS_TAB);
+         ^
+  226. 		if (*buf != '\0') {
+  227. 			screen_write_cursormove(ctx, cx, cy + i, 0);
+
+#90
+screen.c:225: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_reflow`.
+  223. 
+  224. 	if (reflow)
+  225. 		screen_reflow(s, sx);
+         ^
+  226. }
+  227. 
+
+#91
+key-bindings.c:220: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `key_bindings_unref_table`.
+  218. 	if (table != NULL) {
+  219. 		RB_REMOVE(key_tables, &key_tables, table);
+  220. 		key_bindings_unref_table(table);
+         ^
+  221. 	}
+  222. 	TAILQ_FOREACH(c, &clients, entry) {
+
+#92
+resize.c:333: error: Uninitialized Value
+  The value read from sx was never initialized.
+  331. 		break;
+  332. 	}
+  333. 	if (changed && w->sx == sx && w->sy == sy)
+                       ^
+  334. 		changed = 0;
+  335. 
+
+#93
+resize.c:340: error: Uninitialized Value
+  The value read from sx was never initialized.
+  338. 		return;
+  339. 	}
+  340. 	log_debug("%s: @%u changed to %u,%u (%ux%u)", __func__, w->id, sx, sy,
+        ^
+  341. 	    xpixel, ypixel);
+  342. 	resize_window(w, sx, sy, xpixel, ypixel);
+
+#94
+resize.c:342: error: Uninitialized Value
+  The value read from sx was never initialized.
+  340. 	log_debug("%s: @%u changed to %u,%u (%ux%u)", __func__, w->id, sx, sy,
+  341. 	    xpixel, ypixel);
+  342. 	resize_window(w, sx, sy, xpixel, ypixel);
+        ^
+  343. }
+  344. 
+
+#95
+resize.c:333: error: Uninitialized Value
+  The value read from sy was never initialized.
+  331. 		break;
+  332. 	}
+  333. 	if (changed && w->sx == sx && w->sy == sy)
+                                      ^
+  334. 		changed = 0;
+  335. 
+
+#96
+resize.c:340: error: Uninitialized Value
+  The value read from sy was never initialized.
+  338. 		return;
+  339. 	}
+  340. 	log_debug("%s: @%u changed to %u,%u (%ux%u)", __func__, w->id, sx, sy,
+        ^
+  341. 	    xpixel, ypixel);
+  342. 	resize_window(w, sx, sy, xpixel, ypixel);
+
+#97
+resize.c:342: error: Uninitialized Value
+  The value read from sy was never initialized.
+  340. 	log_debug("%s: @%u changed to %u,%u (%ux%u)", __func__, w->id, sx, sy,
+  341. 	    xpixel, ypixel);
+  342. 	resize_window(w, sx, sy, xpixel, ypixel);
+        ^
+  343. }
+  344. 
+
+#98
+compat/imsg-buffer.c:221: error: Integer Overflow L2
+  ([0, `msgbuf->queued`] - 1):unsigned32 by call to `ibuf_dequeue`.
+  219. 
+  220. 	while ((buf = TAILQ_FIRST(&msgbuf->bufs)) != NULL)
+  221. 		ibuf_dequeue(msgbuf, buf);
+         ^
+  222. }
+  223. 
+
+#99
+server-fn.c:260: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `winlink_remove`.
+  258. 			dstwl->flags &= ~WINLINK_ALERTFLAGS;
+  259. 			winlink_stack_remove(&dst->lastw, dstwl);
+  260. 			winlink_remove(&dst->windows, dstwl);
+          ^
+  261. 
+  262. 			/* Force select/redraw if current. */
+
+#100
+screen-write.c:260: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned64.
+  258. 
+  259. 			left = strlen(ptr);
+  260. 			if (left < (size_t)ud->size - 1)
+              ^
+  261. 				break;
+  262. 			while ((more = utf8_append(ud, *ptr)) == UTF8_MORE)
+
+#101
+screen-write.c:276: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_cell`.
+  274. 			}
+  275. 			size += ud->width;
+  276. 			screen_write_cell(ctx, &gc);
+          ^
+  277. 		} else {
+  278. 			if (maxlen > 0 && size + 1 > (size_t)maxlen)
+
+#102
+screen-write.c:270: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  268. 			if (maxlen > 0 && size + ud->width > (size_t)maxlen) {
+  269. 				while (size < (size_t)maxlen) {
+  270. 					screen_write_putc(ctx, &gc, ' ');
+            ^
+  271. 					size++;
+  272. 				}
+
+#103
+screen-write.c:285: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  283. 			else if (*ptr > 0x1f && *ptr < 0x7f) {
+  284. 				size++;
+  285. 				screen_write_putc(ctx, &gc, *ptr);
+           ^
+  286. 			}
+  287. 			ptr++;
+
+#104
+screen-redraw.c:286: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_putc`.
+  284. 	gc.attr |= GRID_ATTR_CHARSET;
+  285. 	for (i = 0; i < width; i++)
+  286. 		screen_write_putc(&ctx, &gc, 'q');
+         ^
+  287. 	gc.attr &= ~GRID_ATTR_CHARSET;
+  288. 
+
+#105
+input-keys.c:307: error: Buffer Overrun L2
+  Offset: [1, 40] (<= [0, 39] + 1) Size: 40 by call to `input_split2`.
+  305. 			return;
+  306. 		len = xsnprintf(buf, sizeof buf, "\033[M");
+  307. 		len += input_split2(m->b + 32, &buf[len]);
+                ^
+  308. 		len += input_split2(x + 33, &buf[len]);
+  309. 		len += input_split2(y + 33, &buf[len]);
+
+#106
+input-keys.c:316: error: Buffer Overrun L2
+  Offset: [2, 41] Size: 40.
+  314. 		buf[len++] = m->b + 32;
+  315. 		buf[len++] = x + 33;
+  316. 		buf[len++] = y + 33;
+         ^
+  317. 	}
+  318. 	log_debug("writing mouse %.*s to %%%u", (int)len, buf, wp->id);
+
+#107
+input-keys.c:308: error: Buffer Overrun L2
+  Offset: [2, 42] (<= [1, 41] + 1) Size: 40 by call to `input_split2`.
+  306. 		len = xsnprintf(buf, sizeof buf, "\033[M");
+  307. 		len += input_split2(m->b + 32, &buf[len]);
+  308. 		len += input_split2(x + 33, &buf[len]);
+                ^
+  309. 		len += input_split2(y + 33, &buf[len]);
+  310. 	} else {
+
+#108
+input-keys.c:309: error: Buffer Overrun L2
+  Offset: [3, 44] (<= [2, 43] + 1) Size: 40 by call to `input_split2`.
+  307. 		len += input_split2(m->b + 32, &buf[len]);
+  308. 		len += input_split2(x + 33, &buf[len]);
+  309. 		len += input_split2(y + 33, &buf[len]);
+                ^
+  310. 	} else {
+  311. 		if (m->b > 223)
+
+#109
+window-copy.c:269: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_cursor_up`.
+  267. 	if (data->cy == 0) {
+  268. 		evtimer_add(&data->dragtimer, &tv);
+  269. 		window_copy_cursor_up(wme, 1);
+         ^
+  270. 	} else if (data->cy == screen_size_y(&data->screen) - 1) {
+  271. 		evtimer_add(&data->dragtimer, &tv);
+
+#110
+window-client.c:280: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_build`.
+  278. 	mode_tree_zoom(data->data, args);
+  279. 
+  280. 	mode_tree_build(data->data);
+        ^
+  281. 	mode_tree_draw(data->data);
+  282. 
+
+#111
+paste.c:291: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `paste_free`.
+  289. 
+  290. 	if ((old = paste_get_name(name)) != NULL)
+  291. 		paste_free(old);
+         ^
+  292. 
+  293. 	RB_INSERT(paste_name_tree, &paste_by_name, pb);
+
+#112
+tty.c:263: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_close`.
+  261. 	tty->term = tty_term_find(tty->term_name, tty->fd, cause);
+  262. 	if (tty->term == NULL) {
+  263. 		tty_close(tty);
+         ^
+  264. 		return (-1);
+  265. 	}
+
+#113
+window-buffer.c:295: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_build`.
+  293. 	mode_tree_zoom(data->data, args);
+  294. 
+  295. 	mode_tree_build(data->data);
+        ^
+  296. 	mode_tree_draw(data->data);
+  297. 
+
+#114
+cfg.c:288: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_add`.
+  286. 		window_pane_set_mode(wp, &window_view_mode, NULL, NULL);
+  287. 	for (i = 0; i < cfg_ncauses; i++) {
+  288. 		window_copy_add(wp, "%s", cfg_causes[i]);
+         ^
+  289. 		free(cfg_causes[i]);
+  290. 	}
+
+#115
+window-client.c:295: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_free`.
+  293. 		return;
+  294. 
+  295. 	mode_tree_free(data->data);
+        ^
+  296. 
+  297. 	for (i = 0; i < data->item_size; i++)
+
+#116
+layout.c:306: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `window_pane_resize`.
+  304. 			if (status == PANE_STATUS_TOP)
+  305. 				wp->yoff++;
+  306. 			window_pane_resize(wp, lc->sx, lc->sy - 1);
+          ^
+  307. 		} else
+  308. 			window_pane_resize(wp, lc->sx, lc->sy);
+
+#117
+layout.c:306: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  304. 			if (status == PANE_STATUS_TOP)
+  305. 				wp->yoff++;
+  306. 			window_pane_resize(wp, lc->sx, lc->sy - 1);
+          ^
+  307. 		} else
+  308. 			window_pane_resize(wp, lc->sx, lc->sy);
+
+#118
+server-fn.c:323: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  321. 
+  322. 		screen_write_start(&ctx, wp, &wp->base);
+  323. 		screen_write_scrollregion(&ctx, 0, screen_size_y(ctx.s) - 1);
+         ^
+  324. 		screen_write_cursormove(&ctx, 0, screen_size_y(ctx.s) - 1, 0);
+  325. 		screen_write_linefeed(&ctx, 1, 8);
+
+#119
+screen-write.c:322: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_cell`.
+  320. 			}
+  321. 			if (xx + gc.data.width <= px + nx)
+  322. 				screen_write_cell(ctx, &gc);
+           ^
+  323. 		}
+  324. 		cy++;
+
+#120
+file.c:331: error: Resource Leak
+  resource of type `_IO_FILE` acquired by call to `fopen()` at line 323, column 7 is not released after line 331, column 5.
+  329. 			size = fread(buffer, 1, sizeof buffer, f);
+  330. 			if (evbuffer_add(cf->buffer, buffer, size) != 0) {
+  331. 				cf->error = ENOMEM;
+           ^
+  332. 				goto done;
+  333. 			}
+
+#121
+file.c:338: error: Resource Leak
+  resource of type `_IO_FILE` acquired by call to `fopen()` at line 323, column 7 is not released after line 338, column 4.
+  336. 		}
+  337. 		if (ferror(f)) {
+  338. 			cf->error = EIO;
+          ^
+  339. 			goto done;
+  340. 		}
+
+#122
+window-buffer.c:310: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_free`.
+  308. 		return;
+  309. 
+  310. 	mode_tree_free(data->data);
+        ^
+  311. 
+  312. 	for (i = 0; i < data->item_size; i++)
+
+#123
+screen-redraw.c:324: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  322. 		size = wp->status_size;
+  323. 		if (ctx->pane_status == PANE_STATUS_TOP)
+  324. 			yoff = wp->yoff - 1;
+          ^
+  325. 		else
+  326. 			yoff = wp->yoff + wp->sy;
+
+#124
+screen-redraw.c:361: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_cursor`.
+  359. 		tty_draw_line(tty, NULL, s, i, 0, width, x, yoff - ctx->oy);
+  360. 	}
+  361. 	tty_cursor(tty, 0, 0);
+        ^
+  362. }
+  363. 
+
+#125
+screen-redraw.c:359: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_draw_line`.
+  357. 		if (ctx->statustop)
+  358. 			yoff += ctx->statuslines;
+  359. 		tty_draw_line(tty, NULL, s, i, 0, width, x, yoff - ctx->oy);
+         ^
+  360. 	}
+  361. 	tty_cursor(tty, 0, 0);
+
+#126
+window-client.c:312: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_resize`.
+  310. 	struct window_client_modedata	*data = wme->data;
+  311. 
+  312. 	mode_tree_resize(data->data, sx, sy);
+        ^
+  313. }
+  314. 
+
+#127
+window-copy.c:334: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_write_line`.
+  332. 	screen_write_start(&ctx, NULL, &data->screen);
+  333. 	for (i = 0; i < screen_size_y(&data->screen); i++)
+  334. 		window_copy_write_line(wme, &ctx, i);
+         ^
+  335. 	screen_write_cursormove(&ctx, data->cx, data->cy, 0);
+  336. 	screen_write_stop(&ctx);
+
+#128
+status.c:370: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_cursormove`.
+  368. 	} else {
+  369. 		for (i = 0; i < lines; i++) {
+  370. 			screen_write_cursormove(&ctx, 0, i, 0);
+          ^
+  371. 
+  372. 			ov = options_array_get(o, i);
+
+#129
+status.c:391: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_cursormove`.
+  389. 			for (n = 0; n < width; n++)
+  390. 				screen_write_putc(&ctx, &gc, ' ');
+  391. 			screen_write_cursormove(&ctx, 0, i, 0);
+          ^
+  392. 
+  393. 			status_free_ranges(&sle->ranges);
+
+#130
+status.c:367: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_putc`.
+  365. 	if (o == NULL) {
+  366. 		for (n = 0; n < width * lines; n++)
+  367. 			screen_write_putc(&ctx, &gc, ' ');
+          ^
+  368. 	} else {
+  369. 		for (i = 0; i < lines; i++) {
+
+#131
+status.c:375: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_putc`.
+  373. 			if (ov == NULL) {
+  374. 				for (n = 0; n < width; n++)
+  375. 					screen_write_putc(&ctx, &gc, ' ');
+            ^
+  376. 				continue;
+  377. 			}
+
+#132
+status.c:367: error: Integer Overflow L2
+  ([0, max(0, `c->status.screen.sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  365. 	if (o == NULL) {
+  366. 		for (n = 0; n < width * lines; n++)
+  367. 			screen_write_putc(&ctx, &gc, ' ');
+          ^
+  368. 	} else {
+  369. 		for (i = 0; i < lines; i++) {
+
+#133
+status.c:375: error: Integer Overflow L2
+  ([0, max(0, `c->status.screen.sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  373. 			if (ov == NULL) {
+  374. 				for (n = 0; n < width; n++)
+  375. 					screen_write_putc(&ctx, &gc, ' ');
+            ^
+  376. 				continue;
+  377. 			}
+
+#134
+window-client.c:323: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_down`.
+  321. 
+  322. 	if (item == mode_tree_get_current(data->data))
+  323. 		mode_tree_down(data->data, 0);
+         ^
+  324. 	if (key == 'd' || key == 'D')
+  325. 		server_client_detach(item->c, MSG_DETACH);
+
+#135
+window-buffer.c:327: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_resize`.
+  325. 	struct window_buffer_modedata	*data = wme->data;
+  326. 
+  327. 	mode_tree_resize(data->data, sx, sy);
+        ^
+  328. }
+  329. 
+
+#136
+window-buffer.c:339: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_down`.
+  337. 
+  338. 	if (item == mode_tree_get_current(data->data))
+  339. 		mode_tree_down(data->data, 0);
+         ^
+  340. 	if ((pb = paste_get_name(item->name)) != NULL)
+  341. 		paste_free(pb);
+
+#137
+window-buffer.c:341: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `paste_free`.
+  339. 		mode_tree_down(data->data, 0);
+  340. 	if ((pb = paste_get_name(item->name)) != NULL)
+  341. 		paste_free(pb);
+         ^
+  342. }
+  343. 
+
+#138
+window-client.c:343: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_key`.
+  341. 	int				 finished;
+  342. 
+  343. 	finished = mode_tree_key(mtd, c, &key, m, NULL, NULL);
+                   ^
+  344. 	switch (key) {
+  345. 	case 'd':
+
+#139
+window-buffer.c:367: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_key`.
+  365. 	int				 finished;
+  366. 
+  367. 	finished = mode_tree_key(mtd, c, &key, m, NULL, NULL);
+                   ^
+  368. 	switch (key) {
+  369. 	case 'd':
+
+#140
+screen-write.c:379: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  377. 	screen_write_putc(ctx, &gc, left ? 't' : 'q');
+  378. 	for (i = 1; i < nx - 1; i++)
+  379. 		screen_write_putc(ctx, &gc, 'q');
+         ^
+  380. 	screen_write_putc(ctx, &gc, right ? 'u' : 'q');
+  381. 
+
+#141
+screen-write.c:380: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  378. 	for (i = 1; i < nx - 1; i++)
+  379. 		screen_write_putc(ctx, &gc, 'q');
+  380. 	screen_write_putc(ctx, &gc, right ? 'u' : 'q');
+        ^
+  381. 
+  382. 	screen_write_set_cursor(ctx, cx, cy);
+
+#142
+cmd.c:426: error: Buffer Overrun L1
+  Offset: -2 Size: 8192.
+  424. 			break;
+  425. 	}
+  426. 	s[strlen(s) - 2] = '\0';
+        ^
+  427. 	xasprintf(cause, "ambiguous command: %s, could be: %s", name, s);
+  428. 	return (NULL);
+
+#143
+cmd.c:426: error: Integer Overflow L1
+  (0 - 2):unsigned64.
+  424. 			break;
+  425. 	}
+  426. 	s[strlen(s) - 2] = '\0';
+        ^
+  427. 	xasprintf(cause, "ambiguous command: %s, could be: %s", name, s);
+  428. 	return (NULL);
+
+#144
+screen-write.c:402: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  400. 	for (i = 1; i < ny - 1; i++) {
+  401. 		screen_write_set_cursor(ctx, cx, cy + i);
+  402. 		screen_write_putc(ctx, &gc, 'x');
+         ^
+  403. 	}
+  404. 	screen_write_set_cursor(ctx, cx, cy + ny - 1);
+
+#145
+screen-write.c:405: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  403. 	}
+  404. 	screen_write_set_cursor(ctx, cx, cy + ny - 1);
+  405. 	screen_write_putc(ctx, &gc, bottom ? 'v' : 'x');
+        ^
+  406. 
+  407. 	screen_write_set_cursor(ctx, cx, cy);
+
+#146
+window-copy.c:414: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_linefeed`.
+  412. 		 */
+  413. 		screen_write_carriagereturn(&back_ctx);
+  414. 		screen_write_linefeed(&back_ctx, 0, 8);
+         ^
+  415. 	} else
+  416. 		data->backing_written = 1;
+
+#147
+server-fn.c:413: error: Integer Overflow L1
+  (0 - 1):unsigned32 by call to `server_client_set_key_table`.
+  411. 			c->last_session = NULL;
+  412. 			c->session = s_new;
+  413. 			server_client_set_key_table(c, NULL);
+          ^
+  414. 			tty_update_client_offset(c);
+  415. 			status_timer_start(c);
+
+#148
+screen-write.c:432: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_hline`.
+  430. 		if (name == NULL) {
+  431. 			screen_write_cursormove(ctx, cx, cy + 1 + i, 0);
+  432. 			screen_write_hline(ctx, menu->width + 4, 1, 1);
+          ^
+  433. 		} else {
+  434. 			if (choice >= 0 && i == (u_int)choice && *name != '-')
+
+#149
+screen-write.c:438: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  436. 			screen_write_cursormove(ctx, cx + 2, cy + 1 + i, 0);
+  437. 			for (j = 0; j < menu->width; j++)
+  438. 				screen_write_putc(ctx, &gc, ' ');
+           ^
+  439. 			screen_write_cursormove(ctx, cx + 2, cy + 1 + i, 0);
+  440. 			if (*name == '-') {
+
+#150
+tty-term.c:555: error: Buffer Overrun L1
+  Offset: [1, +oo] (<= [0, +oo] + 1) Size: 1.
+  553. 	else
+  554. 		acs = "a#j+k+l+m+n+o-p-q-r-s-t+u+v+w+x|y<z>~.";
+  555. 	for (; acs[0] != '\0' && acs[1] != '\0'; acs += 2)
+                                 ^
+  556. 		term->acs[(u_char) acs[0]][0] = acs[1];
+  557. 
+
+#151
+tty-term.c:592: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_term_free`.
+  590. 
+  591. error:
+  592. 	tty_term_free(term);
+        ^
+  593. 	return (NULL);
+  594. }
+
+#152
+screen-redraw.c:441: error: Integer Overflow L2
+  ([0, `c->tty.sx`] - 1):unsigned32 by call to `screen_redraw_draw_pane_status`.
+  439. 	if (flags & (CLIENT_REDRAWWINDOW|CLIENT_REDRAWBORDERS)) {
+  440. 		if (ctx.pane_status != PANE_STATUS_OFF)
+  441. 			screen_redraw_draw_pane_status(&ctx);
+          ^
+  442. 		screen_redraw_draw_borders(&ctx);
+  443. 	}
+
+#153
+screen-redraw.c:448: error: Integer Overflow L2
+  ([0, `c->tty.sx`] - 1):unsigned32 by call to `screen_redraw_draw_status`.
+  446. 	if (ctx.statuslines != 0 &&
+  447. 	    (flags & (CLIENT_REDRAWSTATUS|CLIENT_REDRAWSTATUSALWAYS)))
+  448. 		screen_redraw_draw_status(&ctx);
+         ^
+  449. 	if (c->overlay_draw != NULL && (flags & CLIENT_REDRAWOVERLAY))
+  450. 		c->overlay_draw(c, &ctx);
+
+#154
+screen-redraw.c:442: error: Integer Overflow L2
+  ([0, `c->tty.sy`] - 1):unsigned32 by call to `screen_redraw_draw_borders`.
+  440. 		if (ctx.pane_status != PANE_STATUS_OFF)
+  441. 			screen_redraw_draw_pane_status(&ctx);
+  442. 		screen_redraw_draw_borders(&ctx);
+         ^
+  443. 	}
+  444. 	if (flags & CLIENT_REDRAWWINDOW)
+
+#155
+screen-redraw.c:441: error: Integer Overflow L2
+  ([0, `c->tty.sy`] - 1):unsigned32 by call to `screen_redraw_draw_pane_status`.
+  439. 	if (flags & (CLIENT_REDRAWWINDOW|CLIENT_REDRAWBORDERS)) {
+  440. 		if (ctx.pane_status != PANE_STATUS_OFF)
+  441. 			screen_redraw_draw_pane_status(&ctx);
+          ^
+  442. 		screen_redraw_draw_borders(&ctx);
+  443. 	}
+
+#156
+screen-redraw.c:448: error: Integer Overflow L2
+  ([0, `c->tty.sy`] - 1):unsigned32 by call to `screen_redraw_draw_status`.
+  446. 	if (ctx.statuslines != 0 &&
+  447. 	    (flags & (CLIENT_REDRAWSTATUS|CLIENT_REDRAWSTATUSALWAYS)))
+  448. 		screen_redraw_draw_status(&ctx);
+         ^
+  449. 	if (c->overlay_draw != NULL && (flags & CLIENT_REDRAWOVERLAY))
+  450. 		c->overlay_draw(c, &ctx);
+
+#157
+screen-redraw.c:442: error: Integer Overflow L2
+  ([0, `c->tty.sy`] - [0, max(1, `c->session->statuslines`)]):unsigned32 by call to `screen_redraw_draw_borders`.
+  440. 		if (ctx.pane_status != PANE_STATUS_OFF)
+  441. 			screen_redraw_draw_pane_status(&ctx);
+  442. 		screen_redraw_draw_borders(&ctx);
+         ^
+  443. 	}
+  444. 	if (flags & CLIENT_REDRAWWINDOW)
+
+#158
+mode-tree.c:457: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_build`.
+  455. 	screen_resize(s, sx, sy, 0);
+  456. 
+  457. 	mode_tree_build(mtd);
+        ^
+  458. 	mode_tree_draw(mtd);
+  459. 
+
+#159
+screen-write.c:471: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  469. 	screen_write_putc(ctx, &gc, 'l');
+  470. 	for (i = 1; i < nx - 1; i++)
+  471. 		screen_write_putc(ctx, &gc, 'q');
+         ^
+  472. 	screen_write_putc(ctx, &gc, 'k');
+  473. 
+
+#160
+screen-write.c:472: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  470. 	for (i = 1; i < nx - 1; i++)
+  471. 		screen_write_putc(ctx, &gc, 'q');
+  472. 	screen_write_putc(ctx, &gc, 'k');
+        ^
+  473. 
+  474. 	screen_write_set_cursor(ctx, cx, cy + ny - 1);
+
+#161
+screen-write.c:475: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  473. 
+  474. 	screen_write_set_cursor(ctx, cx, cy + ny - 1);
+  475. 	screen_write_putc(ctx, &gc, 'm');
+        ^
+  476. 	for (i = 1; i < nx - 1; i++)
+  477. 		screen_write_putc(ctx, &gc, 'q');
+
+#162
+status.c:497: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_cursormove`.
+  495. 	screen_write_start(&ctx, NULL, sl->active);
+  496. 	screen_write_fast_copy(&ctx, &sl->screen, 0, 0, c->tty.sx, lines - 1);
+  497. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+        ^
+  498. 	for (offset = 0; offset < c->tty.sx; offset++)
+  499. 		screen_write_putc(&ctx, &gc, ' ');
+
+#163
+status.c:500: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_cursormove`.
+  498. 	for (offset = 0; offset < c->tty.sx; offset++)
+  499. 		screen_write_putc(&ctx, &gc, ' ');
+  500. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+        ^
+  501. 	screen_write_nputs(&ctx, len, &gc, "%s", c->message_string);
+  502. 	screen_write_stop(&ctx);
+
+#164
+status.c:501: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_nputs`.
+  499. 		screen_write_putc(&ctx, &gc, ' ');
+  500. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+  501. 	screen_write_nputs(&ctx, len, &gc, "%s", c->message_string);
+        ^
+  502. 	screen_write_stop(&ctx);
+  503. 
+
+#165
+status.c:499: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_putc`.
+  497. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+  498. 	for (offset = 0; offset < c->tty.sx; offset++)
+  499. 		screen_write_putc(&ctx, &gc, ' ');
+         ^
+  500. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+  501. 	screen_write_nputs(&ctx, len, &gc, "%s", c->message_string);
+
+#166
+cmd-queue.c:524: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_add`.
+  522. 		if (wme == NULL || wme->mode != &window_view_mode)
+  523. 			window_pane_set_mode(wp, &window_view_mode, NULL, NULL);
+  524. 		window_copy_add(wp, "%s", msg);
+         ^
+  525. 	}
+  526. 
+
+#167
+screen-redraw.c:532: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_redraw_draw_borders_cell`.
+  530. 	for (j = 0; j < tty->sy - ctx->statuslines; j++) {
+  531. 		for (i = 0; i < tty->sx; i++) {
+  532. 			screen_redraw_draw_borders_cell(ctx, i, j,
+          ^
+  533. 			    &m_active_gc, &active_gc, &m_other_gc, &other_gc);
+  534. 		}
+
+#168
+window-tree.c:591: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_vline`.
+  589. 		data->right = cx + sx - 3;
+  590. 		screen_write_cursormove(ctx, cx + sx - 3, cy, 0);
+  591. 		screen_write_vline(ctx, sy, 0, 0);
+         ^
+  592. 		screen_write_cursormove(ctx, cx + sx - 1, cy + sy / 2, 0);
+  593. 		screen_write_puts(ctx, &grid_default_cell, ">");
+
+#169
+mode-tree.c:637: error: Integer Overflow L2
+  ([0, max(0, `mtd->screen.sel->sx`)] - 1):unsigned32 by call to `screen_write_box`.
+  635. 
+  636. 	screen_write_cursormove(&ctx, 0, h, 0);
+  637. 	screen_write_box(&ctx, w, sy - h);
+        ^
+  638. 
+  639. 	xasprintf(&text, " %s (sort: %s%s)", mti->name,
+
+#170
+screen-redraw.c:571: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_draw_line`.
+  569. 		y = c->tty.sy - ctx->statuslines;
+  570. 	for (i = 0; i < ctx->statuslines; i++)
+  571. 		tty_draw_line(tty, NULL, s, 0, i, UINT_MAX, 0, y + i);
+         ^
+  572. }
+  573. 
+
+#171
+screen-redraw.c:625: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_draw_line`.
+  623. 		    __func__, c->name, wp->id, i, j, x, y, width);
+  624. 
+  625. 		tty_draw_line(tty, wp, s, i, j, width, x, y);
+         ^
+  626. 	}
+  627. }
+
+#172
+window-copy.c:595: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `format_grid_word`.
+  593. 	}
+  594. 
+  595. 	s = format_grid_word(data->screen.grid, data->cx, data->cy);
+            ^
+  596. 	if (s != NULL) {
+  597. 		format_add(ft, "copy_cursor_word", "%s", s);
+
+#173
+window-copy.c:633: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_write_lines`.
+  631. 
+  632. 	screen_write_start(&ctx, NULL, s);
+  633. 	window_copy_write_lines(wme, &ctx, 0, screen_size_y(s) - 1);
+        ^
+  634. 	screen_write_stop(&ctx);
+  635. 
+
+#174
+status.c:649: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_cursormove`.
+  647. 	screen_write_start(&ctx, NULL, sl->active);
+  648. 	screen_write_fast_copy(&ctx, &sl->screen, 0, 0, c->tty.sx, lines - 1);
+  649. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+        ^
+  650. 	for (offset = 0; offset < c->tty.sx; offset++)
+  651. 		screen_write_putc(&ctx, &gc, ' ');
+
+#175
+status.c:652: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_cursormove`.
+  650. 	for (offset = 0; offset < c->tty.sx; offset++)
+  651. 		screen_write_putc(&ctx, &gc, ' ');
+  652. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+        ^
+  653. 	screen_write_nputs(&ctx, start, &gc, "%s", c->prompt_string);
+  654. 	screen_write_cursormove(&ctx, start, lines - 1, 0);
+
+#176
+status.c:653: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_nputs`.
+  651. 		screen_write_putc(&ctx, &gc, ' ');
+  652. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+  653. 	screen_write_nputs(&ctx, start, &gc, "%s", c->prompt_string);
+        ^
+  654. 	screen_write_cursormove(&ctx, start, lines - 1, 0);
+  655. 
+
+#177
+status.c:651: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_putc`.
+  649. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+  650. 	for (offset = 0; offset < c->tty.sx; offset++)
+  651. 		screen_write_putc(&ctx, &gc, ' ');
+         ^
+  652. 	screen_write_cursormove(&ctx, 0, lines - 1, 0);
+  653. 	screen_write_nputs(&ctx, start, &gc, "%s", c->prompt_string);
+
+#178
+session.c:680: error: Integer Overflow L1
+  (0 - 1):unsigned32 by call to `winlink_remove`.
+  678. 		if (wl2 == NULL)
+  679. 			notify_session_window("window-unlinked", s, wl->window);
+  680. 		winlink_remove(&old_windows, wl);
+         ^
+  681. 	}
+  682. }
+
+#179
+window-tree.c:724: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_vline`.
+  722. 		data->right = cx + sx - 3;
+  723. 		screen_write_cursormove(ctx, cx + sx - 3, cy, 0);
+  724. 		screen_write_vline(ctx, sy, 0, 0);
+         ^
+  725. 		screen_write_cursormove(ctx, cx + sx - 1, cy + sy / 2, 0);
+  726. 		screen_write_puts(ctx, &grid_default_cell, ">");
+
+#180
+window.c:664: error: Buffer Overrun L3
+  Offset: [-1, +oo] Size: 65 by call to `window_pane_create`.
+  662. 		other = w->active;
+  663. 
+  664. 	wp = window_pane_create(w, w->sx, w->sy, hlimit);
+             ^
+  665. 	if (TAILQ_EMPTY(&w->panes)) {
+  666. 		log_debug("%s: @%u at start", __func__, w->id);
+
+#181
+tty-term.c:696: error: Buffer Overrun L2
+  Offset: [0, 130] Size: 128 by call to `strnvis`.
+  694. 		break;
+  695. 	case TTYCODE_STRING:
+  696. 		strnvis(out, term->codes[code].value.string, sizeof out,
+         ^
+  697. 		    VIS_OCTAL|VIS_CSTYLE|VIS_TAB|VIS_NL);
+  698. 		xsnprintf(s, sizeof s, "%4u: %s: (string) %s",
+
+#182
+session.c:728: error: Integer Overflow L1
+  (0 - 1):unsigned32 by call to `winlink_remove`.
+  726. 	/* Free the old winlinks (reducing window references too). */
+  727. 	RB_FOREACH_SAFE(wl, winlinks, &old_wins, wl1)
+  728. 		winlink_remove(&old_wins, wl);
+         ^
+  729. }
+
+#183
+tty.c:710: error: Integer Overflow L2
+  ([0, `n`] - 1):unsigned32.
+  708. 		tty_putcode1(tty, code, n);
+  709. 	else {
+  710. 		while (n-- > 0)
+                ^
+  711. 			tty_putcode(tty, code1);
+  712. 	}
+
+#184
+mode-tree.c:751: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_search_set`.
+  749. 	}
+  750. 	mtd->search = xstrdup(s);
+  751. 	mode_tree_search_set(mtd);
+        ^
+  752. 
+  753. 	return (0);
+
+#185
+layout.c:771: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  769. 	/* Check new size will work for each child. */
+  770. 	if (lc->type == type) {
+  771. 		if (available < (count * 2) - 1)
+             ^
+  772. 			return (0);
+  773. 
+
+#186
+layout.c:783: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  781. 			new_size = layout_new_pane_size(w, previous, lcchild,
+  782. 			    type, size, count - idx, available);
+  783. 			if (idx == count - 1) {
+              ^
+  784. 				if (new_size > available)
+  785. 					return (0);
+
+#187
+mode-tree.c:778: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_build`.
+  776. 		mtd->filter = xstrdup(s);
+  777. 
+  778. 	mode_tree_build(mtd);
+        ^
+  779. 	mode_tree_draw(mtd);
+  780. 	mtd->wp->flags |= PANE_REDRAW;
+
+#188
+tty-keys.c:876: error: Uninitialized Value
+  The value read from ch was never initialized.
+  874. 
+  875. 		/* Type is M for press, m for release. */
+  876. 		sgr_type = ch;
+         ^
+  877. 		if (sgr_type == 'm')
+  878. 			b |= 3;
+
+#189
+grid.c:828: error: Uninitialized Value
+  The value read from s[_] was never initialized.
+  826. 			strlcat(buf, "\033[", len);
+  827. 		for (i = 0; i < n; i++) {
+  828. 			if (s[i] < 10)
+              ^
+  829. 				xsnprintf(tmp, sizeof tmp, "%d", s[i]);
+  830. 			else {
+
+#190
+grid.c:829: error: Uninitialized Value
+  The value read from s[_] was never initialized.
+  827. 		for (i = 0; i < n; i++) {
+  828. 			if (s[i] < 10)
+  829. 				xsnprintf(tmp, sizeof tmp, "%d", s[i]);
+           ^
+  830. 			else {
+  831. 				xsnprintf(tmp, sizeof tmp, "%d:%d", s[i] / 10,
+
+#191
+grid.c:846: error: Uninitialized Value
+  The value read from s[_] was never initialized.
+  844. 	if (nnewc != noldc ||
+  845. 	    memcmp(newc, oldc, nnewc * sizeof newc[0]) != 0 ||
+  846. 	    (n != 0 && s[0] == 0)) {
+                       ^
+  847. 		if (escape_c0)
+  848. 			strlcat(buf, "\\033[", len);
+
+#192
+grid.c:866: error: Uninitialized Value
+  The value read from s[_] was never initialized.
+  864. 	if (nnewc != noldc ||
+  865. 	    memcmp(newc, oldc, nnewc * sizeof newc[0]) != 0 ||
+  866. 	    (n != 0 && s[0] == 0)) {
+                       ^
+  867. 		if (escape_c0)
+  868. 			strlcat(buf, "\\033[", len);
+
+#193
+mode-tree.c:811: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_remove_ref`.
+  809. 
+  810. out:
+  811. 	mode_tree_remove_ref(mtd);
+        ^
+  812. 	free(mtm);
+  813. }
+
+#194
+layout.c:828: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  826. 			previous += lcchild->sy;
+  827. 	}
+  828. 	previous += (count - 1);
+        ^
+  829. 
+  830. 	/* And how much is available? */
+
+#195
+layout.c:844: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `layout_new_pane_size`.
+  842. 			lcchild->xoff = lc->xoff;
+  843. 		} else {
+  844. 			lcchild->sx = layout_new_pane_size(w, previous, lcchild,
+                        ^
+  845. 			    lc->type, lc->sx, count - idx, available);
+  846. 			available -= (lcchild->sx + 1);
+
+#196
+layout.c:851: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `layout_new_pane_size`.
+  849. 			lcchild->sy = lc->sy;
+  850. 		else {
+  851. 			lcchild->sy = layout_new_pane_size(w, previous, lcchild,
+                        ^
+  852. 			    lc->type, lc->sy, count - idx, available);
+  853. 			available -= (lcchild->sy + 1);
+
+#197
+input.c:843: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `screen_write_reset`.
+  841. 		else
+  842. 			screen_write_start(sctx, NULL, &wp->base);
+  843. 		screen_write_reset(sctx);
+         ^
+  844. 		screen_write_stop(sctx);
+  845. 	}
+
+#198
+input.c:843: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_reset`.
+  841. 		else
+  842. 			screen_write_start(sctx, NULL, &wp->base);
+  843. 		screen_write_reset(sctx);
+         ^
+  844. 		screen_write_stop(sctx);
+  845. 	}
+
+#199
+window-tree.c:890: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_build`.
+  888. 	mode_tree_zoom(data->data, args);
+  889. 
+  890. 	mode_tree_build(data->data);
+        ^
+  891. 	mode_tree_draw(data->data);
+  892. 
+
+#200
+layout.c:916: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  914. 		saved_size = sy;
+  915. 	if (size < 0)
+  916. 		size2 = ((saved_size + 1) / 2) - 1;
+         ^
+  917. 	else if (flags & SPAWN_BEFORE)
+  918. 		size2 = saved_size - size - 1;
+
+#201
+layout.c:925: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  923. 	else if (size2 > saved_size - 2)
+  924. 		size2 = saved_size - 2;
+  925. 	size1 = saved_size - 1 - size2;
+        ^
+  926. 
+  927. 	/* Which size are we using? */
+
+#202
+layout.c:923: error: Integer Overflow L2
+  ([0, +oo] - 2):unsigned32.
+  921. 	if (size2 < PANE_MINIMUM)
+  922. 		size2 = PANE_MINIMUM;
+  923. 	else if (size2 > saved_size - 2)
+                 ^
+  924. 		size2 = saved_size - 2;
+  925. 	size1 = saved_size - 1 - size2;
+
+#203
+layout.c:924: error: Integer Overflow L2
+  ([0, +oo] - 2):unsigned32.
+  922. 		size2 = PANE_MINIMUM;
+  923. 	else if (size2 > saved_size - 2)
+  924. 		size2 = saved_size - 2;
+         ^
+  925. 	size1 = saved_size - 1 - size2;
+  926. 
+
+#204
+input.c:946: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_collect_end`.
+  944. 		 */
+  945. 		if (itr->handler != input_print)
+  946. 			screen_write_collect_end(sctx);
+          ^
+  947. 
+  948. 		/*
+
+#205
+input.c:965: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_stop`.
+  963. 
+  964. 	/* Close the screen. */
+  965. 	screen_write_stop(sctx);
+        ^
+  966. }
+  967. 
+
+#206
+tty.c:914: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_draw_pane`.
+  912. 	if (ctx->ocy < ctx->orupper || ctx->ocy > ctx->orlower) {
+  913. 		for (i = ctx->ocy; i < screen_size_y(s); i++)
+  914. 			tty_draw_pane(tty, ctx, i);
+          ^
+  915. 	} else {
+  916. 		for (i = ctx->orupper; i <= ctx->orlower; i++)
+
+#207
+tty.c:917: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_draw_pane`.
+  915. 	} else {
+  916. 		for (i = ctx->orupper; i <= ctx->orlower; i++)
+  917. 			tty_draw_pane(tty, ctx, i);
+          ^
+  918. 	}
+  919. }
+
+#208
+cmd-find.c:1144: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `cmd_find_get_pane_with_session`.
+  1142. 		if (window == NULL && pane != NULL) {
+  1143. 			/* This will fill in winlink and window and pane. */
+  1144. 			if (cmd_find_get_pane_with_session(fs, pane) != 0)
+               ^
+  1145. 				goto no_pane;
+  1146. 			goto found;
+
+#209
+tty-keys.c:958: error: Uninitialized Value
+  The value read from terminator was never initialized.
+  956. 	if (end == len)
+  957. 		return (1);
+  958. 	*size = end + terminator;
+        ^
+  959. 
+  960. 	/* Skip the initial part. */
+
+#210
+window-tree.c:925: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_free`.
+  923. 
+  924. 	data->dead = 1;
+  925. 	mode_tree_free(data->data);
+        ^
+  926. 	window_tree_destroy(data);
+  927. }
+
+#211
+window-tree.c:934: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_resize`.
+  932. 	struct window_tree_modedata	*data = wme->data;
+  933. 
+  934. 	mode_tree_resize(data->data, sx, sy);
+        ^
+  935. }
+  936. 
+
+#212
+window-copy.c:964: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  962. 		window_copy_other_end(wme);
+  963. 
+  964. 	data->cy = screen_size_y(&data->screen) - 1;
+        ^
+  965. 	data->cx = window_copy_find_length(wme, data->cy);
+  966. 	data->oy = 0;
+
+#213
+input.c:1002: error: Buffer Overrun L2
+  Offset: [1, 24] Size: 24.
+  1000. 			}
+  1001. 		}
+  1002. 		ip = &ictx->param_list[++ictx->param_list_len];
+          ^
+  1003. 		if (ictx->param_list_len == nitems(ictx->param_list))
+  1004. 			return (-1);
+
+#214
+format.c:1002: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `format_grid_word`.
+  1000. 		return;
+  1001. 
+  1002. 	s = format_grid_word(wp->base.grid, x, y);
+             ^
+  1003. 	if (s != NULL)
+  1004. 		fe->value = s;
+
+#215
+window-tree.c:996: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_build`.
+  994. 
+  995. 	if (!data->dead) {
+  996. 		mode_tree_build(data->data);
+         ^
+  997. 		mode_tree_draw(data->data);
+  998. 		data->wp->flags |= PANE_REDRAW;
+
+#216
+window-tree.c:997: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_draw`.
+  995. 	if (!data->dead) {
+  996. 		mode_tree_build(data->data);
+  997. 		mode_tree_draw(data->data);
+         ^
+  998. 		data->wp->flags |= PANE_REDRAW;
+  999. 	}
+
+#217
+server-client.c:1156: error: Integer Overflow L2
+  ([0, `item->client->keytable->references` + 1] - 1):unsigned32 by call to `server_client_set_key_table`.
+  1154. 		} else {
+  1155. 			c->flags &= ~CLIENT_REPEAT;
+  1156. 			server_client_set_key_table(c, NULL);
+           ^
+  1157. 		}
+  1158. 		server_status_client(c);
+
+#218
+window-copy.c:1124: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  1122. 					break;
+  1123. 				}
+  1124. 				px = xx - 1;
+            ^
+  1125. 			} else
+  1126. 				px--;
+
+#219
+window-copy.c:1131: error: Uninitialized Value
+  The value read from found was never initialized.
+  1129. 			if (gc.data.size == 1 &&
+  1130. 			    (~gc.flags & GRID_FLAG_PADDING)) {
+  1131. 				if (*gc.data.data == found)
+                ^
+  1132. 					n++;
+  1133. 				else if (*gc.data.data == start)
+
+#220
+window-copy.c:1105: error: Uninitialized Value
+  The value read from open[_] was never initialized.
+  1103. 			continue;
+  1104. 		}
+  1105. 		start = open[cp - close];
+          ^
+  1106. 
+  1107. 		/* Walk backward until the matching bracket is reached. */
+
+#221
+tty.c:1169: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_clear_line`.
+  1167. 	/* Couldn't use an escape sequence, loop over the lines. */
+  1168. 	for (yy = py; yy < py + ny; yy++)
+  1169. 		tty_clear_line(tty, wp, yy, px, nx, bg);
+          ^
+  1170. }
+  1171. 
+
+#222
+window-tree.c:1136: error: Integer Overflow L1
+  (0 - 1):unsigned32 by call to `mode_tree_expand_current`.
+  1134. 		if (s == NULL)
+  1135. 			return (KEYC_NONE);
+  1136. 		mode_tree_expand_current(data->data);
+          ^
+  1137. 		loop = 0;
+  1138. 		RB_FOREACH(wl, winlinks, &s->windows) {
+
+#223
+window-tree.c:1144: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_set_current`.
+  1142. 		}
+  1143. 		if (wl != NULL)
+  1144. 			mode_tree_set_current(data->data, (uint64_t)wl);
+           ^
+  1145. 		return ('\r');
+  1146. 	}
+
+#224
+window-copy.c:1232: error: Uninitialized Value
+  The value read from close[_] was never initialized.
+  1230. 			goto retry;
+  1231. 		}
+  1232. 		end = close[cp - open];
+          ^
+  1233. 
+  1234. 		/* Walk forward until the matching bracket is reached. */
+
+#225
+window-copy.c:1252: error: Uninitialized Value
+  The value read from found was never initialized.
+  1250. 			if (gc.data.size == 1 &&
+  1251. 			    (~gc.flags & GRID_FLAG_PADDING)) {
+  1252. 				if (*gc.data.data == found)
+                ^
+  1253. 					n++;
+  1254. 				else if (*gc.data.data == end)
+
+#226
+cmd-parse.y:1242: error: Uninitialized Value
+  The value read from tmp was never initialized.
+  1240. 		return (0);
+  1241. 	}
+  1242. 	if (utf8_split(tmp, &ud) != UTF8_DONE) {
+             ^
+  1243. 		yyerror("invalid \\%c argument", type);
+  1244. 		return (0);
+
+#227
+cmd-parse.c:1167: error: Dead Store
+  The value written to &yymsg (type char const *) is never used.
+  1165.   YYUSE (yyvaluep);
+  1166.   if (!yymsg)
+  1167.     yymsg = "Deleting";
+            ^
+  1168.   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+  1169. 
+
+#228
+window-tree.c:1181: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `mode_tree_key`.
+  1179. 
+  1180. 	item = mode_tree_get_current(data->data);
+  1181. 	finished = mode_tree_key(data->data, c, &key, m, &x, &y);
+                    ^
+  1182. 	if (item != (new_item = mode_tree_get_current(data->data))) {
+  1183. 		item = new_item;
+
+#229
+cmd-parse.c:1267: error: Buffer Overrun L2
+  Offset: [-oo, 9999] Size: 200.
+  1265.   YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
+  1266.   YY_IGNORE_USELESS_CAST_BEGIN
+  1267.   *yyssp = YY_CAST (yy_state_t, yystate);
+          ^
+  1268.   YY_IGNORE_USELESS_CAST_END
+  1269. 
+
+#230
+cmd-parse.c:1971: error: Buffer Overrun L3
+  Offset: [-13, 18] Size: 19.
+  1969.   {
+  1970.     const int yylhs = yyr1[yyn] - YYNTOKENS;
+  1971.     const int yyi = yypgoto[yylhs] + *yyssp;
+                            ^
+  1972.     yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
+  1973.                ? yytable[yyi]
+
+#231
+cmd-parse.c:1347: error: Buffer Overrun L3
+  Offset: [-22, 64] Size: 65.
+  1345. 
+  1346.   /* First try to decide what to do without reference to lookahead token.  */
+  1347.   yyn = yypact[yystate];
+                ^
+  1348.   if (yypact_value_is_default (yyn))
+  1349.     goto yydefault;
+
+#232
+grid.c:1286: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `grid_reflow_join`.
+  1284. 		 */
+  1285. 		if (gl->flags & GRID_LINE_WRAPPED)
+  1286. 			grid_reflow_join(target, gd, sx, yy, width, 0);
+           ^
+  1287. 		else
+  1288. 			grid_reflow_move(target, gl);
+
+#233
+grid.c:1277: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `grid_reflow_split`.
+  1275. 		 */
+  1276. 		if (width > sx) {
+  1277. 			grid_reflow_split(target, gd, sx, yy, at);
+           ^
+  1278. 			continue;
+  1279. 		}
+
+#234
+tty.c:1314: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_clear_line`.
+  1312. 			if (last.flags & GRID_FLAG_CLEARED) {
+  1313. 				log_debug("%s: %zu cleared", __func__, len);
+  1314. 				tty_clear_line(tty, wp, aty, atx + ux, width,
+            ^
+  1315. 				    last.bg);
+  1316. 			} else {
+
+#235
+tty.c:1286: error: Integer Overflow L2
+  ([0, `aty`] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor`.
+  1284. 		    !tty_fake_bce(tty, wp, 8)) {
+  1285. 			tty_default_attributes(tty, wp, 8);
+  1286. 			tty_cursor(tty, nx - 1, aty);
+           ^
+  1287. 			tty_putcode(tty, TTYC_EL1);
+  1288. 			cleared = 1;
+
+#236
+tty.c:1286: error: Integer Overflow L2
+  ([0, `tty->sx` - 1] - 1):unsigned32.
+  1284. 		    !tty_fake_bce(tty, wp, 8)) {
+  1285. 			tty_default_attributes(tty, wp, 8);
+  1286. 			tty_cursor(tty, nx - 1, aty);
+           ^
+  1287. 			tty_putcode(tty, TTYC_EL1);
+  1288. 			cleared = 1;
+
+#237
+tty.c:1286: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1284. 		    !tty_fake_bce(tty, wp, 8)) {
+  1285. 			tty_default_attributes(tty, wp, 8);
+  1286. 			tty_cursor(tty, nx - 1, aty);
+           ^
+  1287. 			tty_putcode(tty, TTYC_EL1);
+  1288. 			cleared = 1;
+
+#238
+tty.c:1286: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1284. 		    !tty_fake_bce(tty, wp, 8)) {
+  1285. 			tty_default_attributes(tty, wp, 8);
+  1286. 			tty_cursor(tty, nx - 1, aty);
+           ^
+  1287. 			tty_putcode(tty, TTYC_EL1);
+  1288. 			cleared = 1;
+
+#239
+tty.c:1286: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1284. 		    !tty_fake_bce(tty, wp, 8)) {
+  1285. 			tty_default_attributes(tty, wp, 8);
+  1286. 			tty_cursor(tty, nx - 1, aty);
+           ^
+  1287. 			tty_putcode(tty, TTYC_EL1);
+  1288. 			cleared = 1;
+
+#240
+tty.c:1286: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1284. 		    !tty_fake_bce(tty, wp, 8)) {
+  1285. 			tty_default_attributes(tty, wp, 8);
+  1286. 			tty_cursor(tty, nx - 1, aty);
+           ^
+  1287. 			tty_putcode(tty, TTYC_EL1);
+  1288. 			cleared = 1;
+
+#241
+server-client.c:1271: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `server_client_check_redraw`.
+  1269. 		server_client_check_exit(c);
+  1270. 		if (c->session != NULL) {
+  1271. 			server_client_check_redraw(c);
+           ^
+  1272. 			server_client_reset_state(c);
+  1273. 		}
+
+#242
+server-client.c:1310: error: Integer Overflow L1
+  (0 - 1):unsigned32 by call to `check_window_name`.
+  1308. 			wp->flags &= ~PANE_REDRAW;
+  1309. 		}
+  1310. 		check_window_name(w);
+          ^
+  1311. 	}
+  1312. }
+
+#243
+server-client.c:1271: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `server_client_check_redraw`.
+  1269. 		server_client_check_exit(c);
+  1270. 		if (c->session != NULL) {
+  1271. 			server_client_check_redraw(c);
+           ^
+  1272. 			server_client_reset_state(c);
+  1273. 		}
+
+#244
+window.c:1300: error: Dead Store
+  The value written to &flags (type int) is never used.
+  1298. 	if (!regex) {
+  1299. 		if (ignore)
+  1300. 			flags |= FNM_CASEFOLD;
+           ^
+  1301. 		xasprintf(&new, "*%s*", term);
+  1302. 	} else {
+
+#245
+input.c:1525: error: Buffer Overrun L2
+  Offset: [4, 27] Size: 24 by call to `input_csi_dispatch_sgr`.
+  1523. 		break;
+  1524. 	case INPUT_CSI_SGR:
+  1525. 		input_csi_dispatch_sgr(ictx);
+          ^
+  1526. 		break;
+  1527. 	case INPUT_CSI_SM:
+
+#246
+input.c:1370: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_cursordown`.
+  1368. 		if (n != -1) {
+  1369. 			screen_write_carriagereturn(sctx);
+  1370. 			screen_write_cursordown(sctx, n);
+           ^
+  1371. 		}
+  1372. 		break;
+
+#247
+input.c:1510: error: Integer Overflow L2
+  ([0, max(0, `ictx->ctx.s->sel->sx`)] - 1):unsigned32 by call to `input_print`.
+  1508. 
+  1509. 		for (i = 0; i < n; i++)
+  1510. 			input_print(ictx);
+           ^
+  1511. 		break;
+  1512. 	case INPUT_CSI_RCP:
+
+#248
+window.c:1394: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  1392. 		if (next->yoff + next->sy + 1 != edge)
+  1393. 			continue;
+  1394. 		end = next->xoff + next->sx - 1;
+          ^
+  1395. 
+  1396. 		found = 0;
+
+#249
+window.c:1451: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  1449. 		if (next->yoff != edge)
+  1450. 			continue;
+  1451. 		end = next->xoff + next->sx - 1;
+          ^
+  1452. 
+  1453. 		found = 0;
+
+#250
+server-client.c:1506: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `c->tty.cy`)]):unsigned32 by call to `tty_cursor`.
+  1504. 	if (!cursor)
+  1505. 		mode &= ~MODE_CURSOR;
+  1506. 	tty_cursor(&c->tty, cx, cy);
+         ^
+  1507. 
+  1508. 	/*
+
+#251
+server-client.c:1506: error: Integer Overflow L2
+  ([min(1, `c->tty.cx`), 1+max(4294967295, `c->tty.cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1504. 	if (!cursor)
+  1505. 		mode &= ~MODE_CURSOR;
+  1506. 	tty_cursor(&c->tty, cx, cy);
+         ^
+  1507. 
+  1508. 	/*
+
+#252
+server-client.c:1506: error: Integer Overflow L2
+  ([min(4294967295, `c->tty.cx`), max(4294967295, `c->tty.cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1504. 	if (!cursor)
+  1505. 		mode &= ~MODE_CURSOR;
+  1506. 	tty_cursor(&c->tty, cx, cy);
+         ^
+  1507. 
+  1508. 	/*
+
+#253
+server-client.c:1506: error: Integer Overflow L2
+  ([min(4294967295, `c->tty.cy`), 1+max(4294967295, `c->tty.cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1504. 	if (!cursor)
+  1505. 		mode &= ~MODE_CURSOR;
+  1506. 	tty_cursor(&c->tty, cx, cy);
+         ^
+  1507. 
+  1508. 	/*
+
+#254
+server-client.c:1506: error: Integer Overflow L2
+  ([min(4294967295, `c->tty.cy`), max(4294967295, `c->tty.cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1504. 	if (!cursor)
+  1505. 		mode &= ~MODE_CURSOR;
+  1506. 	tty_cursor(&c->tty, cx, cy);
+         ^
+  1507. 
+  1508. 	/*
+
+#255
+window.c:1499: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  1497. 		if (next->xoff + next->sx + 1 != edge)
+  1498. 			continue;
+  1499. 		end = next->yoff + next->sy - 1;
+          ^
+  1500. 
+  1501. 		found = 0;
+
+#256
+tty.c:1501: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor_pane`.
+  1499. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1500. 	tty_margin_off(tty);
+  1501. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1502. 
+  1503. 	tty_emulate_repeat(tty, TTYC_IL, TTYC_IL1, ctx->num);
+
+#257
+tty.c:1501: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1499. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1500. 	tty_margin_off(tty);
+  1501. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1502. 
+  1503. 	tty_emulate_repeat(tty, TTYC_IL, TTYC_IL1, ctx->num);
+
+#258
+tty.c:1501: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1499. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1500. 	tty_margin_off(tty);
+  1501. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1502. 
+  1503. 	tty_emulate_repeat(tty, TTYC_IL, TTYC_IL1, ctx->num);
+
+#259
+tty.c:1501: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1499. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1500. 	tty_margin_off(tty);
+  1501. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1502. 
+  1503. 	tty_emulate_repeat(tty, TTYC_IL, TTYC_IL1, ctx->num);
+
+#260
+tty.c:1501: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1499. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1500. 	tty_margin_off(tty);
+  1501. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1502. 
+  1503. 	tty_emulate_repeat(tty, TTYC_IL, TTYC_IL1, ctx->num);
+
+#261
+tty.c:1525: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor_pane`.
+  1523. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1524. 	tty_margin_off(tty);
+  1525. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1526. 
+  1527. 	tty_emulate_repeat(tty, TTYC_DL, TTYC_DL1, ctx->num);
+
+#262
+tty.c:1525: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1523. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1524. 	tty_margin_off(tty);
+  1525. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1526. 
+  1527. 	tty_emulate_repeat(tty, TTYC_DL, TTYC_DL1, ctx->num);
+
+#263
+tty.c:1525: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1523. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1524. 	tty_margin_off(tty);
+  1525. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1526. 
+  1527. 	tty_emulate_repeat(tty, TTYC_DL, TTYC_DL1, ctx->num);
+
+#264
+tty.c:1525: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1523. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1524. 	tty_margin_off(tty);
+  1525. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1526. 
+  1527. 	tty_emulate_repeat(tty, TTYC_DL, TTYC_DL1, ctx->num);
+
+#265
+tty.c:1525: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1523. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1524. 	tty_margin_off(tty);
+  1525. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1526. 
+  1527. 	tty_emulate_repeat(tty, TTYC_DL, TTYC_DL1, ctx->num);
+
+#266
+window.c:1547: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  1545. 		if (next->xoff != edge)
+  1546. 			continue;
+  1547. 		end = next->yoff + next->sy - 1;
+          ^
+  1548. 
+  1549. 		found = 0;
+
+#267
+server-client.c:1538: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `server_client_set_key_table`.
+  1536. 
+  1537. 	if (c->flags & CLIENT_REPEAT) {
+  1538. 		server_client_set_key_table(c, NULL);
+          ^
+  1539. 		c->flags &= ~CLIENT_REPEAT;
+  1540. 		server_status_client(c);
+
+#268
+tty.c:1589: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor_pane`.
+  1587. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1588. 	tty_margin_pane(tty, ctx);
+  1589. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1590. 
+  1591. 	if (tty_term_has(tty->term, TTYC_RI))
+
+#269
+tty.c:1589: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1587. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1588. 	tty_margin_pane(tty, ctx);
+  1589. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1590. 
+  1591. 	if (tty_term_has(tty->term, TTYC_RI))
+
+#270
+tty.c:1589: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1587. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1588. 	tty_margin_pane(tty, ctx);
+  1589. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1590. 
+  1591. 	if (tty_term_has(tty->term, TTYC_RI))
+
+#271
+tty.c:1589: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1587. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1588. 	tty_margin_pane(tty, ctx);
+  1589. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1590. 
+  1591. 	if (tty_term_has(tty->term, TTYC_RI))
+
+#272
+tty.c:1589: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1587. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1588. 	tty_margin_pane(tty, ctx);
+  1589. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1590. 
+  1591. 	if (tty_term_has(tty->term, TTYC_RI))
+
+#273
+window.c:1604: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `server_unlink_window`.
+  1602. 		wl = winlink_find_by_index(&s->windows, last - 1);
+  1603. 		server_link_window(s, wl, s, last, 0, 0, NULL);
+  1604. 		server_unlink_window(s, wl);
+          ^
+  1605. 	}
+  1606. 
+
+#274
+tty.c:1633: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor_pane`.
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+          ^
+  1634. 
+  1635. 	tty_putc(tty, '\n');
+
+#275
+tty.c:1629: error: Integer Overflow L2
+  ([0, `ctx->ocy` + `ctx->yoff`] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor`.
+  1627. 	if (ctx->xoff + ctx->ocx > tty->rright) {
+  1628. 		if (!tty_use_margin(tty))
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+           ^
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+
+#276
+tty.c:1631: error: Integer Overflow L2
+  ([0, `ctx->ocy` + `ctx->yoff`] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor`.
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+           ^
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+
+#277
+tty.c:1633: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+          ^
+  1634. 
+  1635. 	tty_putc(tty, '\n');
+
+#278
+tty.c:1629: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1627. 	if (ctx->xoff + ctx->ocx > tty->rright) {
+  1628. 		if (!tty_use_margin(tty))
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+           ^
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+
+#279
+tty.c:1631: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+           ^
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+
+#280
+tty.c:1633: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+          ^
+  1634. 
+  1635. 	tty_putc(tty, '\n');
+
+#281
+tty.c:1629: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1627. 	if (ctx->xoff + ctx->ocx > tty->rright) {
+  1628. 		if (!tty_use_margin(tty))
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+           ^
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+
+#282
+tty.c:1631: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+           ^
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+
+#283
+tty.c:1633: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+          ^
+  1634. 
+  1635. 	tty_putc(tty, '\n');
+
+#284
+tty.c:1629: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1627. 	if (ctx->xoff + ctx->ocx > tty->rright) {
+  1628. 		if (!tty_use_margin(tty))
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+           ^
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+
+#285
+tty.c:1631: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+           ^
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+
+#286
+tty.c:1633: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+          ^
+  1634. 
+  1635. 	tty_putc(tty, '\n');
+
+#287
+tty.c:1629: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1627. 	if (ctx->xoff + ctx->ocx > tty->rright) {
+  1628. 		if (!tty_use_margin(tty))
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+           ^
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+
+#288
+tty.c:1631: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1629. 			tty_cursor(tty, 0, ctx->yoff + ctx->ocy);
+  1630. 		else
+  1631. 			tty_cursor(tty, tty->rright, ctx->yoff + ctx->ocy);
+           ^
+  1632. 	} else
+  1633. 		tty_cursor_pane(tty, ctx, ctx->ocx, ctx->ocy);
+
+#289
+input.c:1648: error: Buffer Overrun L3
+  Offset: [1, +oo] Size: [0, +oo] by call to `window_pane_alternate_off`.
+  1646. 		case 47:
+  1647. 		case 1047:
+  1648. 			window_pane_alternate_off(wp, &ictx->cell.cell, 0);
+           ^
+  1649. 			break;
+  1650. 		case 1049:
+
+#290
+input.c:1648: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_pane_alternate_off`.
+  1646. 		case 47:
+  1647. 		case 1047:
+  1648. 			window_pane_alternate_off(wp, &ictx->cell.cell, 0);
+           ^
+  1649. 			break;
+  1650. 		case 1049:
+
+#291
+tty.c:1661: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor`.
+  1659. 	if (ctx->num == 1 || !tty_term_has(tty->term, TTYC_INDN)) {
+  1660. 		if (!tty_use_margin(tty))
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+           ^
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+
+#292
+tty.c:1663: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor`.
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+           ^
+  1664. 		for (i = 0; i < ctx->num; i++)
+  1665. 			tty_putc(tty, '\n');
+
+#293
+tty.c:1667: error: Integer Overflow L2
+  ([0, max(4294967295, `tty->cy`)] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor`.
+  1665. 			tty_putc(tty, '\n');
+  1666. 	} else {
+  1667. 		tty_cursor(tty, 0, tty->cy);
+          ^
+  1668. 		tty_putcode1(tty, TTYC_INDN, ctx->num);
+  1669. 	}
+
+#294
+tty.c:1661: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1659. 	if (ctx->num == 1 || !tty_term_has(tty->term, TTYC_INDN)) {
+  1660. 		if (!tty_use_margin(tty))
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+           ^
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+
+#295
+tty.c:1663: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+           ^
+  1664. 		for (i = 0; i < ctx->num; i++)
+  1665. 			tty_putc(tty, '\n');
+
+#296
+tty.c:1667: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1665. 			tty_putc(tty, '\n');
+  1666. 	} else {
+  1667. 		tty_cursor(tty, 0, tty->cy);
+          ^
+  1668. 		tty_putcode1(tty, TTYC_INDN, ctx->num);
+  1669. 	}
+
+#297
+tty.c:1661: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1659. 	if (ctx->num == 1 || !tty_term_has(tty->term, TTYC_INDN)) {
+  1660. 		if (!tty_use_margin(tty))
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+           ^
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+
+#298
+tty.c:1663: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+           ^
+  1664. 		for (i = 0; i < ctx->num; i++)
+  1665. 			tty_putc(tty, '\n');
+
+#299
+tty.c:1667: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor`.
+  1665. 			tty_putc(tty, '\n');
+  1666. 	} else {
+  1667. 		tty_cursor(tty, 0, tty->cy);
+          ^
+  1668. 		tty_putcode1(tty, TTYC_INDN, ctx->num);
+  1669. 	}
+
+#300
+tty.c:1661: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1659. 	if (ctx->num == 1 || !tty_term_has(tty->term, TTYC_INDN)) {
+  1660. 		if (!tty_use_margin(tty))
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+           ^
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+
+#301
+tty.c:1663: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+           ^
+  1664. 		for (i = 0; i < ctx->num; i++)
+  1665. 			tty_putc(tty, '\n');
+
+#302
+tty.c:1667: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1665. 			tty_putc(tty, '\n');
+  1666. 	} else {
+  1667. 		tty_cursor(tty, 0, tty->cy);
+          ^
+  1668. 		tty_putcode1(tty, TTYC_INDN, ctx->num);
+  1669. 	}
+
+#303
+tty.c:1661: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1659. 	if (ctx->num == 1 || !tty_term_has(tty->term, TTYC_INDN)) {
+  1660. 		if (!tty_use_margin(tty))
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+           ^
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+
+#304
+tty.c:1663: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1661. 			tty_cursor(tty, 0, tty->rlower);
+  1662. 		else
+  1663. 			tty_cursor(tty, tty->rright, tty->rlower);
+           ^
+  1664. 		for (i = 0; i < ctx->num; i++)
+  1665. 			tty_putc(tty, '\n');
+
+#305
+tty.c:1667: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor`.
+  1665. 			tty_putc(tty, '\n');
+  1666. 	} else {
+  1667. 		tty_cursor(tty, 0, tty->cy);
+          ^
+  1668. 		tty_putcode1(tty, TTYC_INDN, ctx->num);
+  1669. 	}
+
+#306
+tty.c:1694: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor_pane`.
+  1692. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1693. 	tty_margin_pane(tty, ctx);
+  1694. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1695. 
+  1696. 	if (tty_term_has(tty->term, TTYC_RIN))
+
+#307
+tty.c:1694: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1692. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1693. 	tty_margin_pane(tty, ctx);
+  1694. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1695. 
+  1696. 	if (tty_term_has(tty->term, TTYC_RIN))
+
+#308
+tty.c:1694: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1692. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1693. 	tty_margin_pane(tty, ctx);
+  1694. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1695. 
+  1696. 	if (tty_term_has(tty->term, TTYC_RIN))
+
+#309
+tty.c:1694: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1692. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1693. 	tty_margin_pane(tty, ctx);
+  1694. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1695. 
+  1696. 	if (tty_term_has(tty->term, TTYC_RIN))
+
+#310
+tty.c:1694: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane`.
+  1692. 	tty_region_pane(tty, ctx, ctx->orupper, ctx->orlower);
+  1693. 	tty_margin_pane(tty, ctx);
+  1694. 	tty_cursor_pane(tty, ctx, ctx->ocx, ctx->orupper);
+         ^
+  1695. 
+  1696. 	if (tty_term_has(tty->term, TTYC_RIN))
+
+#311
+server-client.c:1719: error: Dead Store
+  The value written to &data (type char const *) is never used.
+  1717. 	}
+  1718. 
+  1719. 	data = imsg->data;
+         ^
+  1720. 	datalen = imsg->hdr.len - IMSG_HEADER_SIZE;
+  1721. 
+
+#312
+server-client.c:1715: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `server_client_lost`.
+  1713. 
+  1714. 	if (imsg == NULL) {
+  1715. 		server_client_lost(c);
+          ^
+  1716. 		return;
+  1717. 	}
+
+#313
+tty.c:1726: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_clear_pane_line`.
+  1724. 	py = ctx->ocy;
+  1725. 
+  1726. 	tty_clear_pane_line(tty, ctx, py, px, nx, ctx->bg);
+         ^
+  1727. }
+  1728. 
+
+#314
+tty.c:1720: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_clear_pane_area`.
+  1718. 	ny = screen_size_y(wp->screen) - ctx->ocy - 1;
+  1719. 
+  1720. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1721. 
+  1722. 	px = ctx->ocx;
+
+#315
+tty.c:1720: error: Integer Overflow L2
+  ([0, max(4294967295, `tty->cy`)] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_clear_pane_area`.
+  1718. 	ny = screen_size_y(wp->screen) - ctx->ocy - 1;
+  1719. 
+  1720. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1721. 
+  1722. 	px = ctx->ocx;
+
+#316
+tty.c:1720: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1718. 	ny = screen_size_y(wp->screen) - ctx->ocy - 1;
+  1719. 
+  1720. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1721. 
+  1722. 	px = ctx->ocx;
+
+#317
+tty.c:1720: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1718. 	ny = screen_size_y(wp->screen) - ctx->ocy - 1;
+  1719. 
+  1720. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1721. 
+  1722. 	px = ctx->ocx;
+
+#318
+tty.c:1720: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1718. 	ny = screen_size_y(wp->screen) - ctx->ocy - 1;
+  1719. 
+  1720. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1721. 
+  1722. 	px = ctx->ocx;
+
+#319
+tty.c:1720: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1718. 	ny = screen_size_y(wp->screen) - ctx->ocy - 1;
+  1719. 
+  1720. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1721. 
+  1722. 	px = ctx->ocx;
+
+#320
+tty.c:1751: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_clear_pane_line`.
+  1749. 	py = ctx->ocy;
+  1750. 
+  1751. 	tty_clear_pane_line(tty, ctx, py, px, nx, ctx->bg);
+         ^
+  1752. }
+  1753. 
+
+#321
+tty.c:1745: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_clear_pane_area`.
+  1743. 	ny = ctx->ocy;
+  1744. 
+  1745. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1746. 
+  1747. 	px = 0;
+
+#322
+tty.c:1745: error: Integer Overflow L2
+  ([0, max(4294967295, `tty->cy`)] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_clear_pane_area`.
+  1743. 	ny = ctx->ocy;
+  1744. 
+  1745. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1746. 
+  1747. 	px = 0;
+
+#323
+tty.c:1745: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1743. 	ny = ctx->ocy;
+  1744. 
+  1745. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1746. 
+  1747. 	px = 0;
+
+#324
+tty.c:1745: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1743. 	ny = ctx->ocy;
+  1744. 
+  1745. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1746. 
+  1747. 	px = 0;
+
+#325
+tty.c:1745: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1743. 	ny = ctx->ocy;
+  1744. 
+  1745. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1746. 
+  1747. 	px = 0;
+
+#326
+tty.c:1745: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1743. 	ny = ctx->ocy;
+  1744. 
+  1745. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1746. 
+  1747. 	px = 0;
+
+#327
+tty.c:1770: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_clear_pane_area`.
+  1768. 	ny = screen_size_y(wp->screen);
+  1769. 
+  1770. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1771. }
+  1772. 
+
+#328
+tty.c:1770: error: Integer Overflow L2
+  ([0, max(4294967295, `tty->cy`)] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_clear_pane_area`.
+  1768. 	ny = screen_size_y(wp->screen);
+  1769. 
+  1770. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1771. }
+  1772. 
+
+#329
+tty.c:1770: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1768. 	ny = screen_size_y(wp->screen);
+  1769. 
+  1770. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1771. }
+  1772. 
+
+#330
+tty.c:1770: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1768. 	ny = screen_size_y(wp->screen);
+  1769. 
+  1770. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1771. }
+  1772. 
+
+#331
+tty.c:1770: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1768. 	ny = screen_size_y(wp->screen);
+  1769. 
+  1770. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1771. }
+  1772. 
+
+#332
+tty.c:1770: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_clear_pane_area`.
+  1768. 	ny = screen_size_y(wp->screen);
+  1769. 
+  1770. 	tty_clear_pane_area(tty, ctx, py, ny, px, nx, ctx->bg);
+         ^
+  1771. }
+  1772. 
+
+#333
+tty.c:1791: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_cursor_pane`.
+  1789. 
+  1790. 	for (j = 0; j < screen_size_y(s); j++) {
+  1791. 		tty_cursor_pane(tty, ctx, 0, j);
+          ^
+  1792. 		for (i = 0; i < screen_size_x(s); i++)
+  1793. 			tty_putc(tty, 'E');
+
+#334
+tty.c:1809: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1807. 
+  1808. 	tty_margin_off(tty);
+  1809. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1810. 
+  1811. 	tty_cell(tty, ctx->cell, ctx->wp);
+
+#335
+tty.c:1809: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1807. 
+  1808. 	tty_margin_off(tty);
+  1809. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1810. 
+  1811. 	tty_cell(tty, ctx->cell, ctx->wp);
+
+#336
+tty.c:1809: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1807. 
+  1808. 	tty_margin_off(tty);
+  1809. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1810. 
+  1811. 	tty_cell(tty, ctx->cell, ctx->wp);
+
+#337
+tty.c:1809: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1807. 
+  1808. 	tty_margin_off(tty);
+  1809. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1810. 
+  1811. 	tty_cell(tty, ctx->cell, ctx->wp);
+
+#338
+tty.c:1809: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1807. 
+  1808. 	tty_margin_off(tty);
+  1809. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1810. 
+  1811. 	tty_cell(tty, ctx->cell, ctx->wp);
+
+#339
+tty.c:1839: error: Integer Overflow L2
+  ([0, +oo] - [-oo, max(4294967295, `tty->cy`)]):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1837. 
+  1838. 	tty_margin_off(tty);
+  1839. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1840. 
+  1841. 	tty_attributes(tty, ctx->cell, ctx->wp);
+
+#340
+tty.c:1839: error: Integer Overflow L2
+  ([min(1, `tty->cx`), 1+max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1837. 
+  1838. 	tty_margin_off(tty);
+  1839. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1840. 
+  1841. 	tty_attributes(tty, ctx->cell, ctx->wp);
+
+#341
+tty.c:1839: error: Integer Overflow L2
+  ([min(4294967295, `tty->cx`), max(4294967295, `tty->cx`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1837. 
+  1838. 	tty_margin_off(tty);
+  1839. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1840. 
+  1841. 	tty_attributes(tty, ctx->cell, ctx->wp);
+
+#342
+tty.c:1839: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), 1+max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1837. 
+  1838. 	tty_margin_off(tty);
+  1839. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1840. 
+  1841. 	tty_attributes(tty, ctx->cell, ctx->wp);
+
+#343
+tty.c:1839: error: Integer Overflow L2
+  ([min(4294967295, `tty->cy`), max(4294967295, `tty->cy`)] + 1):unsigned32 by call to `tty_cursor_pane_unless_wrap`.
+  1837. 
+  1838. 	tty_margin_off(tty);
+  1839. 	tty_cursor_pane_unless_wrap(tty, ctx, ctx->ocx, ctx->ocy);
+         ^
+  1840. 
+  1841. 	tty_attributes(tty, ctx->cell, ctx->wp);
+
+#344
+input.c:1924: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1922. 		} else
+  1923. 			n++;
+  1924. 		log_debug("%s: %u = %d", __func__, n - 1, p[n - 1]);
+          ^
+  1925. 	}
+  1926. 	free(copy);
+
+#345
+input.c:1930: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1928. 	if (n == 0)
+  1929. 		return;
+  1930. 	if (p[0] == 4) {
+             ^
+  1931. 		if (n != 2)
+  1932. 			return;
+
+#346
+input.c:1934: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1932. 			return;
+  1933. 		switch (p[1]) {
+  1934. 		case 0:
+          ^
+  1935. 			gc->attr &= ~GRID_ATTR_ALL_UNDERSCORE;
+  1936. 			break;
+
+#347
+input.c:1937: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1935. 			gc->attr &= ~GRID_ATTR_ALL_UNDERSCORE;
+  1936. 			break;
+  1937. 		case 1:
+          ^
+  1938. 			gc->attr &= ~GRID_ATTR_ALL_UNDERSCORE;
+  1939. 			gc->attr |= GRID_ATTR_UNDERSCORE;
+
+#348
+input.c:1941: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1939. 			gc->attr |= GRID_ATTR_UNDERSCORE;
+  1940. 			break;
+  1941. 		case 2:
+          ^
+  1942. 			gc->attr &= ~GRID_ATTR_ALL_UNDERSCORE;
+  1943. 			gc->attr |= GRID_ATTR_UNDERSCORE_2;
+
+#349
+input.c:1945: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1943. 			gc->attr |= GRID_ATTR_UNDERSCORE_2;
+  1944. 			break;
+  1945. 		case 3:
+          ^
+  1946. 			gc->attr &= ~GRID_ATTR_ALL_UNDERSCORE;
+  1947. 			gc->attr |= GRID_ATTR_UNDERSCORE_3;
+
+#350
+input.c:1949: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1947. 			gc->attr |= GRID_ATTR_UNDERSCORE_3;
+  1948. 			break;
+  1949. 		case 4:
+          ^
+  1950. 			gc->attr &= ~GRID_ATTR_ALL_UNDERSCORE;
+  1951. 			gc->attr |= GRID_ATTR_UNDERSCORE_4;
+
+#351
+input.c:1953: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1951. 			gc->attr |= GRID_ATTR_UNDERSCORE_4;
+  1952. 			break;
+  1953. 		case 5:
+          ^
+  1954. 			gc->attr &= ~GRID_ATTR_ALL_UNDERSCORE;
+  1955. 			gc->attr |= GRID_ATTR_UNDERSCORE_5;
+
+#352
+input.c:1960: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1958. 		return;
+  1959. 	}
+  1960. 	if (n < 2 || (p[0] != 38 && p[0] != 48 && p[0] != 58))
+                       ^
+  1961. 		return;
+  1962. 	switch (p[1]) {
+
+#353
+input.c:1960: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1958. 		return;
+  1959. 	}
+  1960. 	if (n < 2 || (p[0] != 38 && p[0] != 48 && p[0] != 58))
+                                     ^
+  1961. 		return;
+  1962. 	switch (p[1]) {
+
+#354
+input.c:1960: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1958. 		return;
+  1959. 	}
+  1960. 	if (n < 2 || (p[0] != 38 && p[0] != 48 && p[0] != 58))
+                                                   ^
+  1961. 		return;
+  1962. 	switch (p[1]) {
+
+#355
+input.c:1963: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1961. 		return;
+  1962. 	switch (p[1]) {
+  1963. 	case 2:
+         ^
+  1964. 		if (n < 3)
+  1965. 			break;
+
+#356
+input.c:1972: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1970. 		if (n < i + 3)
+  1971. 			break;
+  1972. 		input_csi_dispatch_sgr_rgb_do(ictx, p[0], p[i], p[i + 1],
+          ^
+  1973. 		    p[i + 2]);
+  1974. 		break;
+
+#357
+input.c:1975: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1973. 		    p[i + 2]);
+  1974. 		break;
+  1975. 	case 5:
+         ^
+  1976. 		if (n < 3)
+  1977. 			break;
+
+#358
+input.c:1978: error: Uninitialized Value
+  The value read from p[_] was never initialized.
+  1976. 		if (n < 3)
+  1977. 			break;
+  1978. 		input_csi_dispatch_sgr_256_do(ictx, p[0], p[2]);
+          ^
+  1979. 		break;
+  1980. 	}
+
+#359
+tty.c:1938: error: Integer Overflow L1
+  (0 - 4294967295):unsigned32 by call to `tty_cursor`.
+  1936. 		tty_update_mode(tty, MODE_CURSOR, NULL);
+  1937. 
+  1938. 		tty_cursor(tty, 0, 0);
+          ^
+  1939. 		tty_region_off(tty);
+  1940. 		tty_margin_off(tty);
+
+#360
+tty.c:1938: error: Integer Overflow L1
+  (4294967295 + 1):unsigned32 by call to `tty_cursor`.
+  1936. 		tty_update_mode(tty, MODE_CURSOR, NULL);
+  1937. 
+  1938. 		tty_cursor(tty, 0, 0);
+          ^
+  1939. 		tty_region_off(tty);
+  1940. 		tty_margin_off(tty);
+
+#361
+tty.c:1938: error: Integer Overflow L1
+  ([4294967295, 4294967296] + 1):unsigned32 by call to `tty_cursor`.
+  1936. 		tty_update_mode(tty, MODE_CURSOR, NULL);
+  1937. 
+  1938. 		tty_cursor(tty, 0, 0);
+          ^
+  1939. 		tty_region_off(tty);
+  1940. 		tty_margin_off(tty);
+
+#362
+tty.c:1939: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `tty_region_off`.
+  1937. 
+  1938. 		tty_cursor(tty, 0, 0);
+  1939. 		tty_region_off(tty);
+          ^
+  1940. 		tty_margin_off(tty);
+  1941. 	} else
+
+#363
+tty.c:1938: error: Integer Overflow L2
+  ([1, 4294967296] + 1):unsigned32 by call to `tty_cursor`.
+  1936. 		tty_update_mode(tty, MODE_CURSOR, NULL);
+  1937. 
+  1938. 		tty_cursor(tty, 0, 0);
+          ^
+  1939. 		tty_region_off(tty);
+  1940. 		tty_margin_off(tty);
+
+#364
+format.c:2192: error: Buffer Overrun L3
+  Offset: [2, +oo] (<= [0, +oo] + 2) Size: [1, +oo] by call to `format_replace`.
+  2190. 
+  2191. 			format_log(ft, "found #{}: %.*s", (int)n, fmt);
+  2192. 			if (format_replace(ft, fmt, n, &buf, &len, &off) != 0)
+               ^
+  2193. 				break;
+  2194. 			fmt += n + 1;
+
+#365
+format.c:2192: error: Buffer Overrun L3
+  Offset: [2, +oo] (<= [1, +oo] + 1) Size: [1, +oo] by call to `format_replace`.
+  2190. 
+  2191. 			format_log(ft, "found #{}: %.*s", (int)n, fmt);
+  2192. 			if (format_replace(ft, fmt, n, &buf, &len, &off) != 0)
+               ^
+  2193. 				break;
+  2194. 			fmt += n + 1;
+
+#366
+format.c:2223: error: Buffer Overrun L3
+  Offset: [2, +oo] Size: [1, +oo] by call to `format_replace`.
+  2221. 			n = strlen(s);
+  2222. 			format_log(ft, "found #%c: %s", ch, s);
+  2223. 			if (format_replace(ft, s, n, &buf, &len, &off) != 0)
+               ^
+  2224. 				break;
+  2225. 			continue;
+
+#367
+window-copy.c:2139: error: Integer Overflow L2
+  ([0, `last`] - 1):unsigned32.
+  2137. 
+  2138. 	endline = gd->hsize + gd->sy - 1;
+  2139. 	for (ax = last; ax > first; ax--) {
+                                     ^
+  2140. 		for (bx = 0; bx < sgd->sx; bx++) {
+  2141. 			px = ax - 1 + bx;
+
+#368
+window-copy.c:2141: error: Integer Overflow L2
+  ([0, `last`] - 1):unsigned32.
+  2139. 	for (ax = last; ax > first; ax--) {
+  2140. 		for (bx = 0; bx < sgd->sx; bx++) {
+  2141. 			px = ax - 1 + bx;
+           ^
+  2142. 			pywrap = py;
+  2143. 			/* Wrap line. */
+
+#369
+window-copy.c:2160: error: Integer Overflow L2
+  ([0, `last`] - 1):unsigned32.
+  2158. 		}
+  2159. 		if (bx == sgd->sx) {
+  2160. 			*ppx = ax - 1;
+           ^
+  2161. 			return (1);
+  2162. 		}
+
+#370
+window-copy.c:2214: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_stringify`.
+  2212. 			break;
+  2213. 		pywrap++;
+  2214. 		buf = window_copy_stringify(gd, pywrap, 0, gd->sx, buf, &size);
+                ^
+  2215. 		len += gd->sx;
+  2216. 	}
+
+#371
+window-copy.c:2287: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_stringify`.
+  2285. 			break;
+  2286. 		pywrap++;
+  2287. 		buf = window_copy_stringify(gd, pywrap, 0, gd->sx, buf, &size);
+                ^
+  2288. 		len += gd->sx;
+  2289. 	}
+
+#372
+format.c:2314: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `format_defaults_pane`.
+  2312. 		format_defaults_winlink(ft, wl);
+  2313. 	if (wp != NULL)
+  2314. 		format_defaults_pane(ft, wp);
+          ^
+  2315. }
+  2316. 
+
+#373
+window-copy.c:2347: error: Uninitialized Value
+  The value read from savepx was never initialized.
+  2345. 
+  2346. 	if (savesx > 0) {
+  2347. 		*ppx = savepx;
+          ^
+  2348. 		*psx = savesx;
+  2349. 		return (1);
+
+#374
+tty.c:2374: error: Buffer Overrun L2
+  Offset: [0, 220] Size: 6 by call to `colour_find_rgb`.
+  2372. 		if (!tty_term_has(tty->term, TTYC_SETRGBF)) {
+  2373. 			colour_split_rgb(gc->fg, &r, &g, &b);
+  2374. 			gc->fg = colour_find_rgb(r, g, b);
+                    ^
+  2375. 		} else
+  2376. 			return;
+
+#375
+tty.c:2424: error: Buffer Overrun L2
+  Offset: [0, 220] Size: 6 by call to `colour_find_rgb`.
+  2422. 		if (!tty_term_has(tty->term, TTYC_SETRGBB)) {
+  2423. 			colour_split_rgb(gc->bg, &r, &g, &b);
+  2424. 			gc->bg = colour_find_rgb(r, g, b);
+                    ^
+  2425. 		} else
+  2426. 			return;
+
+#376
+window-copy.c:2546: error: Uninitialized Value
+  The value read from px was never initialized.
+  2544. 
+  2545. 	if (found) {
+  2546. 		window_copy_scroll_to(wme, px, i);
+          ^
+  2547. 		return (1);
+  2548. 	}
+
+#377
+window-copy.c:2581: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_nputs`.
+  2579. 	screen_init(&ss, screen_write_strlen("%s", data->searchstr), 1, 0);
+  2580. 	screen_write_start(&ctx, NULL, &ss);
+  2581. 	screen_write_nputs(&ctx, -1, &grid_default_cell, "%s", data->searchstr);
+         ^
+  2582. 	screen_write_stop(&ctx);
+  2583. 
+
+#378
+window-copy.c:2620: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `screen_write_nputs`.
+  2618. 		screen_init(&ss, width, 1, 0);
+  2619. 		screen_write_start(&ctx, NULL, &ss);
+  2620. 		screen_write_nputs(&ctx, -1, &grid_default_cell, "%s",
+          ^
+  2621. 		    data->searchstr);
+  2622. 		screen_write_stop(&ctx);
+
+#379
+window-copy.c:2636: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_search_lr_regex`.
+  2634. 		for (;;) {
+  2635. 			if (regex) {
+  2636. 				found = window_copy_search_lr_regex(gd,
+                    ^
+  2637. 					    ssp->grid, &px, &width, py, px,
+  2638. 					    gd->sx, cis);
+
+#380
+window-copy.c:2643: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_search_lr`.
+  2641. 			}
+  2642. 			else {
+  2643. 				found = window_copy_search_lr(gd, ssp->grid,
+                    ^
+  2644. 						&px, py, px, gd->sx, cis);
+  2645. 				if (!found)
+
+#381
+window-copy.c:2758: error: Integer Overflow L2
+  ([0, max(0, `ctx->s->sel->sx`)] - 1):unsigned32 by call to `screen_write_putc`.
+  2756. 		memcpy(&gc, &grid_default_cell, sizeof gc);
+  2757. 		screen_write_cursormove(ctx, screen_size_x(s) - 1, py, 0);
+  2758. 		screen_write_putc(ctx, &gc, '$');
+          ^
+  2759. 	}
+  2760. }
+
+#382
+window-copy.c:3120: error: Null Dereference
+  pointer `job` last assigned on line 3119 could be null and is dereferenced by call to `job_get_event()` at line 3120, column 20.
+  3118. 
+  3119. 	job = job_run(command, s, NULL, NULL, NULL, NULL, NULL, JOB_NOWAIT);
+  3120. 	bufferevent_write(job_get_event(job), buf, len);
+                           ^
+  3121. 	window_copy_copy_buffer(wme, prefix, buf, len);
+  3122. }
+
+#383
+window-copy.c:3480: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  3478. 		window_copy_update_cursor(wme, data->lastcx, data->cy - 1);
+  3479. 		if (window_copy_update_selection(wme, 1)) {
+  3480. 			if (data->cy == screen_size_y(s) - 1)
+               ^
+  3481. 				window_copy_redraw_lines(wme, data->cy, 1);
+  3482. 			else
+
+#384
+window-copy.c:3518: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  3516. 		window_copy_other_end(wme);
+  3517. 
+  3518. 	if (scroll_only || data->cy == screen_size_y(s) - 1) {
+                            ^
+  3519. 		data->cx = data->lastcx;
+  3520. 		window_copy_scroll_up(wme, 1);
+
+#385
+window-copy.c:3526: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  3524. 		window_copy_update_cursor(wme, data->lastcx, data->cy + 1);
+  3525. 		if (window_copy_update_selection(wme, 1))
+  3526. 			window_copy_redraw_lines(wme, data->cy - 1, 2);
+           ^
+  3527. 	}
+  3528. 
+
+#386
+window-copy.c:3893: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_update_cursor`.
+  3891. 		return;
+  3892. 
+  3893. 	window_copy_update_cursor(wme, x, y);
+         ^
+  3894. }
+  3895. 
+
+#387
+window-copy.c:3921: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32 by call to `window_copy_update_cursor`.
+  3919. 	c->tty.mouse_drag_release = window_copy_drag_release;
+  3920. 
+  3921. 	window_copy_update_cursor(wme, x, y);
+         ^
+  3922. 	window_copy_start_selection(wme);
+  3923. 	window_copy_redraw_screen(wme);
+
+#388
+window-copy.c:3966: error: Integer Overflow L2
+  ([0, +oo] - 1):unsigned32.
+  3964. 			evtimer_add(&data->dragtimer, &tv);
+  3965. 			window_copy_cursor_up(wme, 1);
+  3966. 		} else if (y == screen_size_y(&data->screen) - 1) {
+                     ^
+  3967. 			evtimer_add(&data->dragtimer, &tv);
+  3968. 			window_copy_cursor_down(wme, 1);
+
+Found 389 issues
+                Issue Type(ISSUED_TYPE_ID): #
+  Integer Overflow L2(INTEGER_OVERFLOW_L2): 264
+  Uninitialized Value(UNINITIALIZED_VALUE): 40
+        Null Dereference(NULL_DEREFERENCE): 19
+      Buffer Overrun L3(BUFFER_OVERRUN_L3): 17
+      Buffer Overrun L2(BUFFER_OVERRUN_L2): 12
+        Unreachable Code(UNREACHABLE_CODE): 11
+  Integer Overflow L1(INTEGER_OVERFLOW_L1): 10
+                    Dead Store(DEAD_STORE): 9
+      Buffer Overrun L1(BUFFER_OVERRUN_L1): 3
+              Resource Leak(RESOURCE_LEAK): 2
+      Buffer Overrun S2(BUFFER_OVERRUN_S2): 2

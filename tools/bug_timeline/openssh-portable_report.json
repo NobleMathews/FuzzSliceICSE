@@ -1,0 +1,852 @@
+{
+    "git log -L2176,2185:misc.c": [
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/misc.c b/misc.c--- a/misc.c+++ b/misc.c@@ -1278,0 +1606,10 @@+int+safe_path(const char *name, struct stat *stp, const char *pw_dir,+    uid_t uid, char *err, size_t errlen)+{+\tchar buf[PATH_MAX], homedir[PATH_MAX];+\tchar *cp;+\tint comparehome = 0;+\tstruct stat st;++\tif (realpath(name, buf) == NULL) {",
+            "commit_date": "2017-08-18 05:36:45+00:00",
+            "commit_hash": "de4ae07f12dabf8815ecede54235fce5d22e3f63",
+            "message": "upstream commit\nMove several subprocess-related functions from various\nlocations to misc.c. Extend subprocess() to offer a little more control over\nstdio disposition.\nfeedback & ok dtucker@\nUpstream-ID: 3573dd7109d13ef9bd3bed93a3deb170fbfce049"
+        }
+    ],
+    "git log -L2176,2190:misc.c": [
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/misc.c b/misc.c--- a/misc.c+++ b/misc.c@@ -1278,0 +1606,15 @@+int+safe_path(const char *name, struct stat *stp, const char *pw_dir,+    uid_t uid, char *err, size_t errlen)+{+\tchar buf[PATH_MAX], homedir[PATH_MAX];+\tchar *cp;+\tint comparehome = 0;+\tstruct stat st;++\tif (realpath(name, buf) == NULL) {+\t\tsnprintf(err, errlen, \"realpath %s failed: %s\", name,+\t\t    strerror(errno));+\t\treturn -1;+\t}+\tif (pw_dir != NULL && realpath(pw_dir, homedir) != NULL)",
+            "commit_date": "2017-08-18 05:36:45+00:00",
+            "commit_hash": "de4ae07f12dabf8815ecede54235fce5d22e3f63",
+            "message": "upstream commit\nMove several subprocess-related functions from various\nlocations to misc.c. Extend subprocess() to offer a little more control over\nstdio disposition.\nfeedback & ok dtucker@\nUpstream-ID: 3573dd7109d13ef9bd3bed93a3deb170fbfce049"
+        }
+    ],
+    "git log -L609,616:ssh-keygen.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/ssh-keygen.c b/ssh-keygen.c--- a/ssh-keygen.c+++ b/ssh-keygen.c@@ -308,0 +308,8 @@+static int+get_line(FILE *fp, char *line, size_t len)+{+\tint c;+\tsize_t pos = 0;++\tline[0] = '\\0';+\twhile ((c = fgetc(fp)) != EOF) {",
+            "commit_date": "2006-03-15 12:05:40+11:00",
+            "commit_hash": "8056a9d46ac2d75560c2fd9fc69c75ee46a43922",
+            "message": "- dtucker@cvs.openbsd.org 2006/03/13 08:43:16\n[ssh-keygen.c]\nMake ssh-keygen handle CR and CRLF line termination when converting IETF\nformat keys, in adition to vanilla LF.  mindrot #1157, tested by Chris\nPepper, ok djm@"
+        }
+    ],
+    "git log -L53,132:openbsd-compat/readpassphrase.c": [
+        {
+            "author": {
+                "email": "dtucker@zip.com.au",
+                "name": "Darren Tucker"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -60,88 +61,80 @@ char * readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags) { \tssize_t nr; \tint input, output, save_errno, i, need_restart; \tchar ch, *p, *end; \tstruct termios term, oterm; \tstruct sigaction sa, savealrm, saveint, savehup, savequit, saveterm; \tstruct sigaction savetstp, savettin, savettou, savepipe; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t} restart: \tfor (i = 0; i < _NSIG; i++) \t\tsigno[i] = 0; \tnr = -1; \tsave_errno = 0; \tneed_restart = 0; \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */ \tif ((flags & RPP_STDIN) || \t    (input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/*-\t * Catch signals that would otherwise cause the user to end-\t * up with echo turned off in the shell.  Don't worry about-\t * things like SIGXCPU and SIGVTALRM for now.+\t * Turn off echo if possible.+\t * If we are using a tty but are not the foreground pgrp this will+\t * generate SIGTTOU, so do it *before* installing the signal handlers. \t */-\tsigemptyset(&sa.sa_mask);-\tsa.sa_flags = 0;\t\t/* don't restart system calls */-\tsa.sa_handler = handler;-\t(void)sigaction(SIGALRM, &sa, &savealrm);-\t(void)sigaction(SIGHUP, &sa, &savehup);-\t(void)sigaction(SIGINT, &sa, &saveint);-\t(void)sigaction(SIGPIPE, &sa, &savepipe);-\t(void)sigaction(SIGQUIT, &sa, &savequit);-\t(void)sigaction(SIGTERM, &sa, &saveterm);-\t(void)sigaction(SIGTSTP, &sa, &savetstp);-\t(void)sigaction(SIGTTIN, &sa, &savettin);-\t(void)sigaction(SIGTTOU, &sa, &savettou);--\t/* Turn off echo if possible. */ \tif (input != STDIN_FILENO && tcgetattr(input, &oterm) == 0) { \t\tmemcpy(&term, &oterm, sizeof(term)); \t\tif (!(flags & RPP_ECHO_ON)) \t\t\tterm.c_lflag &= ~(ECHO | ECHONL); #ifdef VSTATUS \t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE; #endif \t\t(void)tcsetattr(input, TCSAFLUSH|TCSASOFT, &term); \t} else { \t\tmemset(&term, 0, sizeof(term)); \t\tterm.c_lflag |= ECHO; \t\tmemset(&oterm, 0, sizeof(oterm)); \t\toterm.c_lflag |= ECHO; \t}-\t/* No I/O if we are already backgrounded. */-\tif (signo[SIGTTOU] != 1 && signo[SIGTTIN] != 1) {-\t\tif (!(flags & RPP_STDIN))-\t\t\t(void)write(output, prompt, strlen(prompt));-\t\tend = buf + bufsiz - 1;-\t\tp = buf;-\t\twhile ((nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r') {-\t\t\tif (p < end) {-\t\t\t\tif ((flags & RPP_SEVENBIT))-\t\t\t\t\tch &= 0x7f;-\t\t\t\tif (isalpha(ch)) {-\t\t\t\t\tif ((flags & RPP_FORCELOWER))-\t\t\t\t\t\tch = (char)tolower(ch);-\t\t\t\t\tif ((flags & RPP_FORCEUPPER))-\t\t\t\t\t\tch = (char)toupper(ch);-\t\t\t\t}-\t\t\t\t*p++ = ch;+\t/*+\t * Catch signals that would otherwise cause the user to end+\t * up with echo turned off in the shell.  Don't worry about+\t * things like SIGXCPU and SIGVTALRM for now.+\t */+\tsigemptyset(&sa.sa_mask);+\tsa.sa_flags = 0;\t\t/* don't restart system calls */+\tsa.sa_handler = handler;+\t(void)sigaction(SIGALRM, &sa, &savealrm);+\t(void)sigaction(SIGHUP, &sa, &savehup);+\t(void)sigaction(SIGINT, &sa, &saveint);+\t(void)sigaction(SIGPIPE, &sa, &savepipe);+\t(void)sigaction(SIGQUIT, &sa, &savequit);+\t(void)sigaction(SIGTERM, &sa, &saveterm);+\t(void)sigaction(SIGTSTP, &sa, &savetstp);+\t(void)sigaction(SIGTTIN, &sa, &savettin);+\t(void)sigaction(SIGTTOU, &sa, &savettou);++\tif (!(flags & RPP_STDIN))+\t\t(void)write(output, prompt, strlen(prompt));+\tend = buf + bufsiz - 1;+\tp = buf;+\twhile ((nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r') {",
+            "commit_date": "2016-10-13 04:04:44+11:00",
+            "commit_hash": "12069e56221de207ed666c2449dedb431a2a7ca2",
+            "message": "Import rev 1.23 from OpenBSD.  Fixes bz#2619.\nrevision 1.23\ndate: 2010/05/14 13:30:34;  author: millert;  state: Exp;  lines: +41 -39;\nDefer installing signal handlers until echo is disabled so that we\nget suspended normally when not the foreground process.  Fix potential\ninfinite loop when restoring terminal settings if process is in the\nbackground when restore occurs.  OK miod@"
+        },
+        {
+            "author": {
+                "email": "dtucker@zip.com.au",
+                "name": "Darren Tucker"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -61,88 +60,88 @@ char * readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags) { \tssize_t nr; \tint input, output, save_errno, i, need_restart; \tchar ch, *p, *end; \tstruct termios term, oterm; \tstruct sigaction sa, savealrm, saveint, savehup, savequit, saveterm; \tstruct sigaction savetstp, savettin, savettou, savepipe; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t} restart: \tfor (i = 0; i < _NSIG; i++) \t\tsigno[i] = 0; \tnr = -1; \tsave_errno = 0; \tneed_restart = 0; \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */ \tif ((flags & RPP_STDIN) || \t    (input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/* \t * Catch signals that would otherwise cause the user to end \t * up with echo turned off in the shell.  Don't worry about \t * things like SIGXCPU and SIGVTALRM for now. \t */ \tsigemptyset(&sa.sa_mask); \tsa.sa_flags = 0;\t\t/* don't restart system calls */ \tsa.sa_handler = handler; \t(void)sigaction(SIGALRM, &sa, &savealrm); \t(void)sigaction(SIGHUP, &sa, &savehup); \t(void)sigaction(SIGINT, &sa, &saveint); \t(void)sigaction(SIGPIPE, &sa, &savepipe); \t(void)sigaction(SIGQUIT, &sa, &savequit); \t(void)sigaction(SIGTERM, &sa, &saveterm); \t(void)sigaction(SIGTSTP, &sa, &savetstp); \t(void)sigaction(SIGTTIN, &sa, &savettin); \t(void)sigaction(SIGTTOU, &sa, &savettou); \t/* Turn off echo if possible. */ \tif (input != STDIN_FILENO && tcgetattr(input, &oterm) == 0) { \t\tmemcpy(&term, &oterm, sizeof(term)); \t\tif (!(flags & RPP_ECHO_ON)) \t\t\tterm.c_lflag &= ~(ECHO | ECHONL); #ifdef VSTATUS \t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE; #endif-\t\t(void)tcsetattr(input, _T_FLUSH, &term);+\t\t(void)tcsetattr(input, TCSAFLUSH|TCSASOFT, &term); \t} else { \t\tmemset(&term, 0, sizeof(term)); \t\tterm.c_lflag |= ECHO; \t\tmemset(&oterm, 0, sizeof(oterm)); \t\toterm.c_lflag |= ECHO; \t} \t/* No I/O if we are already backgrounded. */ \tif (signo[SIGTTOU] != 1 && signo[SIGTTIN] != 1) { \t\tif (!(flags & RPP_STDIN)) \t\t\t(void)write(output, prompt, strlen(prompt)); \t\tend = buf + bufsiz - 1; \t\tp = buf; \t\twhile ((nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r') { \t\t\tif (p < end) { \t\t\t\tif ((flags & RPP_SEVENBIT)) \t\t\t\t\tch &= 0x7f; \t\t\t\tif (isalpha(ch)) { \t\t\t\t\tif ((flags & RPP_FORCELOWER)) \t\t\t\t\t\tch = (char)tolower(ch); \t\t\t\t\tif ((flags & RPP_FORCEUPPER)) \t\t\t\t\t\tch = (char)toupper(ch); \t\t\t\t} \t\t\t\t*p++ = ch;",
+            "commit_date": "2016-10-13 03:53:51+11:00",
+            "commit_hash": "7508d83eff89af069760b4cc587305588a64e415",
+            "message": "If we don't have TCSASOFT, define it to zero.\nThis makes it a no-op when we use it below, which allows us to re-sync\nthose lines with the upstream and make future updates easier."
+        },
+        {
+            "author": {
+                "email": "dtucker@zip.com.au",
+                "name": "Darren Tucker"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -53,86 +53,88 @@ char * readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags) { \tssize_t nr;-\tint input, output, save_errno;+\tint input, output, save_errno, i, need_restart; \tchar ch, *p, *end; \tstruct termios term, oterm; \tstruct sigaction sa, savealrm, saveint, savehup, savequit, saveterm; \tstruct sigaction savetstp, savettin, savettou, savepipe; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t} restart:-\tsigno = 0;+\tfor (i = 0; i < _NSIG; i++)+\t\tsigno[i] = 0; \tnr = -1; \tsave_errno = 0;+\tneed_restart = 0; \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */ \tif ((flags & RPP_STDIN) || \t    (input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/* \t * Catch signals that would otherwise cause the user to end \t * up with echo turned off in the shell.  Don't worry about \t * things like SIGXCPU and SIGVTALRM for now. \t */ \tsigemptyset(&sa.sa_mask); \tsa.sa_flags = 0;\t\t/* don't restart system calls */ \tsa.sa_handler = handler; \t(void)sigaction(SIGALRM, &sa, &savealrm); \t(void)sigaction(SIGHUP, &sa, &savehup); \t(void)sigaction(SIGINT, &sa, &saveint); \t(void)sigaction(SIGPIPE, &sa, &savepipe); \t(void)sigaction(SIGQUIT, &sa, &savequit); \t(void)sigaction(SIGTERM, &sa, &saveterm); \t(void)sigaction(SIGTSTP, &sa, &savetstp); \t(void)sigaction(SIGTTIN, &sa, &savettin); \t(void)sigaction(SIGTTOU, &sa, &savettou); \t/* Turn off echo if possible. */ \tif (input != STDIN_FILENO && tcgetattr(input, &oterm) == 0) { \t\tmemcpy(&term, &oterm, sizeof(term)); \t\tif (!(flags & RPP_ECHO_ON)) \t\t\tterm.c_lflag &= ~(ECHO | ECHONL); #ifdef VSTATUS \t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE; #endif \t\t(void)tcsetattr(input, _T_FLUSH, &term); \t} else { \t\tmemset(&term, 0, sizeof(term)); \t\tterm.c_lflag |= ECHO; \t\tmemset(&oterm, 0, sizeof(oterm)); \t\toterm.c_lflag |= ECHO; \t} \t/* No I/O if we are already backgrounded. */-\tif (signo != SIGTTOU && signo != SIGTTIN) {+\tif (signo[SIGTTOU] != 1 && signo[SIGTTIN] != 1) { \t\tif (!(flags & RPP_STDIN)) \t\t\t(void)write(output, prompt, strlen(prompt)); \t\tend = buf + bufsiz - 1; \t\tp = buf; \t\twhile ((nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r') { \t\t\tif (p < end) { \t\t\t\tif ((flags & RPP_SEVENBIT)) \t\t\t\t\tch &= 0x7f; \t\t\t\tif (isalpha(ch)) { \t\t\t\t\tif ((flags & RPP_FORCELOWER)) \t\t\t\t\t\tch = (char)tolower(ch); \t\t\t\t\tif ((flags & RPP_FORCEUPPER)) \t\t\t\t\t\tch = (char)toupper(ch); \t\t\t\t} \t\t\t\t*p++ = ch;",
+            "commit_date": "2010-01-13 21:32:44+11:00",
+            "commit_hash": "d59487a33bfaadc3ced41a1c604ec603d716df42",
+            "message": "- (dtucker) [openbsd-compat/readpassphrase.c] Update to OpenBSD's r1.22.\nFixes bz #1590, where sometimes you could not interrupt a connection while\nssh was prompting for a passphrase or password."
+        },
+        {
+            "author": {
+                "email": "dtucker@zip.com.au",
+                "name": "Darren Tucker"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -53,79 +53,86 @@ char * readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags) { \tssize_t nr; \tint input, output, save_errno; \tchar ch, *p, *end; \tstruct termios term, oterm; \tstruct sigaction sa, savealrm, saveint, savehup, savequit, saveterm; \tstruct sigaction savetstp, savettin, savettou, savepipe; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t} restart: \tsigno = 0;+\tnr = -1;+\tsave_errno = 0; \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */ \tif ((flags & RPP_STDIN) || \t    (input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/* \t * Catch signals that would otherwise cause the user to end \t * up with echo turned off in the shell.  Don't worry about \t * things like SIGXCPU and SIGVTALRM for now. \t */ \tsigemptyset(&sa.sa_mask); \tsa.sa_flags = 0;\t\t/* don't restart system calls */ \tsa.sa_handler = handler; \t(void)sigaction(SIGALRM, &sa, &savealrm); \t(void)sigaction(SIGHUP, &sa, &savehup); \t(void)sigaction(SIGINT, &sa, &saveint); \t(void)sigaction(SIGPIPE, &sa, &savepipe); \t(void)sigaction(SIGQUIT, &sa, &savequit); \t(void)sigaction(SIGTERM, &sa, &saveterm); \t(void)sigaction(SIGTSTP, &sa, &savetstp); \t(void)sigaction(SIGTTIN, &sa, &savettin); \t(void)sigaction(SIGTTOU, &sa, &savettou); \t/* Turn off echo if possible. */ \tif (input != STDIN_FILENO && tcgetattr(input, &oterm) == 0) { \t\tmemcpy(&term, &oterm, sizeof(term)); \t\tif (!(flags & RPP_ECHO_ON)) \t\t\tterm.c_lflag &= ~(ECHO | ECHONL); #ifdef VSTATUS \t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE; #endif \t\t(void)tcsetattr(input, _T_FLUSH, &term); \t} else { \t\tmemset(&term, 0, sizeof(term)); \t\tterm.c_lflag |= ECHO; \t\tmemset(&oterm, 0, sizeof(oterm)); \t\toterm.c_lflag |= ECHO; \t}-\tif (!(flags & RPP_STDIN))-\t\t(void)write(output, prompt, strlen(prompt));-\tend = buf + bufsiz - 1;-\tfor (p = buf; (nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r';) {-\t\tif (p < end) {-\t\t\tif ((flags & RPP_SEVENBIT))-\t\t\t\tch &= 0x7f;-\t\t\tif (isalpha(ch)) {-\t\t\t\tif ((flags & RPP_FORCELOWER))-\t\t\t\t\tch = tolower(ch);-\t\t\t\tif ((flags & RPP_FORCEUPPER))-\t\t\t\t\tch = toupper(ch);+\t/* No I/O if we are already backgrounded. */+\tif (signo != SIGTTOU && signo != SIGTTIN) {+\t\tif (!(flags & RPP_STDIN))+\t\t\t(void)write(output, prompt, strlen(prompt));+\t\tend = buf + bufsiz - 1;+\t\tp = buf;+\t\twhile ((nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r') {+\t\t\tif (p < end) {+\t\t\t\tif ((flags & RPP_SEVENBIT))+\t\t\t\t\tch &= 0x7f;+\t\t\t\tif (isalpha(ch)) {+\t\t\t\t\tif ((flags & RPP_FORCELOWER))+\t\t\t\t\t\tch = (char)tolower(ch);+\t\t\t\t\tif ((flags & RPP_FORCEUPPER))+\t\t\t\t\t\tch = (char)toupper(ch);+\t\t\t\t}+\t\t\t\t*p++ = ch;",
+            "commit_date": "2010-01-13 18:32:59+11:00",
+            "commit_hash": "1035cb4729857ec00d1a976476b840bfe0351312",
+            "message": "- (dtucker) [openbsd-compat/readpassphrase.c] Update to OpenBSD's r1.21."
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -56,72 +56,79 @@ char * readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags) { \tssize_t nr; \tint input, output, save_errno; \tchar ch, *p, *end; \tstruct termios term, oterm;-\tstruct sigaction sa, saveint, savehup, savequit, saveterm;-\tstruct sigaction savetstp, savettin, savettou;+\tstruct sigaction sa, savealrm, saveint, savehup, savequit, saveterm;+\tstruct sigaction savetstp, savettin, savettou, savepipe; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t} restart:+\tsigno = 0; \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */-\tif ((input = output = open(_PATH_TTY, O_RDWR)) == -1) {+\tif ((flags & RPP_STDIN) ||+\t    (input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/* \t * Catch signals that would otherwise cause the user to end \t * up with echo turned off in the shell.  Don't worry about-\t * things like SIGALRM and SIGPIPE for now.+\t * things like SIGXCPU and SIGVTALRM for now. \t */ \tsigemptyset(&sa.sa_mask); \tsa.sa_flags = 0;\t\t/* don't restart system calls */ \tsa.sa_handler = handler;-\t(void)sigaction(SIGINT, &sa, &saveint);+\t(void)sigaction(SIGALRM, &sa, &savealrm); \t(void)sigaction(SIGHUP, &sa, &savehup);+\t(void)sigaction(SIGINT, &sa, &saveint);+\t(void)sigaction(SIGPIPE, &sa, &savepipe); \t(void)sigaction(SIGQUIT, &sa, &savequit); \t(void)sigaction(SIGTERM, &sa, &saveterm); \t(void)sigaction(SIGTSTP, &sa, &savetstp); \t(void)sigaction(SIGTTIN, &sa, &savettin); \t(void)sigaction(SIGTTOU, &sa, &savettou); \t/* Turn off echo if possible. */-\tif (tcgetattr(input, &oterm) == 0) {+\tif (input != STDIN_FILENO && tcgetattr(input, &oterm) == 0) { \t\tmemcpy(&term, &oterm, sizeof(term)); \t\tif (!(flags & RPP_ECHO_ON)) \t\t\tterm.c_lflag &= ~(ECHO | ECHONL); #ifdef VSTATUS \t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE; #endif \t\t(void)tcsetattr(input, _T_FLUSH, &term); \t} else { \t\tmemset(&term, 0, sizeof(term));+\t\tterm.c_lflag |= ECHO; \t\tmemset(&oterm, 0, sizeof(oterm));+\t\toterm.c_lflag |= ECHO; \t}-\t(void)write(output, prompt, strlen(prompt));+\tif (!(flags & RPP_STDIN))+\t\t(void)write(output, prompt, strlen(prompt)); \tend = buf + bufsiz - 1; \tfor (p = buf; (nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r';) { \t\tif (p < end) { \t\t\tif ((flags & RPP_SEVENBIT)) \t\t\t\tch &= 0x7f; \t\t\tif (isalpha(ch)) { \t\t\t\tif ((flags & RPP_FORCELOWER)) \t\t\t\t\tch = tolower(ch); \t\t\t\tif ((flags & RPP_FORCEUPPER)) \t\t\t\t\tch = toupper(ch);",
+            "commit_date": "2002-09-11 10:29:11+10:00",
+            "commit_hash": "71eb0c1550ec6ad10d29779df7a7f97c44000e3a",
+            "message": "- (djm) Sync openbsd-compat with OpenBSD -current"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -50,81 +56,72 @@ char *-readpassphrase(prompt, buf, bufsiz, flags)-\tconst char *prompt;-\tchar *buf;-\tsize_t bufsiz;-\tint flags;+readpassphrase(const char *prompt, char *buf, size_t bufsiz, int flags) {-\tstruct termios term;+\tssize_t nr;+\tint input, output, save_errno; \tchar ch, *p, *end;-#ifdef _POSIX_VDISABLE-\tu_char status;-#endif-\tint echo, input, output;-\tsigset_t oset, nset;+\tstruct termios term, oterm;+\tstruct sigaction sa, saveint, savehup, savequit, saveterm;+\tstruct sigaction savetstp, savettin, savettou; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t}+restart: \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */ \tif ((input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/*-\t * We block SIGINT and SIGTSTP so the terminal is not left-\t * in an inconsistent state (ie: no echo).  It would probably-\t * be better to simply catch these though.+\t * Catch signals that would otherwise cause the user to end+\t * up with echo turned off in the shell.  Don't worry about+\t * things like SIGALRM and SIGPIPE for now. \t */-\tsigemptyset(&nset);-\tsigaddset(&nset, SIGINT);-\tsigaddset(&nset, SIGTSTP);-\t(void)sigprocmask(SIG_BLOCK, &nset, &oset);+\tsigemptyset(&sa.sa_mask);+\tsa.sa_flags = 0;\t\t/* don't restart system calls */+\tsa.sa_handler = handler;+\t(void)sigaction(SIGINT, &sa, &saveint);+\t(void)sigaction(SIGHUP, &sa, &savehup);+\t(void)sigaction(SIGQUIT, &sa, &savequit);+\t(void)sigaction(SIGTERM, &sa, &saveterm);+\t(void)sigaction(SIGTSTP, &sa, &savetstp);+\t(void)sigaction(SIGTTIN, &sa, &savettin);+\t(void)sigaction(SIGTTOU, &sa, &savettou); \t/* Turn off echo if possible. */-\techo = 0;-#ifdef _POSIX_VDISABLE-\tstatus = _POSIX_VDISABLE;-#endif-\tif (tcgetattr(input, &term) == 0) {-\t\tif (!(flags & RPP_ECHO_ON) && (term.c_lflag & ECHO)) {-\t\t\techo = 1;-\t\t\tterm.c_lflag &= ~ECHO;-\t\t}+\tif (tcgetattr(input, &oterm) == 0) {+\t\tmemcpy(&term, &oterm, sizeof(term));+\t\tif (!(flags & RPP_ECHO_ON))+\t\t\tterm.c_lflag &= ~(ECHO | ECHONL); #ifdef VSTATUS-\t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) {-\t\t\tstatus = term.c_cc[VSTATUS];+\t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE;-\t\t} #endif \t\t(void)tcsetattr(input, _T_FLUSH, &term);-\t}-\tif (!(flags & RPP_ECHO_ON)) {-\t\tif (tcgetattr(input, &term) == 0 && (term.c_lflag & ECHO)) {-\t\t\techo = 1;-\t\t\tterm.c_lflag &= ~ECHO;-\t\t\t(void)tcsetattr(input, _T_FLUSH, &term);-\t\t}+\t} else {+\t\tmemset(&term, 0, sizeof(term));+\t\tmemset(&oterm, 0, sizeof(oterm)); \t} \t(void)write(output, prompt, strlen(prompt)); \tend = buf + bufsiz - 1;-\tfor (p = buf; read(input, &ch, 1) == 1 && ch != '\\n' && ch != '\\r';) {+\tfor (p = buf; (nr = read(input, &ch, 1)) == 1 && ch != '\\n' && ch != '\\r';) { \t\tif (p < end) { \t\t\tif ((flags & RPP_SEVENBIT)) \t\t\t\tch &= 0x7f; \t\t\tif (isalpha(ch)) { \t\t\t\tif ((flags & RPP_FORCELOWER)) \t\t\t\t\tch = tolower(ch); \t\t\t\tif ((flags & RPP_FORCEUPPER)) \t\t\t\t\tch = toupper(ch);",
+            "commit_date": "2002-02-13 16:00:15+11:00",
+            "commit_hash": "8e3bdca1da7d30542e9028f35f2a1cef052c85e4",
+            "message": "- (djm) Sync openbsd-compat with OpenBSD CVS too"
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -45,77 +45,81 @@ char * readpassphrase(prompt, buf, bufsiz, flags) \tconst char *prompt; \tchar *buf; \tsize_t bufsiz; \tint flags; { \tstruct termios term; \tchar ch, *p, *end;+#ifdef _POSIX_VDISABLE \tu_char status;+#endif \tint echo, input, output; \tsigset_t oset, nset; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t} \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */ \tif ((input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/* \t * We block SIGINT and SIGTSTP so the terminal is not left \t * in an inconsistent state (ie: no echo).  It would probably \t * be better to simply catch these though. \t */ \tsigemptyset(&nset); \tsigaddset(&nset, SIGINT); \tsigaddset(&nset, SIGTSTP); \t(void)sigprocmask(SIG_BLOCK, &nset, &oset); \t/* Turn off echo if possible. */ \techo = 0;+#ifdef _POSIX_VDISABLE \tstatus = _POSIX_VDISABLE;+#endif \tif (tcgetattr(input, &term) == 0) { \t\tif (!(flags & RPP_ECHO_ON) && (term.c_lflag & ECHO)) { \t\t\techo = 1; \t\t\tterm.c_lflag &= ~ECHO; \t\t} #ifdef VSTATUS \t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) { \t\t\tstatus = term.c_cc[VSTATUS]; \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE; \t\t} #endif \t\t(void)tcsetattr(input, _T_FLUSH, &term); \t} \tif (!(flags & RPP_ECHO_ON)) { \t\tif (tcgetattr(input, &term) == 0 && (term.c_lflag & ECHO)) { \t\t\techo = 1; \t\t\tterm.c_lflag &= ~ECHO; \t\t\t(void)tcsetattr(input, _T_FLUSH, &term); \t\t} \t} \t(void)write(output, prompt, strlen(prompt)); \tend = buf + bufsiz - 1; \tfor (p = buf; read(input, &ch, 1) == 1 && ch != '\\n' && ch != '\\r';) { \t\tif (p < end) { \t\t\tif ((flags & RPP_SEVENBIT)) \t\t\t\tch &= 0x7f; \t\t\tif (isalpha(ch)) { \t\t\t\tif ((flags & RPP_FORCELOWER)) \t\t\t\t\tch = tolower(ch); \t\t\t\tif ((flags & RPP_FORCEUPPER)) \t\t\t\t\tch = toupper(ch);",
+            "commit_date": "2001-06-29 12:35:12+00:00",
+            "commit_hash": "5d739a4c86d69598f4a42b22aab6e224030ac403",
+            "message": "- (bal) Fixed _DISABLE_VPOSIX in readpassphrase.c."
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- a/openbsd-compat/readpassphrase.c+++ b/openbsd-compat/readpassphrase.c@@ -45,77 +45,77 @@ char * readpassphrase(prompt, buf, bufsiz, flags) \tconst char *prompt; \tchar *buf; \tsize_t bufsiz; \tint flags; { \tstruct termios term; \tchar ch, *p, *end; \tu_char status; \tint echo, input, output; \tsigset_t oset, nset; \t/* I suppose we could alloc on demand in this case (XXX). */ \tif (bufsiz == 0) { \t\terrno = EINVAL; \t\treturn(NULL); \t} \t/* \t * Read and write to /dev/tty if available.  If not, read from \t * stdin and write to stderr unless a tty is required. \t */ \tif ((input = output = open(_PATH_TTY, O_RDWR)) == -1) { \t\tif (flags & RPP_REQUIRE_TTY) { \t\t\terrno = ENOTTY; \t\t\treturn(NULL); \t\t} \t\tinput = STDIN_FILENO; \t\toutput = STDERR_FILENO; \t} \t/* \t * We block SIGINT and SIGTSTP so the terminal is not left \t * in an inconsistent state (ie: no echo).  It would probably \t * be better to simply catch these though. \t */ \tsigemptyset(&nset); \tsigaddset(&nset, SIGINT); \tsigaddset(&nset, SIGTSTP); \t(void)sigprocmask(SIG_BLOCK, &nset, &oset); \t/* Turn off echo if possible. */ \techo = 0; \tstatus = _POSIX_VDISABLE; \tif (tcgetattr(input, &term) == 0) { \t\tif (!(flags & RPP_ECHO_ON) && (term.c_lflag & ECHO)) { \t\t\techo = 1; \t\t\tterm.c_lflag &= ~ECHO; \t\t} #ifdef VSTATUS \t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) { \t\t\tstatus = term.c_cc[VSTATUS]; \t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE; \t\t} #endif \t\t(void)tcsetattr(input, _T_FLUSH, &term); \t} \tif (!(flags & RPP_ECHO_ON)) { \t\tif (tcgetattr(input, &term) == 0 && (term.c_lflag & ECHO)) { \t\t\techo = 1; \t\t\tterm.c_lflag &= ~ECHO; \t\t\t(void)tcsetattr(input, _T_FLUSH, &term); \t\t} \t} \t(void)write(output, prompt, strlen(prompt)); \tend = buf + bufsiz - 1; \tfor (p = buf; read(input, &ch, 1) == 1 && ch != '\\n' && ch != '\\r';) { \t\tif (p < end) { \t\t\tif ((flags & RPP_SEVENBIT))-\t\t\t\tch = ch &= 0x7f;+\t\t\t\tch &= 0x7f; \t\t\tif (isalpha(ch)) { \t\t\t\tif ((flags & RPP_FORCELOWER)) \t\t\t\t\tch = tolower(ch); \t\t\t\tif ((flags & RPP_FORCEUPPER)) \t\t\t\t\tch = toupper(ch);",
+            "commit_date": "2001-06-27 23:26:38+10:00",
+            "commit_hash": "b90416b7df65a0d8e36c5e6887e33ebd8b25125c",
+            "message": "- (djm) Sync with -current openbsd-compat/readpassphrase.c:\n- djm@cvs.openbsd.org 2001/06/27 13:23:30\ntypo, spotted by Tom Holroyd <tomh@po.crl.go.jp>; ok deraadt@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/readpassphrase.c b/openbsd-compat/readpassphrase.c--- /dev/null+++ b/openbsd-compat/readpassphrase.c@@ -0,0 +45,77 @@+char *+readpassphrase(prompt, buf, bufsiz, flags)+\tconst char *prompt;+\tchar *buf;+\tsize_t bufsiz;+\tint flags;+{+\tstruct termios term;+\tchar ch, *p, *end;+\tu_char status;+\tint echo, input, output;+\tsigset_t oset, nset;++\t/* I suppose we could alloc on demand in this case (XXX). */+\tif (bufsiz == 0) {+\t\terrno = EINVAL;+\t\treturn(NULL);+\t}++\t/*+\t * Read and write to /dev/tty if available.  If not, read from+\t * stdin and write to stderr unless a tty is required.+\t */+\tif ((input = output = open(_PATH_TTY, O_RDWR)) == -1) {+\t\tif (flags & RPP_REQUIRE_TTY) {+\t\t\terrno = ENOTTY;+\t\t\treturn(NULL);+\t\t}+\t\tinput = STDIN_FILENO;+\t\toutput = STDERR_FILENO;+\t}++\t/*+\t * We block SIGINT and SIGTSTP so the terminal is not left+\t * in an inconsistent state (ie: no echo).  It would probably+\t * be better to simply catch these though.+\t */+\tsigemptyset(&nset);+\tsigaddset(&nset, SIGINT);+\tsigaddset(&nset, SIGTSTP);+\t(void)sigprocmask(SIG_BLOCK, &nset, &oset);++\t/* Turn off echo if possible. */+\techo = 0;+\tstatus = _POSIX_VDISABLE;+\tif (tcgetattr(input, &term) == 0) {+\t\tif (!(flags & RPP_ECHO_ON) && (term.c_lflag & ECHO)) {+\t\t\techo = 1;+\t\t\tterm.c_lflag &= ~ECHO;+\t\t}+#ifdef VSTATUS+\t\tif (term.c_cc[VSTATUS] != _POSIX_VDISABLE) {+\t\t\tstatus = term.c_cc[VSTATUS];+\t\t\tterm.c_cc[VSTATUS] = _POSIX_VDISABLE;+\t\t}+#endif+\t\t(void)tcsetattr(input, _T_FLUSH, &term);+\t}+\tif (!(flags & RPP_ECHO_ON)) {+\t\tif (tcgetattr(input, &term) == 0 && (term.c_lflag & ECHO)) {+\t\t\techo = 1;+\t\t\tterm.c_lflag &= ~ECHO;+\t\t\t(void)tcsetattr(input, _T_FLUSH, &term);+\t\t}+\t}++\t(void)write(output, prompt, strlen(prompt));+\tend = buf + bufsiz - 1;+\tfor (p = buf; read(input, &ch, 1) == 1 && ch != '\\n' && ch != '\\r';) {+\t\tif (p < end) {+\t\t\tif ((flags & RPP_SEVENBIT))+\t\t\t\tch = ch &= 0x7f;+\t\t\tif (isalpha(ch)) {+\t\t\t\tif ((flags & RPP_FORCELOWER))+\t\t\t\t\tch = tolower(ch);+\t\t\t\tif ((flags & RPP_FORCEUPPER))+\t\t\t\t\tch = toupper(ch);",
+            "commit_date": "2001-06-25 18:09:16+10:00",
+            "commit_hash": "c8a3868ed0a9c8291c36e79180e18342acd4ed71",
+            "message": "- (djm) Bring in readpassphrase() from OpenBSD libc. Compiles OK on Linux and\nSolaris"
+        }
+    ],
+    "git log -L50,87:readpass.c": [
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,38 +50,38 @@ static char * ssh_askpass(char *askpass, const char *msg, const char *env_hint) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0)-\t\terror(\"%s: fflush: %s\", __func__, strerror(errno));+\t\terror_f(\"fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) == -1) {-\t\terror(\"%s: pipe: %s\", __func__, strerror(errno));+\t\terror_f(\"pipe: %s\", strerror(errno)); \t\treturn NULL; \t} \tosigchld = ssh_signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) == -1) {-\t\terror(\"%s: fork: %s\", __func__, strerror(errno));+\t\terror_f(\"fork: %s\", strerror(errno)); \t\tssh_signal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) == -1)-\t\t\tfatal(\"%s: dup2: %s\", __func__, strerror(errno));+\t\t\tfatal_f(\"dup2: %s\", strerror(errno)); \t\tif (env_hint != NULL) \t\t\tsetenv(\"SSH_ASKPASS_PROMPT\", env_hint, 1); \t\texeclp(askpass, askpass, msg, (char *)NULL);-\t\tfatal(\"%s: exec(%s): %s\", __func__, askpass, strerror(errno));+\t\tfatal_f(\"exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2020-10-18 11:32:01+00:00",
+            "commit_hash": "816036f142ecd284c12bb3685ae316a68d2ef190",
+            "message": "upstream: use the new variant log macros instead of prepending\n__func__ and appending ssh_err(r) manually; ok markus@\nOpenBSD-Commit-ID: 1f14b80bcfa85414b2a1a6ff714fb5362687ace8"
+        },
+        {
+            "author": {
+                "email": "dtucker@openbsd.org",
+                "name": "dtucker@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,38 +50,38 @@ static char * ssh_askpass(char *askpass, const char *msg, const char *env_hint) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0) \t\terror(\"%s: fflush: %s\", __func__, strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) == -1) { \t\terror(\"%s: pipe: %s\", __func__, strerror(errno)); \t\treturn NULL; \t}-\tosigchld = signal(SIGCHLD, SIG_DFL);+\tosigchld = ssh_signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) == -1) { \t\terror(\"%s: fork: %s\", __func__, strerror(errno));-\t\tsignal(SIGCHLD, osigchld);+\t\tssh_signal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) == -1) \t\t\tfatal(\"%s: dup2: %s\", __func__, strerror(errno)); \t\tif (env_hint != NULL) \t\t\tsetenv(\"SSH_ASKPASS_PROMPT\", env_hint, 1); \t\texeclp(askpass, askpass, msg, (char *)NULL); \t\tfatal(\"%s: exec(%s): %s\", __func__, askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2020-01-23 07:10:22+00:00",
+            "commit_hash": "3bf2a6ac791d64046a537335a0f1d5e43579c5ad",
+            "message": "upstream: Replace all calls to signal(2) with a wrapper around\nsigaction(2). This wrapper blocks all other signals during the handler\npreventing races between handlers, and sets SA_RESTART which should reduce\nthe potential for short read/write operations.\nOpenBSD-Commit-ID: 5e047663fd77a40d7b07bdabe68529df51fd2519"
+        },
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,37 +50,38 @@ static char *-ssh_askpass(char *askpass, const char *msg)+ssh_askpass(char *askpass, const char *msg, const char *env_hint) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0) \t\terror(\"%s: fflush: %s\", __func__, strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) == -1) { \t\terror(\"%s: pipe: %s\", __func__, strerror(errno)); \t\treturn NULL; \t} \tosigchld = signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) == -1) { \t\terror(\"%s: fork: %s\", __func__, strerror(errno)); \t\tsignal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) == -1) \t\t\tfatal(\"%s: dup2: %s\", __func__, strerror(errno));-\t\tsetenv(\"SSH_ASKPASS_PROMPT\", \"confirm\", 1); /* hint to UI */+\t\tif (env_hint != NULL)+\t\t\tsetenv(\"SSH_ASKPASS_PROMPT\", env_hint, 1); \t\texeclp(askpass, askpass, msg, (char *)NULL); \t\tfatal(\"%s: exec(%s): %s\", __func__, askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2019-12-06 03:06:08+00:00",
+            "commit_hash": "59175a350fe1091af7528b2971e3273aa7ca7295",
+            "message": "upstream: fix setting of $SSH_ASKPASS_PROMPT - it shouldn't be set\nwhen asking passphrases, only when confirming the use of a key (i.e. for\nssh-agent keys added with \"ssh-add -c keyfile\")\nOpenBSD-Commit-ID: 6643c82960d9427d5972eb702c917b3b838ecf89"
+        },
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,37 +50,37 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0)-\t\terror(\"ssh_askpass: fflush: %s\", strerror(errno));+\t\terror(\"%s: fflush: %s\", __func__, strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) == -1) {-\t\terror(\"ssh_askpass: pipe: %s\", strerror(errno));+\t\terror(\"%s: pipe: %s\", __func__, strerror(errno)); \t\treturn NULL; \t} \tosigchld = signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) == -1) {-\t\terror(\"ssh_askpass: fork: %s\", strerror(errno));+\t\terror(\"%s: fork: %s\", __func__, strerror(errno)); \t\tsignal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) == -1)-\t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno));+\t\t\tfatal(\"%s: dup2: %s\", __func__, strerror(errno)); \t\tsetenv(\"SSH_ASKPASS_PROMPT\", \"confirm\", 1); /* hint to UI */ \t\texeclp(askpass, askpass, msg, (char *)NULL);-\t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno));+\t\tfatal(\"%s: exec(%s): %s\", __func__, askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2019-12-06 02:55:21+00:00",
+            "commit_hash": "36eaa356d391a23a2d4e3a8aaa0223abc70b9822",
+            "message": "upstream: bring the __func__\nOpenBSD-Commit-ID: 71a3a45b0fe1b8f680ff95cf264aa81f7abbff67"
+        },
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,36 +50,37 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) == -1) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn NULL; \t} \tosigchld = signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) == -1) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\tsignal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) == -1) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno));+\t\tsetenv(\"SSH_ASKPASS_PROMPT\", \"confirm\", 1); /* hint to UI */ \t\texeclp(askpass, askpass, msg, (char *)NULL); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2019-11-12 22:35:02+00:00",
+            "commit_hash": "4671211068441519011ac0e38c588317f4157ba1",
+            "message": "upstream: pass SSH_ASKPASS_PROMPT hint to y/n key confirm too\nOpenBSD-Commit-ID: 08d46712e5e5f1bad0aea68e7717b7bec1ab8959"
+        },
+        {
+            "author": {
+                "email": "deraadt@openbsd.org",
+                "name": "deraadt@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,36 +50,36 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\");-\tif (pipe(p) < 0) {+\tif (pipe(p) == -1) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn NULL; \t} \tosigchld = signal(SIGCHLD, SIG_DFL);-\tif ((pid = fork()) < 0) {+\tif ((pid = fork()) == -1) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\tsignal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tclose(p[0]);-\t\tif (dup2(p[1], STDOUT_FILENO) < 0)+\t\tif (dup2(p[1], STDOUT_FILENO) == -1) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *)NULL); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2019-06-28 13:35:04+00:00",
+            "commit_hash": "4d28fa78abce2890e136281950633fae2066cc29",
+            "message": "upstream: When system calls indicate an error they return -1, not\nsome arbitrary value < 0.  errno is only updated in this case.  Change all\n(most?) callers of syscalls to follow this better, and let's see if this\nstrictness helps us in the future.\nOpenBSD-Commit-ID: 48081f00db7518e3b712a49dca06efc2a5428075"
+        },
+        {
+            "author": {
+                "email": "dtucker@openbsd.org",
+                "name": "dtucker@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,37 +50,36 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn NULL; \t} \tosigchld = signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\tsignal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) {-\t\tpermanently_drop_suid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *)NULL); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2018-07-18 11:34:04+00:00",
+            "commit_hash": "258dc8bb07dfb35a46e52b0822a2c5b7027df60a",
+            "message": "upstream: Remove support for running ssh(1) setuid and fatal if\nattempted. Do not link uidwap.c into ssh any more.  Neuters\nUsePrivilegedPort, which will be marked as deprecated shortly. ok markus@\ndjm@\nOpenBSD-Commit-ID: c4ba5bf9c096f57a6ed15b713a1d7e9e2e373c42"
+        },
+        {
+            "author": {
+                "email": "mmcc@openbsd.org",
+                "name": "mmcc@openbsd.org"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -50,37 +50,37 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid, ret; \tsize_t len; \tchar *pass; \tint p[2], status; \tchar buf[1024]; \tvoid (*osigchld)(int); \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn NULL; \t} \tosigchld = signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\tsignal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tpermanently_drop_suid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno));-\t\texeclp(askpass, askpass, msg, (char *) 0);+\t\texeclp(askpass, askpass, msg, (char *)NULL); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = 0; \tdo { \t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2015-12-11 00:20:04+00:00",
+            "commit_hash": "94141b7ade24afceeb6762a3f99e09e47a6c42b6",
+            "message": "upstream commit\nPass (char *)NULL rather than (char *)0 to execl and\nexeclp.\nok dtucker@\nUpstream-ID: 56c955106cbddba86c3dd9bbf786ac0d1b361492"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -49,35 +50,37 @@ static char * ssh_askpass(char *askpass, const char *msg) {-\tpid_t pid;+\tpid_t pid, ret; \tsize_t len; \tchar *pass;-\tint p[2], status, ret;+\tint p[2], status; \tchar buf[1024];+\tvoid (*osigchld)(int); \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn NULL; \t}+\tosigchld = signal(SIGCHLD, SIG_DFL); \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno));+\t\tsignal(SIGCHLD, osigchld); \t\treturn NULL; \t} \tif (pid == 0) { \t\tpermanently_drop_suid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]);-\tlen = ret = 0;+\tlen = 0; \tdo {-\t\tret = read(p[0], buf + len, sizeof(buf) - 1 - len);-\t\tif (ret == -1 && errno == EINTR)+\t\tssize_t r = read(p[0], buf + len, sizeof(buf) - 1 - len);",
+            "commit_date": "2011-01-06 22:43:44+11:00",
+            "commit_hash": "106079c06d308f6fb3b582607f590b2dcb4682b0",
+            "message": "- djm@cvs.openbsd.org 2010/12/15 00:49:27\n[readpass.c]\nfix ControlMaster=ask regression\nreset SIGCHLD handler before fork (and restore it after) so we don't miss\nthe the askpass child's exit status. Correct test for exit status/signal to\naccount for waitpid() failure; with claudio@ ok claudio@ markus@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -42,35 +42,35 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len; \tchar *pass; \tint p[2], status, ret; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn NULL; \t} \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\treturn NULL; \t} \tif (pid == 0) {-\t\tpermanently_set_uid(getpwuid(getuid()));+\t\tpermanently_drop_suid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = ret = 0; \tdo { \t\tret = read(p[0], buf + len, sizeof(buf) - 1 - len); \t\tif (ret == -1 && errno == EINTR)",
+            "commit_date": "2006-06-13 13:10:00+10:00",
+            "commit_hash": "2e5fe88ebe5a09477a655a36b047063282bfd86c",
+            "message": "- markus@cvs.openbsd.org 2006/06/08 14:45:49\n[readpass.c sshconnect.c sshconnect2.c uidswap.c uidswap.h]\ndo not set the gid, noted by solar; ok djm"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -41,36 +42,35 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len; \tchar *pass; \tint p[2], status, ret; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn NULL; \t} \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\treturn NULL; \t} \tif (pid == 0) {-\t\tseteuid(getuid());-\t\tsetuid(getuid());+\t\tpermanently_set_uid(getpwuid(getuid())); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = ret = 0; \tdo { \t\tret = read(p[0], buf + len, sizeof(buf) - 1 - len); \t\tif (ret == -1 && errno == EINTR)",
+            "commit_date": "2006-06-13 13:05:15+10:00",
+            "commit_hash": "6b4069ad563ce578cbfa6f90e76b462d26483e67",
+            "message": "- markus@cvs.openbsd.org 2006/06/06 10:20:20\n[readpass.c sshconnect.c sshconnect.h sshconnect2.c uidswap.c]\nreplace remaining setuid() calls with permanently_set_uid() and\ncheck seteuid() return values; report Marcus Meissner; ok dtucker djm"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -34,36 +34,36 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len; \tchar *pass; \tint p[2], status, ret; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno));-\t\treturn xstrdup(\"\");+\t\treturn NULL; \t} \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno));-\t\treturn xstrdup(\"\");+\t\treturn NULL; \t} \tif (pid == 0) { \t\tseteuid(getuid()); \t\tsetuid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = ret = 0; \tdo { \t\tret = read(p[0], buf + len, sizeof(buf) - 1 - len); \t\tif (ret == -1 && errno == EINTR)",
+            "commit_date": "2003-01-24 11:36:23+11:00",
+            "commit_hash": "6c71179f6839ab49e4e8a91209eef85dc190d5f1",
+            "message": "- markus@cvs.openbsd.org 2003/01/23 13:50:27\n[authfd.c authfd.h readpass.c ssh-add.1 ssh-add.c ssh-agent.c]\nssh-add -c, prompt user for confirmation (using ssh-askpass) when\nprivate agent key is used; with djm@; test by dugsong@, djm@;\nok deraadt@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -43,32 +43,36 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len; \tchar *pass;-\tint p[2], status;+\tint p[2], status, ret; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn xstrdup(\"\"); \t} \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\treturn xstrdup(\"\"); \t} \tif (pid == 0) { \t\tseteuid(getuid()); \t\tsetuid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]);-\tlen = read(p[0], buf, sizeof buf -1);++\tlen = ret = 0;+\tdo {+\t\tret = read(p[0], buf + len, sizeof(buf) - 1 - len);+\t\tif (ret == -1 && errno == EINTR)",
+            "commit_date": "2002-01-22 23:05:31+11:00",
+            "commit_hash": "f451e22e2134463062f7134f3e3556ab78ea0661",
+            "message": "- djm@cvs.openbsd.org 2001/12/21 08:53:45\n[readpass.c]\nAvoid interruptable passphrase read; ok markus@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -43,32 +43,32 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len;-\tchar *nl, *pass;+\tchar *pass; \tint p[2], status; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) { \t\terror(\"ssh_askpass: pipe: %s\", strerror(errno)); \t\treturn xstrdup(\"\"); \t} \tif ((pid = fork()) < 0) { \t\terror(\"ssh_askpass: fork: %s\", strerror(errno)); \t\treturn xstrdup(\"\"); \t} \tif (pid == 0) { \t\tseteuid(getuid()); \t\tsetuid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]);-\tlen = read(p[0], buf, sizeof buf);+\tlen = read(p[0], buf, sizeof buf -1);",
+            "commit_date": "2001-11-12 11:05:20+11:00",
+            "commit_hash": "637b8ae2d491ee0f46997b4d93fade643874a67a",
+            "message": "- markus@cvs.openbsd.org 2001/11/08 10:51:08\n[readpass.c]\ndon't strdup too much data; from gotoh@taiyo.co.jp; ok millert."
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -44,28 +44,32 @@ static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len; \tchar *nl, *pass; \tint p[2], status; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\");-\tif (pipe(p) < 0)-\t\tfatal(\"ssh_askpass: pipe: %s\", strerror(errno));-\tif ((pid = fork()) < 0)-\t\tfatal(\"ssh_askpass: fork: %s\", strerror(errno));+\tif (pipe(p) < 0) {+\t\terror(\"ssh_askpass: pipe: %s\", strerror(errno));+\t\treturn xstrdup(\"\");+\t}+\tif ((pid = fork()) < 0) {+\t\terror(\"ssh_askpass: fork: %s\", strerror(errno));+\t\treturn xstrdup(\"\");+\t} \tif (pid == 0) { \t\tseteuid(getuid()); \t\tsetuid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = read(p[0], buf, sizeof buf);",
+            "commit_date": "2001-07-14 12:19:56+10:00",
+            "commit_hash": "07ab49ef71a627452bcb14f62bdb08c0cc9ee49e",
+            "message": "- markus@cvs.openbsd.org 2001/07/10 21:49:12\n[readpass.c]\ndon't panic if fork or pipe fail (just return an empty passwd)."
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -45,28 +45,28 @@-char *+static char * ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len; \tchar *nl, *pass; \tint p[2], status; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) \t\tfatal(\"ssh_askpass: pipe: %s\", strerror(errno)); \tif ((pid = fork()) < 0) \t\tfatal(\"ssh_askpass: fork: %s\", strerror(errno)); \tif (pid == 0) { \t\tseteuid(getuid()); \t\tsetuid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = read(p[0], buf, sizeof buf);",
+            "commit_date": "2001-06-25 05:01:22+00:00",
+            "commit_hash": "bba81213b972ce15fbbaca60b9ffabb42371ce8f",
+            "message": "- itojun@cvs.openbsd.org 2001/06/23 15:12:20\n[auth1.c auth2.c auth2-chall.c authfd.c authfile.c auth-rhosts.c\ncanohost.c channels.c cipher.c clientloop.c deattack.c dh.c\nhostfile.c kex.c kexdh.c kexgex.c key.c nchan.c packet.c radix.c\nreadpass.c scp.c servconf.c serverloop.c session.c sftp.c\nsftp-client.c sftp-glob.c sftp-int.c sftp-server.c ssh-add.c\nssh-agent.c ssh.c sshconnect1.c sshconnect2.c sshconnect.c sshd.c\nssh-keygen.c ssh-keyscan.c]\nmore strict prototypes.  raise warning level in Makefile.inc.\nmarkus ok'ed\nTODO; cleanup headers"
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -45,28 +45,28 @@ char *-ssh_askpass(char *askpass, char *msg)+ssh_askpass(char *askpass, const char *msg) { \tpid_t pid; \tsize_t len; \tchar *nl, *pass; \tint p[2], status; \tchar buf[1024]; \tif (fflush(stdout) != 0) \t\terror(\"ssh_askpass: fflush: %s\", strerror(errno)); \tif (askpass == NULL) \t\tfatal(\"internal error: askpass undefined\"); \tif (pipe(p) < 0) \t\tfatal(\"ssh_askpass: pipe: %s\", strerror(errno)); \tif ((pid = fork()) < 0) \t\tfatal(\"ssh_askpass: fork: %s\", strerror(errno)); \tif (pid == 0) { \t\tseteuid(getuid()); \t\tsetuid(getuid()); \t\tclose(p[0]); \t\tif (dup2(p[1], STDOUT_FILENO) < 0) \t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno)); \t\texeclp(askpass, askpass, msg, (char *) 0); \t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno)); \t} \tclose(p[1]); \tlen = read(p[0], buf, sizeof buf);",
+            "commit_date": "2001-05-02 01:30:32+00:00",
+            "commit_hash": "6d849315ff76bccb6cb89a2151c4068a4e5361b3",
+            "message": "- mouring@cvs.openbsd.org 2001/05/02 01:25:39\n[readpass.c]\nPut the 'const' back into ssh_askpass() function.  Pointed out\nby Mark Miller <markm@swoon.net>.  OK Markus"
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/readpass.c b/readpass.c--- a/readpass.c+++ b/readpass.c@@ -40,0 +45,28 @@+char *+ssh_askpass(char *askpass, char *msg)+{+\tpid_t pid;+\tsize_t len;+\tchar *nl, *pass;+\tint p[2], status;+\tchar buf[1024];++\tif (fflush(stdout) != 0)+\t\terror(\"ssh_askpass: fflush: %s\", strerror(errno));+\tif (askpass == NULL)+\t\tfatal(\"internal error: askpass undefined\");+\tif (pipe(p) < 0)+\t\tfatal(\"ssh_askpass: pipe: %s\", strerror(errno));+\tif ((pid = fork()) < 0)+\t\tfatal(\"ssh_askpass: fork: %s\", strerror(errno));+\tif (pid == 0) {+\t\tseteuid(getuid());+\t\tsetuid(getuid());+\t\tclose(p[0]);+\t\tif (dup2(p[1], STDOUT_FILENO) < 0)+\t\t\tfatal(\"ssh_askpass: dup2: %s\", strerror(errno));+\t\texeclp(askpass, askpass, msg, (char *) 0);+\t\tfatal(\"ssh_askpass: exec(%s): %s\", askpass, strerror(errno));+\t}+\tclose(p[1]);+\tlen = read(p[0], buf, sizeof buf);",
+            "commit_date": "2001-04-19 20:33:07+00:00",
+            "commit_hash": "5eb97b6f3d878e6b40cfa73a18bacc293ea6b1ad",
+            "message": "- markus@cvs.openbsd.org 2001/04/18 21:57:42\n[readpass.c ssh-add.c]\ncall askpass from ssh, too, based on work by roth@feep.net, ok deraadt"
+        }
+    ],
+    "git log -L2127,2139:channels.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -2081,13 +2081,13 @@ static int channel_handle_efd_read(struct ssh *ssh, Channel *c) { \tchar buf[CHAN_RBUF]; \tssize_t len; \tint r, force; \tforce = c->isatty && c->detach_close && c->istate != CHAN_INPUT_CLOSED;-\tif ((c->io_ready & SSH_CHAN_IO_EFD_R) == 0)+\tif (!force && (c->io_ready & SSH_CHAN_IO_EFD_R) == 0) \t\treturn 1; \tlen = read(c->efd, buf, sizeof(buf));",
+            "commit_date": "2022-01-22 11:38:21+11:00",
+            "commit_hash": "e204b34337a965feb439826157c191919fd9ecf8",
+            "message": "restore tty force-read hack\nThis portable-specific hack fixes a hang on exit for ttyful sessions\non Linux and some SysVish Unix variants. It was accidentally disabled\nin commit 5c79952dfe1a (a precursor to the mainloop poll(2) conversion).\nSpotted by John in bz3383"
+        },
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -2099,14 +2091,13 @@ static int-channel_handle_efd_read(struct ssh *ssh, Channel *c,-    fd_set *readset, fd_set *writeset)+channel_handle_efd_read(struct ssh *ssh, Channel *c) { \tchar buf[CHAN_RBUF]; \tssize_t len; \tint r, force; \tforce = c->isatty && c->detach_close && c->istate != CHAN_INPUT_CLOSED;-\tif (c->efd == -1 || (!force && !FD_ISSET(c->efd, readset)))+\tif ((c->io_ready & SSH_CHAN_IO_EFD_R) == 0) \t\treturn 1; \tlen = read(c->efd, buf, sizeof(buf));",
+            "commit_date": "2022-01-06 21:46:23+00:00",
+            "commit_hash": "5c79952dfe1aa36105c93b3f383ce9be04dee384",
+            "message": "upstream: prepare for conversion of ssh, sshd mainloop from\nselect() to poll() by moving FD_SET construction out of channel handlers into\nseparate functions. ok markus\nOpenBSD-Commit-ID: 937fbf2a4de12b19fb9d5168424e206124807027"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -2098,12 +2098,14 @@ static int channel_handle_efd_read(struct ssh *ssh, Channel *c, { \tchar buf[CHAN_RBUF];-\tint r; \tssize_t len;+\tint r, force;++\tforce = c->isatty && c->detach_close && c->istate != CHAN_INPUT_CLOSED;-\tif (!c->detach_close && !FD_ISSET(c->efd, readset))+\tif (c->efd == -1 || (!force && !FD_ISSET(c->efd, readset))) \t\treturn 1; \tlen = read(c->efd, buf, sizeof(buf));",
+            "commit_date": "2019-02-08 14:50:36+11:00",
+            "commit_hash": "03e92dd27d491fe6d1a54e7b2f44ef1b0a916e52",
+            "message": "use same close logic for stderr as stdout\nAvoids sending SIGPIPE to child processes after their parent exits\nif they attempt to write to stderr.\nAnalysis and patch from JD Paul; patch reworked by Jakub Jelen and\nmyself. bz#2071; ok dtucker@\nfd_set *readset, fd_set *writeset)"
+        },
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1737,47 +1925,12 @@ static int-channel_handle_efd(Channel *c, fd_set *readset, fd_set *writeset)+channel_handle_efd_read(struct ssh *ssh, Channel *c,+    fd_set *readset, fd_set *writeset) { \tchar buf[CHAN_RBUF];-\tint len;+\tint r;+\tssize_t len;-/** XXX handle drain efd, too */-\tif (c->efd != -1) {-\t\tif (c->extended_usage == CHAN_EXTENDED_WRITE &&-\t\t    FD_ISSET(c->efd, writeset) &&-\t\t    buffer_len(&c->extended) > 0) {-\t\t\tlen = write(c->efd, buffer_ptr(&c->extended),-\t\t\t    buffer_len(&c->extended));-\t\t\tdebug2(\"channel %d: written %d to efd %d\",-\t\t\t    c->self, len, c->efd);-\t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN ||-\t\t\t    errno == EWOULDBLOCK))-\t\t\t\treturn 1;-\t\t\tif (len <= 0) {-\t\t\t\tdebug2(\"channel %d: closing write-efd %d\",-\t\t\t\t    c->self, c->efd);-\t\t\t\tchannel_close_fd(&c->efd);-\t\t\t} else {-\t\t\t\tbuffer_consume(&c->extended, len);-\t\t\t\tc->local_consumed += len;-\t\t\t}-\t\t} else if (c->efd != -1 &&-\t\t    (c->extended_usage == CHAN_EXTENDED_READ ||-\t\t    c->extended_usage == CHAN_EXTENDED_IGNORE) &&-\t\t    (c->detach_close || FD_ISSET(c->efd, readset))) {-\t\t\tlen = read(c->efd, buf, sizeof(buf));-\t\t\tdebug2(\"channel %d: read %d from efd %d\",-\t\t\t    c->self, len, c->efd);-\t\t\tif (len < 0 && (errno == EINTR || ((errno == EAGAIN ||-\t\t\t    errno == EWOULDBLOCK) && !c->detach_close)))-\t\t\t\treturn 1;-\t\t\tif (len <= 0) {-\t\t\t\tdebug2(\"channel %d: closing read-efd %d\",-\t\t\t\t    c->self, c->efd);-\t\t\t\tchannel_close_fd(&c->efd);-\t\t\t} else {-\t\t\t\tif (c->extended_usage == CHAN_EXTENDED_IGNORE) {-\t\t\t\t\tdebug3(\"channel %d: discard efd\",-\t\t\t\t\t    c->self);-\t\t\t\t} else-\t\t\t\t\tbuffer_append(&c->extended, buf, len);-\t\t\t}+\tif (!c->detach_close && !FD_ISSET(c->efd, readset))+\t\treturn 1;++\tlen = read(c->efd, buf, sizeof(buf));",
+            "commit_date": "2017-09-12 06:32:07+00:00",
+            "commit_hash": "dbee4119b502e3f8b6cd3282c69c537fd01d8e16",
+            "message": "upstream commit\nrefactor channels.c\nMove static state to a \"struct ssh_channels\" that is allocated at\nruntime and tracked as a member of struct ssh.\nExplicitly pass \"struct ssh\" to all channels functions.\nReplace use of the legacy packet APIs in channels.c.\nRework sshd_config PermitOpen handling: previously the configuration\nparser would call directly into the channels layer. After the refactor\nthis is not possible, as the channels structures are allocated at\nconnection time and aren't available when the configuration is parsed.\nThe server config parser now tracks PermitOpen itself and explicitly\nconfigures the channels code later.\nok markus@\nUpstream-ID: 11828f161656b965cc306576422613614bea2d8f"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1733,41 +1734,47 @@ static int channel_handle_efd(Channel *c, fd_set *readset, fd_set *writeset) { \tchar buf[CHAN_RBUF]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN || \t\t\t    errno == EWOULDBLOCK)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t}-\t\t} else if (c->extended_usage == CHAN_EXTENDED_READ &&+\t\t} else if (c->efd != -1 &&+\t\t    (c->extended_usage == CHAN_EXTENDED_READ ||+\t\t    c->extended_usage == CHAN_EXTENDED_IGNORE) && \t\t    (c->detach_close || FD_ISSET(c->efd, readset))) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || ((errno == EAGAIN || \t\t\t    errno == EWOULDBLOCK) && !c->detach_close))) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else {-\t\t\t\tbuffer_append(&c->extended, buf, len);+\t\t\t\tif (c->extended_usage == CHAN_EXTENDED_IGNORE) {+\t\t\t\t\tdebug3(\"channel %d: discard efd\",+\t\t\t\t\t    c->self);+\t\t\t\t} else+\t\t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2010-06-26 10:00:14+10:00",
+            "commit_hash": "8853ca5fc46b7b71c74baeefb9b0899c7fcfdb9a",
+            "message": "- djm@cvs.openbsd.org 2010/06/25 07:20:04\n[channels.c session.c]\nbz#1750: fix requirement for /dev/null inside ChrootDirectory for\ninternal-sftp accidentally introduced in r1.253 by removing the code\nthat opens and dup /dev/null to stderr and modifying the channels code\nto read stderr but discard it instead; ok markus@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1623,40 +1626,41 @@ static int channel_handle_efd(Channel *c, fd_set *readset, fd_set *writeset) { \tchar buf[CHAN_RBUF]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd);-\t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN))+\t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN ||+\t\t\t    errno == EWOULDBLOCK)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    (c->detach_close || FD_ISSET(c->efd, readset))) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t    c->self, len, c->efd);-\t\t\tif (len < 0 && (errno == EINTR ||-\t\t\t    (errno == EAGAIN && !c->detach_close)))+\t\t\tif (len < 0 && (errno == EINTR || ((errno == EAGAIN ||+\t\t\t    errno == EWOULDBLOCK) && !c->detach_close))) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2008-07-04 23:10:49+10:00",
+            "commit_hash": "d8968adb5faef58508bb5e7dab7cdbaf5b0e90d5",
+            "message": "- (djm) [atomicio.c channels.c clientloop.c defines.h includes.h]\n[packet.c scp.c serverloop.c sftp-client.c ssh-agent.c ssh-keyscan.c]\n[sshd.c] Explicitly handle EWOULDBLOCK wherever we handle EAGAIN, on\nsome platforms (HP nonstop) it is a distinct errno;\nbz#1467 reported by sconeu AT yahoo.com; ok dtucker@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1581,39 +1582,40 @@ static int channel_handle_efd(Channel *c, fd_set *readset, fd_set *writeset) { \tchar buf[CHAN_RBUF]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ &&-\t\t    FD_ISSET(c->efd, readset)) {+\t\t    (c->detach_close || FD_ISSET(c->efd, readset))) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t    c->self, len, c->efd);-\t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN))+\t\t\tif (len < 0 && (errno == EINTR ||+\t\t\t    (errno == EAGAIN && !c->detach_close))) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2007-01-29 10:16:28+11:00",
+            "commit_hash": "e42bd24b22bdce7e58b517d0b797d1d66bbec52b",
+            "message": "- (djm) [channels.c serverloop.c] Fix so-called \"hang on exit\" (bz #52)\nwhen closing a tty session when a background process still holds tty\nfds open. Great detective work and patch by Marc Aurele La France,\nslightly tweaked by me; ok dtucker@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1546,39 +1545,39 @@ static int-channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset)+channel_handle_efd(Channel *c, fd_set *readset, fd_set *writeset) { \tchar buf[CHAN_RBUF]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2006-03-26 13:57:41+11:00",
+            "commit_hash": "d62f2ca376168c716e4b485512a2b62b461e45b2",
+            "message": "- deraadt@cvs.openbsd.org 2006/03/19 18:52:11\n[auth1.c authfd.c channels.c]\nspacing"
+        },
+        {
+            "author": {
+                "email": "dtucker@zip.com.au",
+                "name": "Darren Tucker"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1454,39 +1459,39 @@ static int channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset) {-\tchar buf[16*1024];+\tchar buf[CHAN_RBUF]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2005-03-14 23:22:25+11:00",
+            "commit_hash": "11327cc5d7437b17f98580f1f173918873872c0d",
+            "message": "- markus@cvs.openbsd.org 2005/03/14 11:46:56\n[buffer.c buffer.h channels.c]\nlimit input buffer size for channels; bugzilla #896; with and ok dtucker@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1347,39 +1347,39 @@ static int channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset) { \tchar buf[16*1024]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\",-\t\t\t     c->self, len, c->efd);+\t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2001-12-21 14:45:46+11:00",
+            "commit_hash": "9f0f5c64bc4b6144e3fed6a7f538f7c21819a492",
+            "message": "- deraadt@cvs.openbsd.org 2001/12/19 07:18:56\n[auth1.c auth2.c auth2-chall.c auth-bsdauth.c auth.c authfile.c auth.h]\n[auth-krb4.c auth-rhosts.c auth-skey.c bufaux.c canohost.c channels.c]\n[cipher.c clientloop.c compat.c compress.c deattack.c key.c log.c mac.c]\n[match.c misc.c nchan.c packet.c readconf.c rijndael.c rijndael.h scard.c]\n[servconf.c servconf.h serverloop.c session.c sftp.c sftp-client.c]\n[sftp-glob.c sftp-int.c sftp-server.c ssh-add.c ssh-agent.c ssh.c]\n[sshconnect1.c sshconnect2.c sshconnect.c sshd.8 sshd.c sshd_config]\n[ssh-keygen.c sshlogin.c sshpty.c sshtty.c ttymodes.c uidswap.c]\nbasic KNF done while i was looking for something else"
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1316,41 +1335,39 @@ static int channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset) { \tchar buf[16*1024]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd);-\t\t\t\tclose(c->efd);-\t\t\t\tc->efd = -1;+\t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t     c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd);-\t\t\t\tclose(c->efd);-\t\t\t\tc->efd = -1;+\t\t\t\tchannel_close_fd(&c->efd); \t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2001-07-18 16:01:46+00:00",
+            "commit_hash": "16d29d57e85fd84c9dc06fd803d1abeceadff14c",
+            "message": "- markus@cvs.openbsd.org 2001/07/17 21:04:58\n[channels.c channels.h clientloop.c nchan.c serverloop.c]\nkeep track of both maxfd and the size of the malloc'ed fdsets.\nupdate maxfd if maxfd gets closed."
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -1276,41 +1275,41 @@-int+static int channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset) { \tchar buf[16*1024]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing write-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tclose(c->efd); \t\t\t\tc->efd = -1; \t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t     c->self, len, c->efd); \t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN)) \t\t\t\treturn 1; \t\t\tif (len <= 0) { \t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tclose(c->efd); \t\t\t\tc->efd = -1; \t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len); \t\t\t}",
+            "commit_date": "2001-06-25 05:01:22+00:00",
+            "commit_hash": "bba81213b972ce15fbbaca60b9ffabb42371ce8f",
+            "message": "- itojun@cvs.openbsd.org 2001/06/23 15:12:20\n[auth1.c auth2.c auth2-chall.c authfd.c authfile.c auth-rhosts.c\ncanohost.c channels.c cipher.c clientloop.c deattack.c dh.c\nhostfile.c kex.c kexdh.c kexgex.c key.c nchan.c packet.c radix.c\nreadpass.c scp.c servconf.c serverloop.c session.c sftp.c\nsftp-client.c sftp-glob.c sftp-int.c sftp-server.c ssh-add.c\nssh-agent.c ssh.c sshconnect1.c sshconnect2.c sshconnect.c sshd.c\nssh-keygen.c ssh-keyscan.c]\nmore strict prototypes.  raise warning level in Makefile.inc.\nmarkus ok'ed\nTODO; cleanup headers"
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -812,31 +812,41 @@ int channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset) { \tchar buf[16*1024]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd);-\t\t\tif (len > 0) {+\t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN))+\t\t\t\treturn 1;+\t\t\tif (len <= 0) {+\t\t\t\tdebug2(\"channel %d: closing write-efd %d\",+\t\t\t\t    c->self, c->efd);+\t\t\t\tclose(c->efd);+\t\t\t\tc->efd = -1;+\t\t\t} else { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t     c->self, len, c->efd);-\t\t\tif (len == 0) {-\t\t\t\tdebug(\"channel %d: closing efd %d\",+\t\t\tif (len < 0 && (errno == EINTR || errno == EAGAIN))+\t\t\t\treturn 1;+\t\t\tif (len <= 0) {+\t\t\t\tdebug2(\"channel %d: closing read-efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tclose(c->efd); \t\t\t\tc->efd = -1;-\t\t\t} else if (len > 0)+\t\t\t} else { \t\t\t\tbuffer_append(&c->extended, buf, len);+\t\t\t}",
+            "commit_date": "2001-03-05 06:16:11+00:00",
+            "commit_hash": "7fbd455c780e96065dc2bd8d96d21f0c017c0f99",
+            "message": "- markus@cvs.openbsd.org 2001/02/28 08:54:55\n[channels.c nchan.c nchan.h]\nmake sure remote stderr does not get truncated.\nremove closed fd's from the select mask."
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -727,31 +727,31 @@ int channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset) { \tchar buf[16*1024]; \tint len; /** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended));-\t\t\tdebug(\"channel %d: written %d to efd %d\",+\t\t\tdebug2(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len > 0) { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf));-\t\t\tdebug(\"channel %d: read %d from efd %d\",+\t\t\tdebug2(\"channel %d: read %d from efd %d\", \t\t\t     c->self, len, c->efd); \t\t\tif (len == 0) { \t\t\t\tdebug(\"channel %d: closing efd %d\", \t\t\t\t    c->self, c->efd); \t\t\t\tclose(c->efd); \t\t\t\tc->efd = -1; \t\t\t} else if (len > 0) \t\t\t\tbuffer_append(&c->extended, buf, len);",
+            "commit_date": "2000-09-30 14:20:03+11:00",
+            "commit_hash": "d344494346f60d8f8d94ed71f126f6541a80babc",
+            "message": "- (djm) CVS OpenBSD sync:\n- markus@cvs.openbsd.org  2000/09/26 13:59:59\n[clientloop.c]\nuse debug2\n- markus@cvs.openbsd.org  2000/09/27 15:41:34\n[auth2.c sshconnect2.c]\nuse key_type()\n- markus@cvs.openbsd.org  2000/09/28 12:03:18\n[channels.c]\ndebug -> debug2 cleanup"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -639,25 +639,31 @@ int channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset) { \tchar buf[16*1024]; \tint len;+/** XXX handle drain efd, too */ \tif (c->efd != -1) { \t\tif (c->extended_usage == CHAN_EXTENDED_WRITE && \t\t    FD_ISSET(c->efd, writeset) && \t\t    buffer_len(&c->extended) > 0) { \t\t\tlen = write(c->efd, buffer_ptr(&c->extended), \t\t\t    buffer_len(&c->extended)); \t\t\tdebug(\"channel %d: written %d to efd %d\", \t\t\t    c->self, len, c->efd); \t\t\tif (len > 0) { \t\t\t\tbuffer_consume(&c->extended, len); \t\t\t\tc->local_consumed += len; \t\t\t} \t\t} else if (c->extended_usage == CHAN_EXTENDED_READ && \t\t    FD_ISSET(c->efd, readset)) { \t\t\tlen = read(c->efd, buf, sizeof(buf)); \t\t\tdebug(\"channel %d: read %d from efd %d\", \t\t\t     c->self, len, c->efd);-\t\t\tif (len > 0)+\t\t\tif (len == 0) {+\t\t\t\tdebug(\"channel %d: closing efd %d\",+\t\t\t\t    c->self, c->efd);+\t\t\t\tclose(c->efd);+\t\t\t\tc->efd = -1;+\t\t\t} else if (len > 0) \t\t\t\tbuffer_append(&c->extended, buf, len);",
+            "commit_date": "2000-04-06 12:32:37+10:00",
+            "commit_hash": "1383bd8eb91a8ec9c8d283679faec5925b0ccc42",
+            "message": "- OpenBSD CVS update:\n- [channels.c]\nclose efd on eof\n- [clientloop.c compat.c ssh.c sshconnect.c myproposal.h]\nssh2 client implementation, interops w/ ssh.com and lsh servers.\n- [sshconnect.c]\nmissing free.\n- [authfile.c cipher.c cipher.h packet.c sshconnect.c sshd.c]\nremove unused argument, split cipher_mask()\n- [clientloop.c]\nre-order: group ssh1 vs. ssh2\n- Make Redhat spec require openssl >= 0.9.5a"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/channels.c b/channels.c--- a/channels.c+++ b/channels.c@@ -572,0 +639,25 @@+int+channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset)+{+\tchar buf[16*1024];+\tint len;++\tif (c->efd != -1) {+\t\tif (c->extended_usage == CHAN_EXTENDED_WRITE &&+\t\t    FD_ISSET(c->efd, writeset) &&+\t\t    buffer_len(&c->extended) > 0) {+\t\t\tlen = write(c->efd, buffer_ptr(&c->extended),+\t\t\t    buffer_len(&c->extended));+\t\t\tdebug(\"channel %d: written %d to efd %d\",+\t\t\t    c->self, len, c->efd);+\t\t\tif (len > 0) {+\t\t\t\tbuffer_consume(&c->extended, len);+\t\t\t\tc->local_consumed += len;+\t\t\t}+\t\t} else if (c->extended_usage == CHAN_EXTENDED_READ &&+\t\t    FD_ISSET(c->efd, readset)) {+\t\t\tlen = read(c->efd, buf, sizeof(buf));+\t\t\tdebug(\"channel %d: read %d from efd %d\",+\t\t\t     c->self, len, c->efd);+\t\t\tif (len > 0)+\t\t\t\tbuffer_append(&c->extended, buf, len);",
+            "commit_date": "2000-04-04 14:38:59+10:00",
+            "commit_hash": "33b13568b520b25990261206e10c941a9270238f",
+            "message": "- OpenBSD CVS update:\n- [packet.h packet.c]\nssh2 packet format\n- [packet.h packet.c nchan2.ms nchan.h compat.h compat.c]\n[channels.h channels.c]\nchannel layer support for ssh2\n- [kex.h kex.c hmac.h hmac.c dsa.c dsa.h]\nDSA, keyexchange, algorithm agreement for ssh2"
+        }
+    ],
+    "git log -L95,107:openbsd-compat/blowfish.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/blowfish.c b/openbsd-compat/blowfish.c--- /dev/null+++ b/openbsd-compat/blowfish.c@@ -0,0 +96,13 @@+void+Blowfish_decipher(blf_ctx *c, u_int32_t *xl, u_int32_t *xr)+{+\tu_int32_t Xl;+\tu_int32_t Xr;+\tu_int32_t *s = c->S[0];+\tu_int32_t *p = c->P;++\tXl = *xl;+\tXr = *xr;++\tXl ^= p[17];+\tBLFRND(s, p, Xr, Xl, 16); BLFRND(s, p, Xl, Xr, 15);",
+            "commit_date": "2013-12-07 11:51:51+11:00",
+            "commit_hash": "1ff130dac9b7aea0628f4ad30683431fe35e0020",
+            "message": "- [configure.ac openbsd-compat/Makefile.in openbsd-compat/bcrypt_pbkdf.c]\n[openbsd-compat/blf.h openbsd-compat/blowfish.c]\n[openbsd-compat/openbsd-compat.h] Start at supporting bcrypt_pbkdf in\nportable."
+        }
+    ],
+    "git log -L70,82:openbsd-compat/blowfish.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/blowfish.c b/openbsd-compat/blowfish.c--- /dev/null+++ b/openbsd-compat/blowfish.c@@ -0,0 +71,13 @@+void+Blowfish_encipher(blf_ctx *c, u_int32_t *xl, u_int32_t *xr)+{+\tu_int32_t Xl;+\tu_int32_t Xr;+\tu_int32_t *s = c->S[0];+\tu_int32_t *p = c->P;++\tXl = *xl;+\tXr = *xr;++\tXl ^= p[0];+\tBLFRND(s, p, Xr, Xl, 1); BLFRND(s, p, Xl, Xr, 2);",
+            "commit_date": "2013-12-07 11:51:51+11:00",
+            "commit_hash": "1ff130dac9b7aea0628f4ad30683431fe35e0020",
+            "message": "- [configure.ac openbsd-compat/Makefile.in openbsd-compat/bcrypt_pbkdf.c]\n[openbsd-compat/blf.h openbsd-compat/blowfish.c]\n[openbsd-compat/openbsd-compat.h] Start at supporting bcrypt_pbkdf in\nportable."
+        }
+    ],
+    "git log -L613,621:openbsd-compat/glob.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/glob.c b/openbsd-compat/glob.c--- a/openbsd-compat/glob.c+++ b/openbsd-compat/glob.c@@ -609,10 +609,9 @@ static int glob1(Char *pattern, Char *pattern_last, glob_t *pglob, struct glob_lim *limitp) {-\tChar pathbuf[MAXPATHLEN];+\tChar pathbuf[PATH_MAX]; \t/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */ \tif (*pattern == EOS) \t\treturn(0);-\treturn(glob2(pathbuf, pathbuf+MAXPATHLEN-1,-\t    pathbuf, pathbuf+MAXPATHLEN-1,+\treturn(glob2(pathbuf, pathbuf+PATH_MAX-1,",
+            "commit_date": "2019-11-15 15:08:28+11:00",
+            "commit_hash": "19f8ec428db835f68c1cfd63587e9880ccd6486c",
+            "message": "upstream commit\nrevision 1.40\ndate: 2013/09/30 12:02:34;  author: millert;  state: Exp;  lines: +14 -15;\nUse PATH_MAX, NAME_MAX and LOGIN_NAME_MAX not MAXPATHNAMELEN,\nMAXNAMLEN or MAXLOGNAME where possible.  OK deraadt@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/glob.c b/openbsd-compat/glob.c--- a/openbsd-compat/glob.c+++ b/openbsd-compat/glob.c@@ -571,9 +608,10 @@+static int glob1(Char *pattern, Char *pattern_last, glob_t *pglob, struct glob_lim *limitp) { \tChar pathbuf[MAXPATHLEN]; \t/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */ \tif (*pattern == EOS) \t\treturn(0); \treturn(glob2(pathbuf, pathbuf+MAXPATHLEN-1, \t    pathbuf, pathbuf+MAXPATHLEN-1,",
+            "commit_date": "2011-09-22 21:22:21+10:00",
+            "commit_hash": "e128a50e35eb4eabcf234ada07f07b8749b5e49c",
+            "message": "- djm@cvs.openbsd.org 2011/09/22 06:27:29\n[glob.c]\nfix GLOB_KEEPSTAT without GLOB_NOSORT; the implicit sort was being\napplied only to the gl_pathv vector and not the corresponding gl_statv\narray. reported in OpenSSH bz#1935; feedback and okay matthew@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/glob.c b/openbsd-compat/glob.c--- a/openbsd-compat/glob.c+++ b/openbsd-compat/glob.c@@ -559,9 +559,9 @@-glob1(Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp)+glob1(Char *pattern, Char *pattern_last, glob_t *pglob, struct glob_lim *limitp) { \tChar pathbuf[MAXPATHLEN]; \t/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */ \tif (*pattern == EOS) \t\treturn(0); \treturn(glob2(pathbuf, pathbuf+MAXPATHLEN-1, \t    pathbuf, pathbuf+MAXPATHLEN-1,",
+            "commit_date": "2011-01-12 13:30:18+11:00",
+            "commit_hash": "b66e91783186ad68b7a11fd67a81795fdbe103d8",
+            "message": "- nicm@cvs.openbsd.org 2010/10/08 21:48:42\n[openbsd-compat/glob.c]\nExtend GLOB_LIMIT to cover readdir and stat and bump the malloc limit\nfrom ARG_MAX to 64K.\nFixes glob-using programs (notably ftp) able to be triggered to hit\nresource limits.\nIdea from a similar NetBSD change, original problem reported by jasper@.\nok millert tedu jasper"
+        },
+        {
+            "author": {
+                "email": "dtucker@zip.com.au",
+                "name": "Darren Tucker"
+            },
+            "changes": "diff --git a/openbsd-compat/glob.c b/openbsd-compat/glob.c--- a/openbsd-compat/glob.c+++ b/openbsd-compat/glob.c@@ -513,12 +492,9 @@-glob1(pattern, pattern_last, pglob, limitp)-\tChar *pattern, *pattern_last;-\tglob_t *pglob;-\tsize_t *limitp;+glob1(Char *pattern, Char *pattern_last, glob_t *pglob, size_t *limitp) { \tChar pathbuf[MAXPATHLEN]; \t/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */ \tif (*pattern == EOS) \t\treturn(0); \treturn(glob2(pathbuf, pathbuf+MAXPATHLEN-1, \t    pathbuf, pathbuf+MAXPATHLEN-1,",
+            "commit_date": "2005-11-10 17:02:21+11:00",
+            "commit_hash": "6524d4f161d0505af2926c34e19032e1fcd102fd",
+            "message": "- (dtucker) [openbsd-compat/glob.c] Update from OpenBSD 1.22 -> 1.25."
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/glob.c b/openbsd-compat/glob.c--- a/openbsd-compat/glob.c+++ b/openbsd-compat/glob.c@@ -508,11 +511,12 @@-glob1(pattern, pglob, limitp)-\tChar *pattern;+glob1(pattern, pattern_last, pglob, limitp)+\tChar *pattern, *pattern_last; \tglob_t *pglob; \tsize_t *limitp; {-\tChar pathbuf[MAXPATHLEN+1];+\tChar pathbuf[MAXPATHLEN]; \t/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */ \tif (*pattern == EOS) \t\treturn(0);-\treturn(glob2(pathbuf, pathbuf, pattern, pglob, limitp));+\treturn(glob2(pathbuf, pathbuf+MAXPATHLEN-1,+\t    pathbuf, pathbuf+MAXPATHLEN-1,",
+            "commit_date": "2001-03-30 10:23:17+10:00",
+            "commit_hash": "d8f72ca6d5c8234699fc2c49b56837de554b2cf6",
+            "message": "- (djm) Another openbsd-compat/glob.c sync"
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/openbsd-compat/glob.c b/openbsd-compat/glob.c--- a/openbsd-compat/glob.c+++ b/openbsd-compat/glob.c@@ -495,10 +498,11 @@-glob1(pattern, pglob)+glob1(pattern, pglob, limitp) \tChar *pattern; \tglob_t *pglob;+\tsize_t *limitp; { \tChar pathbuf[MAXPATHLEN+1]; \t/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */ \tif (*pattern == EOS) \t\treturn(0);-\treturn(glob2(pathbuf, pathbuf, pattern, pglob));+\treturn(glob2(pathbuf, pathbuf, pattern, pglob, limitp));",
+            "commit_date": "2001-03-19 18:58:13+00:00",
+            "commit_hash": "a77d641cea5fc64707bf4a27a7bff8bbb8450c69",
+            "message": "- (bal) glob.c update to added GLOB_LIMITS."
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/glob.c b/openbsd-compat/glob.c--- /dev/null+++ b/openbsd-compat/glob.c@@ -0,0 +494,10 @@+glob1(pattern, pglob)+\tChar *pattern;+\tglob_t *pglob;+{+\tChar pathbuf[MAXPATHLEN+1];++\t/* A null pathname is invalid -- POSIX 1003.1 sect. 2.4. */+\tif (*pattern == EOS)+\t\treturn(0);+\treturn(glob2(pathbuf, pathbuf, pattern, pglob));",
+            "commit_date": "2001-03-14 11:39:45+11:00",
+            "commit_hash": "3c02768950ba1f17dc90d9f4a9538a8eec711c4f",
+            "message": "- (djm) Add replacement glob() from OpenBSD libc if the system glob is\nmissing or lacks the GLOB_ALTDIRFUNC extension\n- (djm) Remove -I$(srcdir)/openbsd-compat from CFLAGS, refer to headers\nrelatively. Avoids conflict between glob.h and /usr/include/glob.h"
+        }
+    ],
+    "git log -L420,444:openbsd-compat/blowfish.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/blowfish.c b/openbsd-compat/blowfish.c--- /dev/null+++ b/openbsd-compat/blowfish.c@@ -0,0 +421,25 @@+void+Blowfish_expand0state(blf_ctx *c, const u_int8_t *key, u_int16_t keybytes)+{+\tu_int16_t i;+\tu_int16_t j;+\tu_int16_t k;+\tu_int32_t temp;+\tu_int32_t datal;+\tu_int32_t datar;++\tj = 0;+\tfor (i = 0; i < BLF_N + 2; i++) {+\t\t/* Extract 4 int8 to 1 int32 from keystream */+\t\ttemp = Blowfish_stream2word(key, keybytes, &j);+\t\tc->P[i] = c->P[i] ^ temp;+\t}++\tj = 0;+\tdatal = 0x00000000;+\tdatar = 0x00000000;+\tfor (i = 0; i < BLF_N + 2; i += 2) {+\t\tBlowfish_encipher(c, &datal, &datar);++\t\tc->P[i] = datal;+\t\tc->P[i + 1] = datar;",
+            "commit_date": "2013-12-07 11:51:51+11:00",
+            "commit_hash": "1ff130dac9b7aea0628f4ad30683431fe35e0020",
+            "message": "- [configure.ac openbsd-compat/Makefile.in openbsd-compat/bcrypt_pbkdf.c]\n[openbsd-compat/blf.h openbsd-compat/blowfish.c]\n[openbsd-compat/openbsd-compat.h] Start at supporting bcrypt_pbkdf in\nportable."
+        }
+    ],
+    "git log -L420,452:openbsd-compat/blowfish.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/blowfish.c b/openbsd-compat/blowfish.c--- /dev/null+++ b/openbsd-compat/blowfish.c@@ -0,0 +421,33 @@+void+Blowfish_expand0state(blf_ctx *c, const u_int8_t *key, u_int16_t keybytes)+{+\tu_int16_t i;+\tu_int16_t j;+\tu_int16_t k;+\tu_int32_t temp;+\tu_int32_t datal;+\tu_int32_t datar;++\tj = 0;+\tfor (i = 0; i < BLF_N + 2; i++) {+\t\t/* Extract 4 int8 to 1 int32 from keystream */+\t\ttemp = Blowfish_stream2word(key, keybytes, &j);+\t\tc->P[i] = c->P[i] ^ temp;+\t}++\tj = 0;+\tdatal = 0x00000000;+\tdatar = 0x00000000;+\tfor (i = 0; i < BLF_N + 2; i += 2) {+\t\tBlowfish_encipher(c, &datal, &datar);++\t\tc->P[i] = datal;+\t\tc->P[i + 1] = datar;+\t}++\tfor (i = 0; i < 4; i++) {+\t\tfor (k = 0; k < 256; k += 2) {+\t\t\tBlowfish_encipher(c, &datal, &datar);++\t\t\tc->S[i][k] = datal;+\t\t\tc->S[i][k + 1] = datar;",
+            "commit_date": "2013-12-07 11:51:51+11:00",
+            "commit_hash": "1ff130dac9b7aea0628f4ad30683431fe35e0020",
+            "message": "- [configure.ac openbsd-compat/Makefile.in openbsd-compat/bcrypt_pbkdf.c]\n[openbsd-compat/blf.h openbsd-compat/blowfish.c]\n[openbsd-compat/openbsd-compat.h] Start at supporting bcrypt_pbkdf in\nportable."
+        }
+    ],
+    "git log -L458,485:openbsd-compat/blowfish.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/blowfish.c b/openbsd-compat/blowfish.c--- /dev/null+++ b/openbsd-compat/blowfish.c@@ -0,0 +459,28 @@+void+Blowfish_expandstate(blf_ctx *c, const u_int8_t *data, u_int16_t databytes,+    const u_int8_t *key, u_int16_t keybytes)+{+\tu_int16_t i;+\tu_int16_t j;+\tu_int16_t k;+\tu_int32_t temp;+\tu_int32_t datal;+\tu_int32_t datar;++\tj = 0;+\tfor (i = 0; i < BLF_N + 2; i++) {+\t\t/* Extract 4 int8 to 1 int32 from keystream */+\t\ttemp = Blowfish_stream2word(key, keybytes, &j);+\t\tc->P[i] = c->P[i] ^ temp;+\t}++\tj = 0;+\tdatal = 0x00000000;+\tdatar = 0x00000000;+\tfor (i = 0; i < BLF_N + 2; i += 2) {+\t\tdatal ^= Blowfish_stream2word(data, databytes, &j);+\t\tdatar ^= Blowfish_stream2word(data, databytes, &j);+\t\tBlowfish_encipher(c, &datal, &datar);++\t\tc->P[i] = datal;+\t\tc->P[i + 1] = datar;",
+            "commit_date": "2013-12-07 11:51:51+11:00",
+            "commit_hash": "1ff130dac9b7aea0628f4ad30683431fe35e0020",
+            "message": "- [configure.ac openbsd-compat/Makefile.in openbsd-compat/bcrypt_pbkdf.c]\n[openbsd-compat/blf.h openbsd-compat/blowfish.c]\n[openbsd-compat/openbsd-compat.h] Start at supporting bcrypt_pbkdf in\nportable."
+        }
+    ],
+    "git log -L458,495:openbsd-compat/blowfish.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/openbsd-compat/blowfish.c b/openbsd-compat/blowfish.c--- /dev/null+++ b/openbsd-compat/blowfish.c@@ -0,0 +459,38 @@+void+Blowfish_expandstate(blf_ctx *c, const u_int8_t *data, u_int16_t databytes,+    const u_int8_t *key, u_int16_t keybytes)+{+\tu_int16_t i;+\tu_int16_t j;+\tu_int16_t k;+\tu_int32_t temp;+\tu_int32_t datal;+\tu_int32_t datar;++\tj = 0;+\tfor (i = 0; i < BLF_N + 2; i++) {+\t\t/* Extract 4 int8 to 1 int32 from keystream */+\t\ttemp = Blowfish_stream2word(key, keybytes, &j);+\t\tc->P[i] = c->P[i] ^ temp;+\t}++\tj = 0;+\tdatal = 0x00000000;+\tdatar = 0x00000000;+\tfor (i = 0; i < BLF_N + 2; i += 2) {+\t\tdatal ^= Blowfish_stream2word(data, databytes, &j);+\t\tdatar ^= Blowfish_stream2word(data, databytes, &j);+\t\tBlowfish_encipher(c, &datal, &datar);++\t\tc->P[i] = datal;+\t\tc->P[i + 1] = datar;+\t}++\tfor (i = 0; i < 4; i++) {+\t\tfor (k = 0; k < 256; k += 2) {+\t\t\tdatal ^= Blowfish_stream2word(data, databytes, &j);+\t\t\tdatar ^= Blowfish_stream2word(data, databytes, &j);+\t\t\tBlowfish_encipher(c, &datal, &datar);++\t\t\tc->S[i][k] = datal;+\t\t\tc->S[i][k + 1] = datar;",
+            "commit_date": "2013-12-07 11:51:51+11:00",
+            "commit_hash": "1ff130dac9b7aea0628f4ad30683431fe35e0020",
+            "message": "- [configure.ac openbsd-compat/Makefile.in openbsd-compat/bcrypt_pbkdf.c]\n[openbsd-compat/blf.h openbsd-compat/blowfish.c]\n[openbsd-compat/openbsd-compat.h] Start at supporting bcrypt_pbkdf in\nportable."
+        }
+    ],
+    "git log -L1234,1247:sntrup761.c": [
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/sntrup761.c b/sntrup761.c--- /dev/null+++ b/sntrup761.c@@ -0,0 +1325,14 @@+/* k = Decap(c,sk) */+static void Decap(unsigned char *k,const unsigned char *c,const unsigned char *sk)+{+  const unsigned char *pk = sk + SecretKeys_bytes;+  const unsigned char *rho = pk + PublicKeys_bytes;+  const unsigned char *cache = rho + Inputs_bytes;+  Inputs r;+  unsigned char r_enc[Inputs_bytes];+  unsigned char cnew[Ciphertexts_bytes+Confirm_bytes];+  int mask;+  int i;++  ZDecrypt(r,c,sk);+  Hide(cnew,r_enc,r,pk,cache);",
+            "commit_date": "2020-12-29 00:59:15+00:00",
+            "commit_hash": "2c71cec020219d69df84055c59eba5799a1233ec",
+            "message": "upstream: Update/replace the experimental post-quantim hybrid key\nexchange method based on Streamlined NTRU Prime (coupled with X25519).\nThe previous sntrup4591761x25519-sha512@tinyssh.org method is\nreplaced with sntrup761x25519-sha512@openssh.com. Per the authors,\nsntrup4591761 was replaced almost two years ago by sntrup761.\nThe sntrup761 implementaion, like sntrup4591761 before it, is public\ndomain code extracted from the SUPERCOP cryptography benchmark\nsuite (https://bench.cr.yp.to/supercop.html).\nThanks for Daniel J Bernstein for guidance on algorithm selection.\nPatch from Tobias Heider; feedback & ok markus@ and myself\n(note this both the updated method and the one that it replaced are\ndisabled by default)\nOpenBSD-Commit-ID: 2bf582b772d81ee24e911bb6f4b2aecfd39338ae"
+        }
+    ],
+    "git log -L1076,1085:sntrup761.c": [
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/sntrup761.c b/sntrup761.c--- /dev/null+++ b/sntrup761.c@@ -0,0 +1167,10 @@+/* r = ZDecrypt(C,sk) */+static void ZDecrypt(Inputs r,const unsigned char *C,const unsigned char *sk)+{+  small f[p],v[p];+  Fq c[p];++  Small_decode(f,sk); sk += Small_bytes;+  Small_decode(v,sk);+  Rounded_decode(c,C);+  Decrypt(r,c,f,v);",
+            "commit_date": "2020-12-29 00:59:15+00:00",
+            "commit_hash": "2c71cec020219d69df84055c59eba5799a1233ec",
+            "message": "upstream: Update/replace the experimental post-quantim hybrid key\nexchange method based on Streamlined NTRU Prime (coupled with X25519).\nThe previous sntrup4591761x25519-sha512@tinyssh.org method is\nreplaced with sntrup761x25519-sha512@openssh.com. Per the authors,\nsntrup4591761 was replaced almost two years ago by sntrup761.\nThe sntrup761 implementaion, like sntrup4591761 before it, is public\ndomain code extracted from the SUPERCOP cryptography benchmark\nsuite (https://bench.cr.yp.to/supercop.html).\nThanks for Daniel J Bernstein for guidance on algorithm selection.\nPatch from Tobias Heider; feedback & ok markus@ and myself\n(note this both the updated method and the one that it replaced are\ndisabled by default)\nOpenBSD-Commit-ID: 2bf582b772d81ee24e911bb6f4b2aecfd39338ae"
+        }
+    ],
+    "git log -L50,77:sc25519.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/sc25519.c b/sc25519.c--- /dev/null+++ b/sc25519.c@@ -0,0 +44,28 @@+/* Reduce coefficients of x before calling barrett_reduce */+static void barrett_reduce(sc25519 *r, const crypto_uint32 x[64])+{+  /* See HAC, Alg. 14.42 */+  int i,j;+  crypto_uint32 q2[66];+  crypto_uint32 *q3 = q2 + 33;+  crypto_uint32 r1[33];+  crypto_uint32 r2[33];+  crypto_uint32 carry;+  crypto_uint32 pb = 0;+  crypto_uint32 b;++  for (i = 0;i < 66;++i) q2[i] = 0;+  for (i = 0;i < 33;++i) r2[i] = 0;++  for(i=0;i<33;i++)+    for(j=0;j<33;j++)+      if(i+j >= 31) q2[i+j] += mu[i]*x[j+31];+  carry = q2[31] >> 8;+  q2[32] += carry;+  carry = q2[32] >> 8;+  q2[33] += carry;++  for(i=0;i<33;i++)r1[i] = x[i];+  for(i=0;i<32;i++)+    for(j=0;j<33;j++)+      if(i+j < 33) r2[i+j] += m[i]*q3[j];",
+            "commit_date": "2013-12-07 11:24:01+11:00",
+            "commit_hash": "5be9d9e3cbd9c66f24745d25bf2e809c1d158ee0",
+            "message": "- markus@cvs.openbsd.org 2013/12/06 13:39:49\n[authfd.c authfile.c key.c key.h myproposal.h pathnames.h readconf.c]\n[servconf.c ssh-agent.c ssh-keygen.c ssh-keyscan.1 ssh-keyscan.c]\n[ssh-keysign.c ssh.c ssh_config.5 sshd.8 sshd.c verify.c ssh-ed25519.c]\n[sc25519.h sc25519.c hash.c ge25519_base.data ge25519.h ge25519.c]\n[fe25519.h fe25519.c ed25519.c crypto_api.h blocks.c]\nsupport ed25519 keys (hostkeys and user identities) using the public\ndomain ed25519 reference code from SUPERCOP, see\nhttp://ed25519.cr.yp.to/software.html\nfeedback, help & ok djm@"
+        }
+    ],
+    "git log -L123,161:smult_curve25519_ref.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/smult_curve25519_ref.c b/smult_curve25519_ref.c--- /dev/null+++ b/smult_curve25519_ref.c@@ -0,0 +123,39 @@++static void mainloop(unsigned int work[64],const unsigned char e[32])+{+  unsigned int xzm1[64];+  unsigned int xzm[64];+  unsigned int xzmb[64];+  unsigned int xzm1b[64];+  unsigned int xznb[64];+  unsigned int xzn1b[64];+  unsigned int a0[64];+  unsigned int a1[64];+  unsigned int b0[64];+  unsigned int b1[64];+  unsigned int c1[64];+  unsigned int r[32];+  unsigned int s[32];+  unsigned int t[32];+  unsigned int u[32];+  unsigned int j;+  unsigned int b;+  int pos;++  for (j = 0;j < 32;++j) xzm1[j] = work[j];+  xzm1[32] = 1;+  for (j = 33;j < 64;++j) xzm1[j] = 0;++  xzm[0] = 1;+  for (j = 1;j < 64;++j) xzm[j] = 0;++  for (pos = 254;pos >= 0;--pos) {+    b = e[pos / 8] >> (pos & 7);+    b &= 1;+    select(xzmb,xzm1b,xzm,xzm1,b);+    add(a0,xzmb,xzmb + 32);+    sub(a0 + 32,xzmb,xzmb + 32);+    add(a1,xzm1b,xzm1b + 32);+    sub(a1 + 32,xzm1b,xzm1b + 32);+    square(b0,a0);+    square(b0 + 32,a0 + 32);",
+            "commit_date": "2013-11-04 08:26:52+11:00",
+            "commit_hash": "1e1242604eb0fd510fe93f81245c529237ffc513",
+            "message": "- markus@cvs.openbsd.org 2013/11/02 21:59:15\n[kex.c kex.h myproposal.h ssh-keyscan.c sshconnect2.c sshd.c]\nuse curve25519 for default key exchange (curve25519-sha256@libssh.org);\ninitial patch from Aris Adamantiadis; ok djm@"
+        }
+    ],
+    "git log -L123,171:smult_curve25519_ref.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/smult_curve25519_ref.c b/smult_curve25519_ref.c--- /dev/null+++ b/smult_curve25519_ref.c@@ -0,0 +123,49 @@++static void mainloop(unsigned int work[64],const unsigned char e[32])+{+  unsigned int xzm1[64];+  unsigned int xzm[64];+  unsigned int xzmb[64];+  unsigned int xzm1b[64];+  unsigned int xznb[64];+  unsigned int xzn1b[64];+  unsigned int a0[64];+  unsigned int a1[64];+  unsigned int b0[64];+  unsigned int b1[64];+  unsigned int c1[64];+  unsigned int r[32];+  unsigned int s[32];+  unsigned int t[32];+  unsigned int u[32];+  unsigned int j;+  unsigned int b;+  int pos;++  for (j = 0;j < 32;++j) xzm1[j] = work[j];+  xzm1[32] = 1;+  for (j = 33;j < 64;++j) xzm1[j] = 0;++  xzm[0] = 1;+  for (j = 1;j < 64;++j) xzm[j] = 0;++  for (pos = 254;pos >= 0;--pos) {+    b = e[pos / 8] >> (pos & 7);+    b &= 1;+    select(xzmb,xzm1b,xzm,xzm1,b);+    add(a0,xzmb,xzmb + 32);+    sub(a0 + 32,xzmb,xzmb + 32);+    add(a1,xzm1b,xzm1b + 32);+    sub(a1 + 32,xzm1b,xzm1b + 32);+    square(b0,a0);+    square(b0 + 32,a0 + 32);+    mult(b1,a1,a0 + 32);+    mult(b1 + 32,a1 + 32,a0);+    add(c1,b1,b1 + 32);+    sub(c1 + 32,b1,b1 + 32);+    square(r,c1 + 32);+    sub(s,b0,b0 + 32);+    mult121665(t,s);+    add(u,t,b0);+    mult(xznb,b0,b0 + 32);+    mult(xznb + 32,s,u);",
+            "commit_date": "2013-11-04 08:26:52+11:00",
+            "commit_hash": "1e1242604eb0fd510fe93f81245c529237ffc513",
+            "message": "- markus@cvs.openbsd.org 2013/11/02 21:59:15\n[kex.c kex.h myproposal.h ssh-keyscan.c sshconnect2.c sshd.c]\nuse curve25519 for default key exchange (curve25519-sha256@libssh.org);\ninitial patch from Aris Adamantiadis; ok djm@"
+        }
+    ],
+    "git log -L179,195:smult_curve25519_ref.c": [
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/smult_curve25519_ref.c b/smult_curve25519_ref.c--- /dev/null+++ b/smult_curve25519_ref.c@@ -0,0 +179,17 @@++static void recip(unsigned int out[32],const unsigned int z[32])+{+  unsigned int z2[32];+  unsigned int z9[32];+  unsigned int z11[32];+  unsigned int z2_5_0[32];+  unsigned int z2_10_0[32];+  unsigned int z2_20_0[32];+  unsigned int z2_50_0[32];+  unsigned int z2_100_0[32];+  unsigned int t0[32];+  unsigned int t1[32];+  int i;++  /* 2 */ square(z2,z);+  /* 4 */ square(t1,z2);",
+            "commit_date": "2013-11-04 08:26:52+11:00",
+            "commit_hash": "1e1242604eb0fd510fe93f81245c529237ffc513",
+            "message": "- markus@cvs.openbsd.org 2013/11/02 21:59:15\n[kex.c kex.h myproposal.h ssh-keyscan.c sshconnect2.c sshd.c]\nuse curve25519 for default key exchange (curve25519-sha256@libssh.org);\ninitial patch from Aris Adamantiadis; ok djm@"
+        }
+    ],
+    "git log -L336,398:log.c": [
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -336,62 +336,63 @@ static void do_log(LogLevel level, int force, const char *suffix, const char *fmt, { #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tint saved_errno = errno; \tlog_handler_fn *tmp_handler;+\tconst char *progname = argv0 != NULL ? argv0 : __progname; \tif (!force && level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL && log_handler == NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \tif (suffix != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", msgbuf, suffix); \t\tstrlcpy(msgbuf, fmtbuf, sizeof(msgbuf)); \t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf),",
+            "commit_date": "2021-09-16 15:11:19+00:00",
+            "commit_hash": "e694f8ac4409931e67d08ac44ed251b20b10a957",
+            "message": "upstream: allow log_stderr==2 to prefix log messages with argv[0]\nuse this to make scp's SFTP mode error messages more scp-like\nprompted by and ok deraadt@\nOpenBSD-Commit-ID: 0e821dbde423fc2280e47414bdc22aaa5b4e0733\nva_list args)"
+        },
+        {
+            "author": {
+                "email": "markus@openbsd.org",
+                "name": "markus@openbsd.org"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -336,62 +336,62 @@ static void-do_log(const char *file, const char *func, int line, LogLevel level,-    int force, const char *suffix, const char *fmt, va_list args)+do_log(LogLevel level, int force, const char *suffix, const char *fmt,+    va_list args) { #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tint saved_errno = errno; \tlog_handler_fn *tmp_handler; \tif (!force && level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL && log_handler == NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \tif (suffix != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", msgbuf, suffix); \t\tstrlcpy(msgbuf, fmtbuf, sizeof(msgbuf)); \t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf),",
+            "commit_date": "2021-04-15 16:24:31+00:00",
+            "commit_hash": "faf2b86a46c9281d237bcdec18c99e94a4eb820a",
+            "message": "upstream: do not pass file/func to monitor; noted by Ilja van Sprundel;\nok djm@\nOpenBSD-Commit-ID: 85ae5c063845c410283cbdce685515dcd19479fa"
+        },
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -335,58 +335,62 @@ static void do_log(const char *file, const char *func, int line, LogLevel level,-    int force, const char *fmt, va_list args)+    int force, const char *suffix, const char *fmt, va_list args) { #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tint saved_errno = errno; \tlog_handler_fn *tmp_handler; \tif (!force && level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL && log_handler == NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t}+\tif (suffix != NULL) {+\t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", msgbuf, suffix);+\t\tstrlcpy(msgbuf, fmtbuf, sizeof(msgbuf));+\t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf),",
+            "commit_date": "2020-10-18 11:21:59+00:00",
+            "commit_hash": "9e2c4f64224f68fb84c49b5182e449f94b0dc985",
+            "message": "upstream: variants of the log methods that append a ssherr.h string\nfrom a supplied error code; ok markus@\nOpenBSD-Commit-ID: aed98c4435d48d036ae6740300f6a8357b7cc0bf"
+        },
+        {
+            "author": {
+                "email": "djm@openbsd.org",
+                "name": "djm@openbsd.org"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -398,67 +335,58 @@-void-do_log2(LogLevel level, const char *fmt,...)-{-\tva_list args;--\tva_start(args, fmt);-\tdo_log(level, fmt, args);-\tva_end(args);-}--void-do_log(LogLevel level, const char *fmt, va_list args)+static void+do_log(const char *file, const char *func, int line, LogLevel level,+    int force, const char *fmt, va_list args) { #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tint saved_errno = errno; \tlog_handler_fn *tmp_handler;-\tif (level > log_level)+\tif (!force && level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL && log_handler == NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf),",
+            "commit_date": "2020-10-16 13:24:45+00:00",
+            "commit_hash": "752250caabda3dd24635503c4cd689b32a650794",
+            "message": "upstream: revised log infrastructure for OpenSSH\nlog functions receive function, filename and line number of caller.\nWe can use this to selectively enable logging via pattern-lists.\nok markus@\nOpenBSD-Commit-ID: 51a472610cbe37834ce6ce4a3f0e0b1ccc95a349"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -330,55 +341,67 @@+void+do_log2(LogLevel level, const char *fmt,...)+{+\tva_list args;++\tva_start(args, fmt);+\tdo_log(level, fmt, args);+\tva_end(args);+}++void do_log(LogLevel level, const char *fmt, va_list args) { #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tint saved_errno = errno;+\tlog_handler_fn *tmp_handler; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t}-\tif (txt != NULL) {+\tif (txt != NULL && log_handler == NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf),",
+            "commit_date": "2011-06-20 14:42:23+10:00",
+            "commit_hash": "8f0bf237d4e699d00c2febaf1b88a9b9b827e77e",
+            "message": "- djm@cvs.openbsd.org 2011/06/17 21:44:31\n[log.c log.h monitor.c monitor.h monitor_wrap.c monitor_wrap.h sshd.c]\nmake the pre-auth privsep slave log via a socketpair shared with the\nmonitor rather than /var/empty/dev/log; ok dtucker@ deraadt@ markus@"
+        },
+        {
+            "author": {
+                "email": "dtucker@zip.com.au",
+                "name": "Darren Tucker"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -307,54 +308,55 @@ do_log(LogLevel level, const char *fmt, va_list args) { #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO;+\tint saved_errno = errno; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf),",
+            "commit_date": "2007-05-20 15:08:15+10:00",
+            "commit_hash": "36b78000a7bc14def417251aa50ebcdfcf182345",
+            "message": "- djm@cvs.openbsd.org 2007/05/17 07:50:31\n[log.c]\nsave and restore errno when logging; ok deraadt@"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -266,54 +269,54 @@ do_log(LogLevel level, const char *fmt, va_list args) { #if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t}-\tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_SAFE|VIS_OCTAL);+\tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf),",
+            "commit_date": "2004-07-21 10:52:13+10:00",
+            "commit_hash": "23a7027e48c1b8d7f54c04319a6e0433d1c19e23",
+            "message": "- (djm) [log.c] bz #111: Escape more control characters when sending data\nto syslog; from peak AT argo.troja.mff.cuni.cz"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -266,54 +266,54 @@ do_log(LogLevel level, const char *fmt, va_list args) {-#ifdef HAVE_OPENLOG_R+#if defined(HAVE_OPENLOG_R) && defined(SYSLOG_DATA_INIT) \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_SAFE|VIS_OCTAL);",
+            "commit_date": "2004-02-18 22:59:43+11:00",
+            "commit_hash": "051b0acbbce7218dcfa1521ad22f860aa20b3008",
+            "message": "- (djm) [log.c] Tighten openlog_r tests"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -266,54 +266,54 @@ do_log(LogLevel level, const char *fmt, va_list args) {-#ifdef OPENLOG_R+#ifdef HAVE_OPENLOG_R \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_SAFE|VIS_OCTAL);",
+            "commit_date": "2004-02-18 15:42:31+11:00",
+            "commit_hash": "82c78b3b9dc5000af2294ce2010cf137dc8fa9ec",
+            "message": "- (djm) [log.c] Correct use of HAVE_OPENLOG_R"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -340,55 +341,54 @@ do_log(LogLevel level, const char *fmt, va_list args) { #ifdef OPENLOG_R \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t}-\t/* Escape magic chars in output. */ \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_SAFE|VIS_OCTAL);",
+            "commit_date": "2003-05-25 14:38:02+10:00",
+            "commit_hash": "c11fe255ab45b8cf7783cedbcd688b00ed5308aa",
+            "message": "- (djm) OpenBSD CVS Sync\n- djm@cvs.openbsd.org 2003/05/24 09:02:22\n[log.c]\npass logged data through strnvis; ok markus"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -340,55 +340,55 @@ do_log(LogLevel level, const char *fmt, va_list args) { #ifdef OPENLOG_R \tstruct syslog_data sdata = SYSLOG_DATA_INIT; #endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \t/* Escape magic chars in output. */-\tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_OCTAL);+\tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_SAFE|VIS_OCTAL);",
+            "commit_date": "2003-05-23 18:43:40+10:00",
+            "commit_hash": "d419bdae777eee388e9f5a6f0e12fdd76981bac0",
+            "message": "- (djm) Use VIS_SAFE on logged strings rather than default strnvis\nencoding (which encodes many more characters)"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -340,52 +340,55 @@ do_log(LogLevel level, const char *fmt, va_list args) {+#ifdef OPENLOG_R+\tstruct syslog_data sdata = SYSLOG_DATA_INIT;+#endif \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t} \t/* Escape magic chars in output. */ \tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_OCTAL);",
+            "commit_date": "2003-05-20 09:24:17+10:00",
+            "commit_hash": "74a3442d10b875d73f770249844138856b87e4e9",
+            "message": "- deraadt@cvs.openbsd.org 2003/05/18 23:22:01\n[log.c]\nuse syslog_r() in a signal handler called place; markus ok"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -339,50 +339,52 @@ do_log(LogLevel level, const char *fmt, va_list args) { \tchar msgbuf[MSGBUFSIZ]; \tchar fmtbuf[MSGBUFSIZ]; \tchar *txt = NULL; \tint pri = LOG_INFO; \tif (level > log_level) \t\treturn; \tswitch (level) { \tcase SYSLOG_LEVEL_FATAL: \t\tif (!log_on_stderr) \t\t\ttxt = \"fatal\"; \t\tpri = LOG_CRIT; \t\tbreak; \tcase SYSLOG_LEVEL_ERROR: \t\tif (!log_on_stderr) \t\t\ttxt = \"error\"; \t\tpri = LOG_ERR; \t\tbreak; \tcase SYSLOG_LEVEL_INFO: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_VERBOSE: \t\tpri = LOG_INFO; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG1: \t\ttxt = \"debug1\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG2: \t\ttxt = \"debug2\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tcase SYSLOG_LEVEL_DEBUG3: \t\ttxt = \"debug3\"; \t\tpri = LOG_DEBUG; \t\tbreak; \tdefault: \t\ttxt = \"internal error\"; \t\tpri = LOG_ERR; \t\tbreak; \t} \tif (txt != NULL) { \t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt); \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args); \t} else { \t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args); \t}+\t/* Escape magic chars in output. */+\tstrnvis(fmtbuf, msgbuf, sizeof(fmtbuf), VIS_OCTAL);",
+            "commit_date": "2003-01-07 17:04:18+11:00",
+            "commit_hash": "b93addb6d667b36bdbb298b8b3c581c1738c0c9f",
+            "message": "- (djm) Bug #111: Run syslog and stderr logging through strnvis to eliminate\nnasties. Report from peak@argo.troja.mff.cuni.cz"
+        },
+        {
+            "author": {
+                "email": "mouring@eviladmin.org",
+                "name": "Ben Lindstrom"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -232,9 +327,50 @@-LogLevel-log_level_number(char *name)+do_log(LogLevel level, const char *fmt, va_list args) {-\tint i;-\tif (name != NULL)-\t\tfor (i = 0; log_levels[i].name; i++)-\t\t\tif (strcasecmp(log_levels[i].name, name) == 0)-\t\t\t\treturn log_levels[i].val;-\treturn (LogLevel) - 1;+\tchar msgbuf[MSGBUFSIZ];+\tchar fmtbuf[MSGBUFSIZ];+\tchar *txt = NULL;+\tint pri = LOG_INFO;++\tif (level > log_level)+\t\treturn;++\tswitch (level) {+\tcase SYSLOG_LEVEL_FATAL:+\t\tif (!log_on_stderr)+\t\t\ttxt = \"fatal\";+\t\tpri = LOG_CRIT;+\t\tbreak;+\tcase SYSLOG_LEVEL_ERROR:+\t\tif (!log_on_stderr)+\t\t\ttxt = \"error\";+\t\tpri = LOG_ERR;+\t\tbreak;+\tcase SYSLOG_LEVEL_INFO:+\t\tpri = LOG_INFO;+\t\tbreak;+\tcase SYSLOG_LEVEL_VERBOSE:+\t\tpri = LOG_INFO;+\t\tbreak;+\tcase SYSLOG_LEVEL_DEBUG1:+\t\ttxt = \"debug1\";+\t\tpri = LOG_DEBUG;+\t\tbreak;+\tcase SYSLOG_LEVEL_DEBUG2:+\t\ttxt = \"debug2\";+\t\tpri = LOG_DEBUG;+\t\tbreak;+\tcase SYSLOG_LEVEL_DEBUG3:+\t\ttxt = \"debug3\";+\t\tpri = LOG_DEBUG;+\t\tbreak;+\tdefault:+\t\ttxt = \"internal error\";+\t\tpri = LOG_ERR;+\t\tbreak;+\t}+\tif (txt != NULL) {+\t\tsnprintf(fmtbuf, sizeof(fmtbuf), \"%s: %s\", txt, fmt);+\t\tvsnprintf(msgbuf, sizeof(msgbuf), fmtbuf, args);+\t} else {+\t\tvsnprintf(msgbuf, sizeof(msgbuf), fmt, args);+\t}",
+            "commit_date": "2001-03-05 07:24:46+00:00",
+            "commit_hash": "8a432f5fe0b6a5e140ef2d72adc23b851d8d2e53",
+            "message": "- markus@cvs.openbsd.org 2001/03/03 23:59:34\n[log.c ssh.c]\nlog*.c -> log.c"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -186,9 +177,9 @@ LogLevel log_level_number(char *name) {-  int i;-  if (name != NULL)-    for (i = 0; log_levels[i].name; i++)-      if (strcasecmp(log_levels[i].name, name) == 0)-        return log_levels[i].val;-  return (LogLevel)-1;+\tint i;+\tif (name != NULL)+\t\tfor (i = 0; log_levels[i].name; i++)+\t\t\tif (strcasecmp(log_levels[i].name, name) == 0)+\t\t\t\treturn log_levels[i].val;+\treturn (LogLevel) - 1;",
+            "commit_date": "1999-11-25 00:26:21+11:00",
+            "commit_hash": "95def09838fc61b37b6ea7cd5c234a465b4b129b",
+            "message": "- Merged very large OpenBSD source code reformat\n- OpenBSD CVS updates\n- [channels.c cipher.c compat.c log-client.c scp.c serverloop.c]\n[ssh.h sshd.8 sshd.c]\nsyslog changes:\n* Unified Logmessage for all auth-types, for success and for failed\n* Standard connections get only ONE line in the LOG when level==LOG:\nAuth-attempts are logged only, if authentication is:\na) successfull or\nb) with passwd or\nc) we had more than AUTH_FAIL_LOG failues\n* many log() became verbose()\n* old behaviour with level=VERBOSE\n- [readconf.c readconf.h ssh.1 ssh.h sshconnect.c sshd.c]\ntranfer s/key challenge/response data in SSH_SMSG_AUTH_TIS_CHALLENGE\nmessages. allows use of s/key in windows (ttssh, securecrt) and\nssh-1.2.27 clients without 'ssh -v', ok: niels@\n- [sshd.8]\n-V, for fallback to openssh in SSH2 compatibility mode\n- [sshd.c]\nfix sigchld race; cjc5@po.cwru.edu"
+        },
+        {
+            "author": {
+                "email": "djm@mindrot.org",
+                "name": "Damien Miller"
+            },
+            "changes": "diff --git a/log.c b/log.c--- a/log.c+++ b/log.c@@ -136,0 +186,9 @@+LogLevel+log_level_number(char *name)+{+  int i;+  if (name != NULL)+    for (i = 0; log_levels[i].name; i++)+      if (strcasecmp(log_levels[i].name, name) == 0)+        return log_levels[i].val;+  return (LogLevel)-1;",
+            "commit_date": "1999-11-21 13:23:52+11:00",
+            "commit_hash": "6162d1215bbff30cf0c4c19368dc85ae570d44ca",
+            "message": "- OpenBSD CVS Changes\n- [channels.c]\nmake this compile, bad markus\n- [log.c readconf.c servconf.c ssh.h]\nbugfix: loglevels are per host in clientconfig,\nfactor out common log-level parsing code.\n- [servconf.c]\nremove unused index (-Wall)\n- [ssh-agent.c]\nonly one 'extern char *__progname'\n- [sshd.8]\ndocument SIGHUP, -Q to synopsis\n- [sshconnect.c serverloop.c sshd.c packet.c packet.h]\n[channels.c clientloop.c]\nSSH_CMSG_MAX_PACKET_SIZE, some clients use this, some need this, niels@\n[hope this time my ISP stays alive during commit]"
+        }
+    ]
+}

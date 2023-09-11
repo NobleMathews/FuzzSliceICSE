@@ -1,0 +1,17 @@
+venv/
+.env
+*._*
+*.dat
+*.xml
+*.xml_fixed
+workspace/
+test_lib/
+*.o
+/out.log
+*.pyc
+info_lib/*
+fuzz/*
+*.profraw
+build_logs
+build_logs_fixed
+/tmp
