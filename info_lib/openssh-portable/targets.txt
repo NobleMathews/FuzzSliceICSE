@@ -1,0 +1,27 @@
+./test_lib/openssh-portable/ssh-agent.c:1768: Medium: read
+./test_lib/openssh-portable/ssh-keygen.c:621: Medium: fgetc
+./test_lib/openssh-portable/misc.c:2185: High: realpath
+./test_lib/openssh-portable/misc.c:2190: High: realpath
+./test_lib/openssh-portable/ssh-keygen.c:616: Medium: fgetc
+./test_lib/openssh-portable/openbsd-compat/readpassphrase.c:132: Medium: read // sighandler
+./test_lib/openssh-portable/readpass.c:87: Medium: read // do-while loop
+./test_lib/openssh-portable/channels.c:2139: Medium: read // typedef void function
+./test_lib/openssh-portable/sftp.c:595: error: Buffer Overrun L2
+./test_lib/openssh-portable/openbsd-compat/blowfish.c:107: error: Buffer Overrun L1
+./test_lib/openssh-portable/openbsd-compat/blowfish.c:82: error: Buffer Overrun L1
+./test_lib/openssh-portable/openbsd-compat/glob.c:621: error: Buffer Overrun L1
+./test_lib/openssh-portable/openbsd-compat/blowfish.c:444: error: Buffer Overrun L2
+./test_lib/openssh-portable/openbsd-compat/blowfish.c:452: error: Buffer Overrun L2
+./test_lib/openssh-portable/openbsd-compat/blowfish.c:485: error: Buffer Overrun L2
+./test_lib/openssh-portable/openbsd-compat/blowfish.c:495: error: Buffer Overrun L2
+./test_lib/openssh-portable/sntrup761.c:1247: error: Buffer Overrun L2 // NC
+./test_lib/openssh-portable/sntrup761.c:1085: error: Buffer Overrun L2
+./test_lib/openssh-portable/sc25519.c:77: error: Buffer Overrun L2
+./test_lib/openssh-portable/openbsd-compat/sha2.c:415: error: Buffer Overrun L2 // do while
+./test_lib/openssh-portable/openbsd-compat/sha2.c:427: error: Buffer Overrun L2 // do-while
+./test_lib/openssh-portable/openbsd-compat/sha2.c:696: error: Buffer Overrun L2 // do-while
+./test_lib/openssh-portable/openbsd-compat/sha2.c:708: error: Buffer Overrun L2 // do-while
+./test_lib/openssh-portable/smult_curve25519_ref.c:161: error: Buffer Overrun L2
+./test_lib/openssh-portable/smult_curve25519_ref.c:171: error: Buffer Overrun L2
+./test_lib/openssh-portable/smult_curve25519_ref.c:195: error: Buffer Overrun L2
+./test_lib/openssh-portable/log.c:398: error: Buffer Overrun L2 // va_arg

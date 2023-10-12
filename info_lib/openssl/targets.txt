@@ -1,0 +1,142 @@
+./test_lib/openssl/test/testutil/format_output.c:258: High: strcpy
+./test_lib/openssl/crypto/ts/ts_rsp_verify.c:383: High: strcat
+./test_lib/openssl/test/sslapitest.c:176: High: strcat
+./test_lib/openssl/test/sslapitest.c:160: High: strcat
+./test_lib/openssl/crypto/o_str.c:29: High: strcpy
+./test_lib/openssl/test/endecode_test.c:495: High: strcat
+./test_lib/openssl/test/endecode_test.c:498: High: strcpy
+./test_lib/openssl/test/params_test.c:339: High: strcpy
+./test_lib/openssl/test/params_test.c:340: High: strcpy
+./test_lib/openssl/test/params_test.c:111: High: strcpy
+./test_lib/openssl/providers/implementations/signature/sm2_sig.c:129: High: strcpy
+./test_lib/openssl/test/params_test.c:190: High: strcpy
+./test_lib/openssl/test/params_test.c:195: High: strcpy
+./test_lib/openssl/test/drbgtest.c:427: High: strcpy
+./test_lib/openssl/crypto/dso/dso_dlfcn.c:246: High: strcpy
+./test_lib/openssl/crypto/dso/dso_dlfcn.c:248: High: strcpy
+./test_lib/openssl/test/testutil/driver.c:428: High: strcpy
+./test_lib/openssl/crypto/engine/eng_ctrl.c:113: High: strcpy
+./test_lib/openssl/crypto/engine/eng_ctrl.c:118: High: strcpy
+./test_lib/openssl/ssl/ssl_lib.c:6399: High: strcpy
+./test_lib/openssl/fuzz/test-corpus.c:82: High: strcpy
+./test_lib/openssl/fuzz/test-corpus.c:89: High: strcpy
+./test_lib/openssl/crypto/evp/bio_enc.c:345: error: Buffer Overrun L1
+./test_lib/openssl/test/x509_dup_cert_test.c:22: error: Buffer Overrun L2
+./test_lib/openssl/crypto/x509/v3_addr.c:152: error: Buffer Overrun L2
+./test_lib/openssl/test/test_test.c:527: error: Buffer Overrun L2
+./test_lib/openssl/test/params_test.c:660: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:3115: error: Buffer Overrun L2
+./test_lib/openssl/test/ssl_old_test.c:2923: error: Buffer Overrun L2
+./test_lib/openssl/test/ssl_old_test.c:2878: error: Buffer Overrun L2
+./test_lib/openssl/test/fips_version_test.c:37: error: Buffer Overrun L2
+./test_lib/openssl/test/x509aux.c:32: error: Buffer Overrun L2
+./test_lib/openssl/test/params_conversion_test.c:324: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:1927: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:2196: error: Buffer Overrun L2
+./test_lib/openssl/test/rc2test.c:53: error: Buffer Overrun L2
+./test_lib/openssl/test/testutil/format_output.c:258: error: Buffer Overrun L2
+./test_lib/openssl/test/evp_test.c:3937: error: Buffer Overrun L2
+./test_lib/openssl/ssl/t1_lib.c:3624: error: Buffer Overrun L2
+./test_lib/openssl/apps/s_server.c:2997: error: Buffer Overrun L1 // after if drop
+./test_lib/openssl/crypto/bn/bn_sqrt.c:78: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_exp2.c:72: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_kron.c:41: error: Buffer Overrun L3 // goto statements
+./test_lib/openssl/crypto/idea/i_skey.c:41: error: Buffer Overrun L1
+./test_lib/openssl/crypto/aria/aria.c:616: error: Buffer Overrun L1
+./test_lib/openssl/test/aesgcmtest.c:56: error: Buffer Overrun L1
+./test_lib/openssl/crypto/idea/i_skey.c:76: error: Buffer Overrun L1
+./test_lib/openssl/crypto/aria/aria.c:599: error: Buffer Overrun L1
+./test_lib/openssl/crypto/idea/i_skey.c:50: error: Buffer Overrun L1 
+./test_lib/openssl/test/clienthellotest.c:113: error: Buffer Overrun L1
+./test_lib/openssl/test/bftest.c:357: error: Buffer Overrun L1 
+./test_lib/openssl/test/bftest.c:383: error: Buffer Overrun L1 
+./test_lib/openssl/test/hmactest.c:57: error: Buffer Overrun L1 // Enclosing function
+./test_lib/openssl/crypto/idea/i_cbc.c:125: error: Buffer Overrun L1
+./test_lib/openssl/crypto/idea/i_skey.c:86: error: Buffer Overrun L1
+./test_lib/openssl/test/dtls_mtu_test.c:165: error: Buffer Overrun L1
+./test_lib/openssl/test/evp_pkey_provided_test.c:150: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:304: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:350: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:306: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:311: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:345: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:305: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:355: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:299: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:316: error: Buffer Overrun L1
+./test_lib/openssl/test/http_test.c:321: error: Buffer Overrun L1
+./test_lib/openssl/crypto/srp/srp_vfy.c:154: error: Buffer Overrun L1
+./test_lib/openssl/test/afalgtest.c:87: error: Buffer Overrun L1
+./test_lib/openssl/test/provider_test.c:71: error: Buffer Overrun L1
+./test_lib/openssl/test/evp_extra_test.c:2790: error: Buffer Overrun L1
+./test_lib/openssl/test/evp_extra_test.c:3836: error: Buffer Overrun L1
+./test_lib/openssl/test/evp_extra_test.c:3273: error: Buffer Overrun L1
+./test_lib/openssl/test/threadstest.c:405: error: Buffer Overrun L1 // after if drop
+./test_lib/openssl/test/evp_extra_test.c:3918: error: Buffer Overrun L1
+./test_lib/openssl/test/sslapitest.c:374: error: Buffer Overrun L1
+./test_lib/openssl/test/evp_extra_test.c:3630: error: Buffer Overrun L1
+./test_lib/openssl/test/evp_extra_test.c:3162: error: Buffer Overrun L1
+./test_lib/openssl/test/destest.c:750: error: Buffer Overrun L1
+./test_lib/openssl/test/evp_extra_test.c:3710: error: Buffer Overrun L1
+./test_lib/openssl/crypto/evp/ctrl_params_translate.c:1395: error: Buffer Overrun L1
+./test_lib/openssl/test/sslapitest.c:8591: error: Buffer Overrun L1
+./test_lib/openssl/test/bftest.c:415: error: Buffer Overrun L1
+./test_lib/openssl/test/test_test.c:317: error: Buffer Overrun L2
+./test_lib/openssl/test/sm2_internal_test.c:214: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:3007: error: Buffer Overrun L2
+./test_lib/openssl/test/sm2_internal_test.c:376: error: Buffer Overrun L2
+./test_lib/openssl/test/cipherlist_test.c:222: error: Buffer Overrun L2
+./test_lib/openssl/apps/ts.c:575: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:2131: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:2137: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:950: error: Buffer Overrun L2
+./test_lib/openssl/test/v3nametest.c:293: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:2146: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:2023: error: Buffer Overrun L2
+./test_lib/openssl/test/params_test.c:336: error: Buffer Overrun L2
+./test_lib/openssl/test/ecdsatest.c:115: error: Buffer Overrun L2
+./test_lib/openssl/apps/passwd.c:473: error: Buffer Overrun L2
+./test_lib/openssl/test/cipherlist_test.c:207: error: Buffer Overrun L2
+./test_lib/openssl/test/dtls_mtu_test.c:165: error: Buffer Overrun L2
+./test_lib/openssl/crypto/ec/curve25519.c:4549: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:179: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:2973: error: Buffer Overrun L2
+./test_lib/openssl/test/test_test.c:427: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:1993: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:1096: error: Buffer Overrun L2
+./test_lib/openssl/test/asn1_decode_test.c:215: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:802: error: Buffer Overrun L2
+./test_lib/openssl/test/bftest.c:415: error: Buffer Overrun L2
+./test_lib/openssl/test/clienthellotest.c:113: error: Buffer Overrun L2
+./test_lib/openssl/crypto/ts/ts_rsp_verify.c:383: error: Buffer Overrun L2
+./test_lib/openssl/test/bntest.c:2062: error: Buffer Overrun L2
+./test_lib/openssl/test/bftest.c:357: error: Buffer Overrun L2
+./test_lib/openssl/test/bftest.c:383: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:1186: error: Buffer Overrun L2
+./test_lib/openssl/test/params_test.c:107: error: Buffer Overrun L2
+./test_lib/openssl/test/bftest.c:339: error: Buffer Overrun L2
+./test_lib/openssl/crypto/ec/curve448/arch_64/f_impl64.c:49: error: Buffer Overrun L2
+./test_lib/openssl/apps/lib/app_params.c:90: error: Buffer Overrun L2 // same file multiple definitions
+./test_lib/openssl/test/srptest.c:154: error: Buffer Overrun L2
+./test_lib/openssl/apps/ts.c:799: error: Buffer Overrun L2
+./test_lib/openssl/apps/lib/apps.c:1488: error: Buffer Overrun L2 // weird static function error
+./test_lib/openssl/apps/lib/apps.c:2117: error: Buffer Overrun L2 // weird static function error
+./test_lib/openssl/test/ec_internal_test.c:325: error: Buffer Overrun L2
+./test_lib/openssl/ssl/record/methods/ssl3_cbc.c:442: error: Buffer Overrun L2 // Function broke off
+./test_lib/openssl/test/sslapitest.c:374: error: Buffer Overrun L2
+./test_lib/openssl/test/evp_pkey_provided_test.c:580: error: Buffer Overrun L2
+./test_lib/openssl/test/ectest.c:1345: error: Buffer Overrun L2
+./test_lib/openssl/test/sslapitest.c:8591: error: Buffer Overrun L2
+./test_lib/openssl/crypto/evp/p_lib.c:2446: error: Buffer Overrun L2
+./test_lib/openssl/crypto/evp/p_lib.c:2402: error: Buffer Overrun L2
+./test_lib/openssl/crypto/bn/bn_sqrt.c:137: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_sqrt.c:96: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_word.c:35: error: Buffer Overrun L3
+./test_lib/openssl/test/param_build_test.c:45: error: Buffer Overrun L3
+./test_lib/openssl/crypto/ffc/ffc_key_validate.c:52: error: Buffer Overrun L3
+./test_lib/openssl/crypto/ffc/ffc_key_validate.c:42: error: Buffer Overrun L3
+./test_lib/openssl/crypto/ffc/ffc_key_validate.c:35: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_sqrt.c:152: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_sqrt.c:148: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_kron.c:44: error: Buffer Overrun L3  // goto statements
+./test_lib/openssl/test/namemap_internal_test.c:27: error: Buffer Overrun L3 // older clang 7.0.0 required
