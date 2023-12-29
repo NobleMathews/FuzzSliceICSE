@@ -1,13 +1,13 @@
-./test_lib/tmux/tmux.c:297: High: realpath
-./test_lib/tmux/compat/fgetln.c:45: Medium: getc
-./test_lib/tmux/tmux.c:295: High: realpath
-./test_lib/tmux/tmux.c:159: High: realpath
-./test_lib/tmux/osdep-linux.c:50: Medium: fgetc
+#./test_lib/tmux/tmux.c:297: High: realpath
+#./test_lib/tmux/compat/fgetln.c:45: Medium: getc
+#./test_lib/tmux/tmux.c:295: High: realpath
+#./test_lib/tmux/tmux.c:159: High: realpath
+#./test_lib/tmux/osdep-linux.c:50: Medium: fgetc
 ./test_lib/tmux/cmd-send-keys.c:110: error: Buffer Overrun L1 // issue
 ./test_lib/tmux/cmd-parse.c:1292: error: Buffer Overrun L2
 ./test_lib/tmux/layout-custom.c:66: error: Buffer Overrun L1
-./test_lib/tmux/style.c:168: error: Buffer Overrun L2 // do-while loop
-./test_lib/tmux/input.c:1036: error: Buffer Overrun L2
-./test_lib/tmux/tty.c:2714: error: Buffer Overrun L2 // issue
-./test_lib/tmux/tty.c:2764: error: Buffer Overrun L2
-./test_lib/tmux/cmd.c:493: error: Buffer Overrun L1 // This one takes forever but works
+#./test_lib/tmux/style.c:168: error: Buffer Overrun L2 // do-while loop
+#./test_lib/tmux/input.c:1036: error: Buffer Overrun L2
+#./test_lib/tmux/tty.c:2714: error: Buffer Overrun L2 // issue
+#./test_lib/tmux/tty.c:2764: error: Buffer Overrun L2
+#./test_lib/tmux/cmd.c:493: error: Buffer Overrun L1 // This one takes forever but works

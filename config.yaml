@@ -1,7 +1,7 @@
-test_library: openssl
+test_library: tmux
 fuzz_tool: 0
 bug_timeline_targets_run: false
-timeout: 300
+timeout: 10
 hard_timeout: 1800
 max_length_fuzz_bytes: 15000
 parallel_execution: false

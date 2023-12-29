@@ -1,8 +1,30 @@
 # FuzzSlice
 
-This is a fuzzing based tool that attempts to eliminate false positives in static analysis reports in a rapid manner. It works by generating a minimised slice for a target vulnerability. This is followed by fuzzing to try and get the instrumented binary of the minimised snippet to crash.
+<p align="center">
+    <a href="FuzzSlice_ICSE_2024.pdf">ICSE 2024 Paper PDF</a> •
+    <a href="FuzzSlice_Technical_Documentation.pdf">FuzzSlice Technical Documentation</a> •
+    <a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/NobleMathews/FuzzSliceICSE">Archival Code Repository</a> •
+    <a href="https://conf.researchr.org/details/icse-2024/icse-2024-research-track/39/FuzzSlice-Pruning-False-Positives-in-Static-Analysis-Warnings-through-Function-Level">ICSE Publication</a> •
+    <a href="https://www.researchgate.net/publication/374114151_FuzzSlice_Pruning_False_Positives_in_Static_Analysis_Warnings_through_Function-Level_Fuzzing#fullTextFileContent">Preprint (ResearchGate)</a> 
+</p>
 
-## Getting Started
+## Purpose
+
+This artifact is a full functional and reusable implementation of the approach and results presented in the paper “FuzzSlice: Pruning False Positives in Static Analysis Warnings through Function-Level Fuzzing. The goal of FuzzSlice is to automatically prune false positives in static analysis warnings. FuzzSlice achieves this by compiling code slices at the function level of each static analysis warning. It then proceeds to fuzz these compiled slices using libfuzzer. 
+
+List of badges applied for:
+- Artifact Available
+    - [Archival Repository (Software Heritage)](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/NobleMathews/FuzzSliceICSE)
+
+- Artifact Reusable
+    - Dockerfile part of Archival Repository
+    - [Technical Documentation](FuzzSlice_Technical_Documentation.pdf)
+
+## Provenance
+
+The package includes the code for artifact and the benchmarks used in the study (Juliet, openssl, openssh-portable and tmux repositories). In this artifact, we have provided a docker file which will automatically setup various modules of our package (therefore docker is the only dependency). The docker can be easily setup on a Linux machine by directly applying the commands on the README of the replication package in order. Therefore, there is no particular technology skills assumed by the reviewer. The expected setup time for the docker is a few minutes. We have already provided sample static analysis warnings to demonstrate FuzzSlice. The expected output is the code coverage of fuzzing and whether a static analysis warning is classified as a possible true bug or false positive. We have also provided a user documentation guide, which will go over the various configuration options of FuzzSlice in detail and explain what they do and what to expect as output.
+
+## Setup
 
 These instructions will get you a copy of the tool up and running on your local machine.
 
@@ -19,11 +41,6 @@ git submodule update --init --recursive
 
 You can now build the environment required for the tool from using the Dockerfile included by running the following command:
 ```bash
-docker build -t sf . 
-```
-
-**Note**: If you are building on a system using the arm architecture like the Mac Mseries, to prevent srcML from failing to install specify the platform as `x86_64`:
-```bash
 docker build --platform linux/x86_64 -t sf . 
 ```
 
@@ -33,6 +50,18 @@ The build command will both setup the environment and the 3 test repositories. T
 ```bash
 docker run -it sf
 ```
+
+## Usage
+
+### Replicate Results
+
+To replicate the results of the paper, you can run the following command from within in the docker container:
+
+```bash
+python3 main.py
+```
+
+**Note:** Running FuzzSlice on all repositories and static analysis warnings will take a long time and compute to run. We have setup `config.yaml` to run one of the smaller respoitories `tmux` on 3 warnings (the rest are commented out and can be enabled by editting `info_lib/tmux/targets.txt`).
 
 ### Running the tool on a custom repo
 
