@@ -34,7 +34,13 @@ These instructions will get you a copy of the tool up and running on your local 
 
 ### Building docker image
 
-First clone this repo, and enter the root directory of the project. Recursively fetch the submodules by running:
+1A. If you are downloading this repository from archival as a compressed file the git submodules will not be included. Please run the following command from the root directory of the project to download the submodules:
+```bash
+chmod +x ./init_submodules.sh
+./init_submodules.sh
+```
+
+1B. Else if you have cloned this repo as a git repository, enter the root directory of the project. Recursively fetch the submodules by running:
 ```bash
 git submodule update --init --recursive
 ```
