@@ -1,8 +1,10 @@
 # FuzzSlice
 
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/NobleMathews/FuzzSliceICSE/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/NobleMathews/FuzzSliceICSE)
+
 <p align="center">
-    <a href="FuzzSlice_ICSE_2024.pdf">ICSE 2024 Paper PDF</a> •
-    <a href="FuzzSlice_Technical_Documentation.pdf">FuzzSlice Technical Documentation</a> •
+    <a href="https://archive.softwareheritage.org/swh:1:cnt:72e1b742f8f9e55b01d2fbc3c2bc76ed62699746;origin=https://github.com/NobleMathews/FuzzSliceICSE;visit=swh:1:snp:1d64e508e0712f6f2bdf5bce07b81c45707a227e;anchor=swh:1:rev:2f3287061abe46a436fb6b4422171d171c345567;path=/FuzzSlice_ICSE_2024.pdf">ICSE 2024 Paper PDF</a> •
+    <a href="https://archive.softwareheritage.org/swh:1:cnt:b963c46c995105ecc6efed0c7a8dbee7b2372d0e;origin=https://github.com/NobleMathews/FuzzSliceICSE;visit=swh:1:snp:1d64e508e0712f6f2bdf5bce07b81c45707a227e;anchor=swh:1:rev:2f3287061abe46a436fb6b4422171d171c345567;path=/FuzzSlice_Technical_Documentation.pdf">FuzzSlice Technical Documentation</a> •
     <a href="https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/NobleMathews/FuzzSliceICSE">Archival Code Repository</a> •
     <a href="https://conf.researchr.org/details/icse-2024/icse-2024-research-track/39/FuzzSlice-Pruning-False-Positives-in-Static-Analysis-Warnings-through-Function-Level">ICSE Publication</a> •
     <a href="https://www.researchgate.net/publication/374114151_FuzzSlice_Pruning_False_Positives_in_Static_Analysis_Warnings_through_Function-Level_Fuzzing#fullTextFileContent">Preprint (ResearchGate)</a> 
@@ -15,6 +17,8 @@ This artifact is a full functional and reusable implementation of the approach a
 List of badges applied for:
 - Artifact Available
     - [Archival Repository (Software Heritage)](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/NobleMathews/FuzzSliceICSE)
+    - [![SWH](https://archive.softwareheritage.org/badge/swh:1:rev:2f3287061abe46a436fb6b4422171d171c345567/)](https://archive.softwareheritage.org/swh:1:rev:2f3287061abe46a436fb6b4422171d171c345567;origin=https://github.com/NobleMathews/FuzzSliceICSE;visit=swh:1:snp:1d64e508e0712f6f2bdf5bce07b81c45707a227e)
+    - Identifier: swh:1:rev:2f3287061abe46a436fb6b4422171d171c345567;origin=https://github.com/NobleMathews/FuzzSliceICSE;visit=swh:1:snp:1d64e508e0712f6f2bdf5bce07b81c45707a227e
 
 - Artifact Reusable
     - Dockerfile part of Archival Repository
