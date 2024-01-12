@@ -1,15 +1,12 @@
-./test_lib/openssh-portable/ssh-agent.c:1768: Medium: read
-./test_lib/openssh-portable/ssh-keygen.c:621: Medium: fgetc
-./test_lib/openssh-portable/misc.c:2185: High: realpath
-./test_lib/openssh-portable/misc.c:2190: High: realpath
-./test_lib/openssh-portable/ssh-keygen.c:616: Medium: fgetc
-./test_lib/openssh-portable/openbsd-compat/readpassphrase.c:132: Medium: read // sighandler
-./test_lib/openssh-portable/readpass.c:87: Medium: read // do-while loop
-./test_lib/openssh-portable/channels.c:2139: Medium: read // typedef void function
+TP: 0 L1, 1 L2 
 ./test_lib/openssh-portable/sftp.c:595: error: Buffer Overrun L2
+
+FP: 3 L1, 15 L2
 ./test_lib/openssh-portable/openbsd-compat/blowfish.c:107: error: Buffer Overrun L1
 ./test_lib/openssh-portable/openbsd-compat/blowfish.c:82: error: Buffer Overrun L1
 ./test_lib/openssh-portable/openbsd-compat/glob.c:621: error: Buffer Overrun L1
+
+
 ./test_lib/openssh-portable/openbsd-compat/blowfish.c:444: error: Buffer Overrun L2
 ./test_lib/openssh-portable/openbsd-compat/blowfish.c:452: error: Buffer Overrun L2
 ./test_lib/openssh-portable/openbsd-compat/blowfish.c:485: error: Buffer Overrun L2
@@ -25,21 +22,14 @@
 ./test_lib/openssh-portable/smult_curve25519_ref.c:171: error: Buffer Overrun L2
 ./test_lib/openssh-portable/smult_curve25519_ref.c:195: error: Buffer Overrun L2
 ./test_lib/openssh-portable/log.c:398: error: Buffer Overrun L2 // va_arg
-./test_lib/openssh-portable/ssh-agent.c:1461: High: realpath
-./test_lib/openssh-portable/clientloop.c:406: High: sscanf
-./test_lib/openssh-portable/auth-rhosts.c:108: High: sscanf
-./test_lib/openssh-portable/mux.c:1465: Medium: read
-./test_lib/openssh-portable/sftp-client.c:2093: Medium: read
-./test_lib/openssh-portable/sshbuf-misc.c:286: Medium: read
-./test_lib/openssh-portable/sftp-server.c:835: Medium: read
-./test_lib/openssh-portable/sftp-server.c:2069: Medium: read
-./test_lib/openssh-portable/channels.c:1974: Medium: read // typedef void function goto error
-./test_lib/openssh-portable/channels.c:2218: Medium: read // typedef void function
+
+NR: 1 L1, 2 L2
 ./test_lib/openssh-portable/chacha.c:119: error: Buffer Overrun L1
+
 ./test_lib/openssh-portable/openbsd-compat/setproctitle.c:153: error: Buffer Overrun L2
 ./test_lib/openssh-portable/scp.c:1346: error: Buffer Overrun L2 // comma seperated globals, NR
-./test_lib/openssh-portable/ssh-agent.c:1232: High: realpath
-./test_lib/openssh-portable/ssh-agent.c:1395: High: realpath
+
+NC: 7 L2
 ./test_lib/openssh-portable/sntrup761.c:749: error: Buffer Overrun L2 //arc4
 ./test_lib/openssh-portable/krl.c:901: error: Buffer Overrun L2 //NC
 ./test_lib/openssh-portable/sshkey.c:1115: error: Buffer Overrun L2 //NC

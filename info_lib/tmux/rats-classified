@@ -1,0 +1,10 @@
+
+# TP:  1 Medium
+./test_lib/tmux/compat/fgetln.c:45: Medium: getc
+
+# FP: 3 High. 1 Medium
+./test_lib/tmux/tmux.c:297: High: realpath
+./test_lib/tmux/tmux.c:295: High: realpath
+./test_lib/tmux/tmux.c:159: High: realpath
+
+./test_lib/tmux/osdep-linux.c:50: Medium: fgetc

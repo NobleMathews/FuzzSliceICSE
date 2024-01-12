@@ -11,3 +11,13 @@
 #./test_lib/tmux/tty.c:2714: error: Buffer Overrun L2 // issue
 #./test_lib/tmux/tty.c:2764: error: Buffer Overrun L2
 #./test_lib/tmux/cmd.c:493: error: Buffer Overrun L1 // This one takes forever but works
+#./test_lib/tmux/cmd-unbind-key.c:82: error: Buffer Overrun L1
+#./test_lib/tmux/cmd-bind-key.c:65: error: Buffer Overrun L1
+#./test_lib/tmux/tty-term.c:518: error: Buffer Overrun L1
+#./test_lib/tmux/window-copy.c:2348: error: Buffer Overrun L1
+#./test_lib/tmux/window-copy.c:2403: error: Buffer Overrun L1
+#./test_lib/tmux/window-customize.c:752: error: Buffer Overrun L1
+#./test_lib/tmux/input.c:2414: error: Buffer Overrun L1
+#./test_lib/tmux/cmd-list-keys.c:163: error: Buffer Overrun L1 // Takes forever disappoints at end
+#./test_lib/tmux/tty-term.c:832: error: Buffer Overrun L2
+#./test_lib/tmux/input.c:1584: error: Buffer Overrun L2

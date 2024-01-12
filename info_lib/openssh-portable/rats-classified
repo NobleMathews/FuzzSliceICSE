@@ -1,0 +1,32 @@
+TP: 2 Medium
+./test_lib/openssh-portable/ssh-agent.c:1768: Medium: read
+./test_lib/openssh-portable/ssh-keygen.c:621: Medium: fgetc
+
+FP: 2 High, 4 Medium
+./test_lib/openssh-portable/misc.c:2185: High: realpath
+./test_lib/openssh-portable/misc.c:2190: High: realpath // 10 seconds
+
+./test_lib/openssh-portable/ssh-keygen.c:616: Medium: fgetc
+./test_lib/openssh-portable/openbsd-compat/readpassphrase.c:132: Medium: read // sighandler
+./test_lib/openssh-portable/readpass.c:87: Medium: read // do-while loop
+./test_lib/openssh-portable/channels.c:2139: Medium: read // typedef void function
+
+
+NR:3 High, 7 Medium
+./test_lib/openssh-portable/ssh-agent.c:1461: High: realpath
+./test_lib/openssh-portable/clientloop.c:406: High: sscanf
+./test_lib/openssh-portable/auth-rhosts.c:108: High: sscanf
+
+./test_lib/openssh-portable/mux.c:1465: Medium: read
+./test_lib/openssh-portable/sftp-client.c:2093: Medium: read
+./test_lib/openssh-portable/sshbuf-misc.c:286: Medium: read
+./test_lib/openssh-portable/sftp-server.c:835: Medium: read
+./test_lib/openssh-portable/sftp-server.c:2069: Medium: read
+./test_lib/openssh-portable/channels.c:1974: Medium: read // typedef void function goto error
+./test_lib/openssh-portable/channels.c:2218: Medium: read // typedef void function
+
+
+NC: 2 High
+./test_lib/openssh-portable/ssh-agent.c:1232: High: realpath
+./test_lib/openssh-portable/ssh-agent.c:1395: High: realpath
+

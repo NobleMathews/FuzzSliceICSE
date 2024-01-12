@@ -1,0 +1,38 @@
+# TP: 1 High
+./test_lib/openssl/test/testutil/format_output.c:258: High: strcpy
+
+
+# FP: 21 High
+./test_lib/openssl/crypto/ts/ts_rsp_verify.c:383: High: strcat
+./test_lib/openssl/test/sslapitest.c:176: High: strcat
+./test_lib/openssl/test/sslapitest.c:160: High: strcat
+./test_lib/openssl/crypto/o_str.c:29: High: strcpy
+./test_lib/openssl/test/endecode_test.c:495: High: strcat // 300 seconds
+./test_lib/openssl/test/endecode_test.c:498: High: strcpy
+./test_lib/openssl/test/params_test.c:339: High: strcpy
+./test_lib/openssl/test/params_test.c:340: High: strcpy
+./test_lib/openssl/test/params_test.c:111: High: strcpy
+./test_lib/openssl/providers/implementations/signature/sm2_sig.c:129: High: strcpy
+./test_lib/openssl/test/params_test.c:190: High: strcpy // 300 seconds
+./test_lib/openssl/test/params_test.c:195: High: strcpy // 10 seconds
+./test_lib/openssl/test/drbgtest.c:427: High: strcpy
+./test_lib/openssl/crypto/dso/dso_dlfcn.c:246: High: strcpy
+./test_lib/openssl/crypto/dso/dso_dlfcn.c:248: High: strcpy
+./test_lib/openssl/test/testutil/driver.c:428: High: strcpy
+./test_lib/openssl/crypto/engine/eng_ctrl.c:113: High: strcpy // 60 seconds
+./test_lib/openssl/crypto/engine/eng_ctrl.c:118: High: strcpy // 10 seconds
+./test_lib/openssl/ssl/ssl_lib.c:6399: High: strcpy
+./test_lib/openssl/fuzz/test-corpus.c:82: High: strcpy // 300 seconds
+./test_lib/openssl/fuzz/test-corpus.c:89: High: strcpy // 300 seconds
+
+
+
+# NR: 8 High
+./test_lib/openssl/test/p_test.c:112: High: strcpy
+./test_lib/openssl/test/p_test.c:126: High: strcpy
+./test_lib/openssl/crypto/rand/randfile.c:309: High: strcpy
+./test_lib/openssl/crypto/rand/randfile.c:313: High: strcpy
+./test_lib/openssl/crypto/rand/randfile.c:317: High: strcat
+./test_lib/openssl/ssl/ssl_lib.c:3239: High: strcpy
+./test_lib/openssl/crypto/bio/bio_sock.c:318: High: strcpy
+./test_lib/openssl/crypto/bio/bio_sock.c:320: High: strcat
