@@ -1192,8 +1192,8 @@ if __name__ == "__main__":
     os.makedirs(lib_info_location, exist_ok=True)
     if not os.path.exists(build_log):
         fix_build_log()
-    if not os.path.exists(rats_log):
-        run_rats()
+    # if not os.path.exists(rats_log):
+    #     run_rats()
     logs = BuildLog(build_log, temp_loc, lib_info_location)
     prep_preprocessed_output(temp_loc)
     run_srcml(temp_loc, xml_location)

@@ -16,6 +16,11 @@ cd test_lib/tmux
 git checkout 70ff8cfe1e06987501a55a32df31d1f69acd2f99
 cd ../..
 
+cd test_lib/C
+mkdir build_ss
+cp -R * build_ss
+cd ../..
+
 git clone https://github.com/andrew-d/rough-auditing-tool-for-security.git tools/rats
 cd tools/rats
 git checkout 4ba54ce278e9fb004d978e924fd63c29e449ca81
