@@ -73,7 +73,7 @@ python3 main.py
 
 **Note:** Running FuzzSlice on all repositories and static analysis warnings will take a long time and compute to run. We have setup `config.yaml` to run one of the smaller respoitories `tmux` on 3 warnings (the rest are commented out and can be enabled by editting `info_lib/tmux/targets.txt`). 
 
-If you would like to replicate all the results in the paper you can uncomment any warning within any of the projects in `info_lib/<project>/targets.txt` directory. Then in the `config.yaml` file, replace `test_library` attribute with `<project>`. Then run `python3 main.py`. We have reduced the fuzzing time from 5 minutes to 10 seconds in `config.yaml` so that the reviewer can see the fuzzing of several warnings at a faster pace (at the cost of accuracy). Even so to cover all warnings in the analysis would take 8 hours of fuzzing and compilation time.
+If you would like to replicate all the results in the paper you can uncomment any warning within any of the projects in `info_lib/<project>/targets.txt` directory. Then in the `config.yaml` file, replace `test_library` attribute with `<project>`. Then run `python3 main.py`. We have reduced the fuzzing time from 5 minutes to 10 seconds in `config.yaml` so that the reviewer can see the fuzzing of several warnings at a faster pace (at the cost of accuracy). Even so to cover all warnings in the analysis would take 8 hours of fuzzing and compilation time. Luckily, it does not require significant memory resources for fuzzing.
 
 ### Running the tool on a custom repo
 
