@@ -30,13 +30,27 @@ The package includes the code for artifact and the benchmarks used in the study 
 
 ## Setup
 
-These instructions will get you a copy of the tool up and running on your local machine.
+These instructions will guide you through getting a copy of the tool up and running on your local machine.
 
 ### Prerequisites
 
 - Docker
 
-### Building docker image
+### Recommended Option: Using Pre-built Docker Image
+
+For a quick start, you can use a pre-built image available on Docker Hub. This is the recommended method, especially if you are using an amd64 architecture system.
+
+To pull and run the pre-built image, execute the following commands:
+
+```bash
+docker pull noblemathews/fuzzslice-icse
+docker run -it noblemathews/fuzzslice-icse
+```
+
+
+### Building docker image 
+
+This option is not recommended as it can fail based on system architecture or package deprecation. However, if you would like to build the docker image from scratch, you can follow the instructions below. To verify to some extent that dependencies are working correctly please ensure that the 3 sample targets are classified correctly as true bugs or false positives as shown in the next section.
 
 1A. If you are downloading this repository from archival as a compressed file the git submodules will not be included. Please run the following command from the root directory of the project to download the submodules:
 ```bash
@@ -54,9 +68,7 @@ You can now build the environment required for the tool from using the Dockerfil
 docker build --platform linux/x86_64 -t sf . 
 ```
 
-### Launching docker image with tool
-
-The build command will both setup the environment and the 3 test repositories. To enter the container invoke:
+The build command will both setup the environment and the test repositories. To enter the container invoke:
 ```bash
 docker run -it sf
 ```
@@ -71,9 +83,24 @@ To replicate the results of the paper, you can run the following command from wi
 python3 main.py
 ```
 
-**Note:** Running FuzzSlice on all repositories and static analysis warnings will take a long time and compute to run. We have setup `config.yaml` to run one of the smaller respoitories `tmux` on 3 warnings (the rest are commented out and can be enabled by editting `info_lib/tmux/targets.txt`). 
+**Quoting from the paper:**
+To evaluate the warnings produced by the static analysis tools, we subject each warning to a fuzzing process lasting `five minutes`. Our fuzzing procedure was conducted on a Headless Server equipped with a powerful hardware configuration consisting of `64 cores of Intel Xeon Gold 6226R processors, operating at a speed of 3.900GHz, and 128GB of RAM on Ubuntu 20.04 LTS`. It is worth noting that certain warning locations may only be compilable on specific operating systems as defined by preprocessor directives.
 
-If you would like to replicate all the results in the paper you can uncomment any warning within any of the projects in `info_lib/<project>/targets.txt` directory. Then in the `config.yaml` file, replace `test_library` attribute with `<project>`. Then run `python3 main.py`. We have reduced the fuzzing time from 5 minutes to 10 seconds in `config.yaml` so that the reviewer can see the fuzzing of several warnings at a faster pace (at the cost of accuracy). Even so to cover all warnings in the analysis would take 8 hours of fuzzing and compilation time. Luckily, it does not require significant memory resources for fuzzing.
+
+
+**Note:** Running FuzzSlice on all repositories and static analysis warnings will take a long time and compute to run (~3-4 days based on the fuzzing budget). We have setup `config.yaml` to run one of the smaller repositories `tmux` on 3 warnings with a reduced time budget for fuzzing (the rest are commented out and can be enabled by editting `info_lib/tmux/targets.txt`).
+
+The expected output with the 3 warnings is as follows:
+
+```bash
+| INFO     | fuzz:build_report:526 - Number of possible True positives: 2
+| INFO     | fuzz:build_report:528 - ./test_lib/tmux/cmd-send-keys.c:110: error: Buffer Overrun L1 // issue
+| INFO     | fuzz:build_report:528 - ./test_lib/tmux/cmd-parse.c:1292: error: Buffer Overrun L2
+| INFO     | fuzz:build_report:531 - Number of possible False positives: 1
+| INFO     | fuzz:build_report:533 - ./test_lib/tmux/layout-custom.c:66: error: Buffer Overrun L1
+```
+
+If you would like to replicate all the results in the paper you can uncomment any warning within any of the projects in `info_lib/<project>/targets.txt` directory. Then in the `config.yaml` file, replace `test_library` attribute with `<project>`. Then run `python3 main.py`. We have reduced the fuzzing time from 5 minutes to 10 seconds in `config.yaml` so that users can see the fuzzing of several warnings at a faster pace (at the cost of accuracy). Even with this reduced configuration building all the projects and covering all warnings in the analysis would take 8 hours of fuzzing and compilation time.
 
 ### Running the tool on a custom repo
 
