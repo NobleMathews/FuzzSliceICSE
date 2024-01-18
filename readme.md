@@ -47,10 +47,15 @@ docker pull noblemathews/fuzzslice-icse
 docker run -it noblemathews/fuzzslice-icse
 ```
 
+To enhance result replication across diverse platforms and architectures, we recommend using the pre-built Docker image. This suggestion stems from comprehensive testing we conducted on various systems, including an Apple Silicon-based (M1) machine and an AMD server. Over time, dependencies and packages can become outdated or unavailable. On Apple M1, an open issue hinders the address sanitizer's proper functioning within a containerized environment.
+
+Note that we have tested the pre-built docker on the following platforms and architectures:
+- A Windows and a Linux machine with an amd64 architecture.
+- A Linux machine with an x86_64 architecture.
 
 ### Building docker image 
 
-This option is not recommended as it can fail based on system architecture or package deprecation. However, if you would like to build the docker image from scratch, you can follow the instructions below. To verify to some extent that dependencies are working correctly please ensure that the 3 sample targets are classified correctly as true bugs or false positives as shown in the next section.
+However, if you would like to build the docker image from scratch, you can follow the instructions below. To verify that dependencies are working correctly please ensure that the 3 sample targets are classified correctly as true bugs or false positives as shown in the next section.
 
 1A. If you are downloading this repository from archival as a compressed file the git submodules will not be included. Please run the following command from the root directory of the project to download the submodules:
 ```bash
@@ -100,7 +105,7 @@ The expected output with the 3 warnings is as follows:
 | INFO     | fuzz:build_report:533 - ./test_lib/tmux/layout-custom.c:66: error: Buffer Overrun L1
 ```
 
-If you would like to replicate all the results in the paper you can uncomment any warning within any of the projects in `info_lib/<project>/targets.txt` directory. Then in the `config.yaml` file, replace `test_library` attribute with `<project>`. Then run `python3 main.py`. We have reduced the fuzzing time from 5 minutes to 10 seconds in `config.yaml` so that users can see the fuzzing of several warnings at a faster pace (at the cost of accuracy). Even with this reduced configuration building all the projects and covering all warnings in the analysis would take 8 hours of fuzzing and compilation time.
+If you would like to replicate all the results in the paper you can uncomment any warning within any of the projects in `info_lib/<project>/targets.txt` directory. Then in the `config.yaml` file, replace `test_library` attribute with `<project>`. Then run `python3 main.py`. We have reduced the fuzzing time from 5 minutes to 10 seconds in `config.yaml` so that users can see the fuzzing of several warnings at a faster pace (at the cost of accuracy). Even with this reduced configuration building all the projects and covering all warnings in the analysis would take 8 hours of fuzzing and compilation time. Users can increase the fuzzing time to 5 minutes for accurate results by setting the `timeout` attribute in `config.yaml` to 300.
 
 ### Running the tool on a custom repo
 
