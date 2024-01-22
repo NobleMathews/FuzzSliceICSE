@@ -3,13 +3,13 @@
 ./test_lib/openssl/test/sslapitest.c:176: High: strcat
 ./test_lib/openssl/test/sslapitest.c:160: High: strcat
 ./test_lib/openssl/crypto/o_str.c:29: High: strcpy
-./test_lib/openssl/test/endecode_test.c:495: High: strcat
+./test_lib/openssl/test/param_build_test.c:45: error: Buffer Overrun L3
 ./test_lib/openssl/test/endecode_test.c:498: High: strcpy
 ./test_lib/openssl/test/params_test.c:339: High: strcpy
 ./test_lib/openssl/test/params_test.c:340: High: strcpy
 ./test_lib/openssl/test/params_test.c:111: High: strcpy
 ./test_lib/openssl/providers/implementations/signature/sm2_sig.c:129: High: strcpy
-./test_lib/openssl/test/params_test.c:190: High: strcpy
+./test_lib/openssl/crypto/asn1/asn1_parse.c:63: error: Inferbo Alloc May Be Big
 ./test_lib/openssl/test/params_test.c:195: High: strcpy
 ./test_lib/openssl/test/drbgtest.c:427: High: strcpy
 ./test_lib/openssl/crypto/dso/dso_dlfcn.c:246: High: strcpy
@@ -47,11 +47,11 @@
 ./test_lib/openssl/test/clienthellotest.c:113: error: Buffer Overrun L1
 ./test_lib/openssl/test/bftest.c:357: error: Buffer Overrun L1 
 ./test_lib/openssl/test/bftest.c:383: error: Buffer Overrun L1 
-./test_lib/openssl/test/hmactest.c:57: error: Buffer Overrun L1 // Enclosing function
+./test_lib/openssl/crypto/ffc/ffc_key_validate.c:52: error: Buffer Overrun L3
 ./test_lib/openssl/crypto/idea/i_cbc.c:125: error: Buffer Overrun L1
 ./test_lib/openssl/crypto/idea/i_skey.c:86: error: Buffer Overrun L1
 ./test_lib/openssl/test/dtls_mtu_test.c:165: error: Buffer Overrun L1
-./test_lib/openssl/test/evp_pkey_provided_test.c:150: error: Buffer Overrun L1
+./test_lib/openssl/test/namemap_internal_test.c:27: error: Buffer Overrun L3 // older clang 7.0.0 required
 ./test_lib/openssl/test/http_test.c:304: error: Buffer Overrun L1
 ./test_lib/openssl/test/http_test.c:350: error: Buffer Overrun L1
 ./test_lib/openssl/test/http_test.c:306: error: Buffer Overrun L1
@@ -62,9 +62,9 @@
 ./test_lib/openssl/test/http_test.c:299: error: Buffer Overrun L1
 ./test_lib/openssl/test/http_test.c:316: error: Buffer Overrun L1
 ./test_lib/openssl/test/http_test.c:321: error: Buffer Overrun L1
-./test_lib/openssl/crypto/srp/srp_vfy.c:154: error: Buffer Overrun L1
+./test_lib/openssl/crypto/ffc/ffc_key_validate.c:35: error: Buffer Overrun L3
 ./test_lib/openssl/test/afalgtest.c:87: error: Buffer Overrun L1
-./test_lib/openssl/test/provider_test.c:71: error: Buffer Overrun L1
+./test_lib/openssl/crypto/asn1/asn1_parse.c:69: error: Inferbo Alloc May Be Big
 ./test_lib/openssl/test/evp_extra_test.c:2790: error: Buffer Overrun L1
 ./test_lib/openssl/test/evp_extra_test.c:3836: error: Buffer Overrun L1
 ./test_lib/openssl/test/evp_extra_test.c:3273: error: Buffer Overrun L1
@@ -75,7 +75,7 @@
 ./test_lib/openssl/test/evp_extra_test.c:3162: error: Buffer Overrun L1
 ./test_lib/openssl/test/destest.c:750: error: Buffer Overrun L1
 ./test_lib/openssl/test/evp_extra_test.c:3710: error: Buffer Overrun L1
-./test_lib/openssl/crypto/evp/ctrl_params_translate.c:1395: error: Buffer Overrun L1
+./test_lib/openssl/crypto/bio/bio_dump.c:56: error: Inferbo Alloc May Be Big
 ./test_lib/openssl/test/sslapitest.c:8591: error: Buffer Overrun L1
 ./test_lib/openssl/test/bftest.c:415: error: Buffer Overrun L1
 ./test_lib/openssl/test/test_test.c:317: error: Buffer Overrun L2
@@ -95,7 +95,7 @@
 ./test_lib/openssl/apps/passwd.c:473: error: Buffer Overrun L2
 ./test_lib/openssl/test/cipherlist_test.c:207: error: Buffer Overrun L2
 ./test_lib/openssl/test/dtls_mtu_test.c:165: error: Buffer Overrun L2
-./test_lib/openssl/crypto/ec/curve25519.c:4549: error: Buffer Overrun L2
+./test_lib/openssl/crypto/bn/bn_kron.c:44: error: Buffer Overrun L3  // goto statements
 ./test_lib/openssl/test/ectest.c:179: error: Buffer Overrun L2
 ./test_lib/openssl/test/bntest.c:2973: error: Buffer Overrun L2
 ./test_lib/openssl/test/test_test.c:427: error: Buffer Overrun L2
@@ -124,8 +124,8 @@
 ./test_lib/openssl/test/evp_pkey_provided_test.c:580: error: Buffer Overrun L2
 ./test_lib/openssl/test/ectest.c:1345: error: Buffer Overrun L2
 ./test_lib/openssl/test/sslapitest.c:8591: error: Buffer Overrun L2
-./test_lib/openssl/crypto/evp/p_lib.c:2446: error: Buffer Overrun L2
-./test_lib/openssl/crypto/evp/p_lib.c:2402: error: Buffer Overrun L2
+./test_lib/openssl/crypto/ct/ct_prn.c:45: error: Buffer Overrun L3
+./test_lib/openssl/crypto/ct/ct_prn.c:43: error: Inferbo Alloc May Be Big
 ./test_lib/openssl/test/p_test.c:112: High: strcpy
 ./test_lib/openssl/test/p_test.c:126: High: strcpy
 ./test_lib/openssl/crypto/rand/randfile.c:309: High: strcpy
@@ -136,18 +136,18 @@
 ./test_lib/openssl/crypto/bio/bio_sock.c:320: High: strcat
 ./test_lib/openssl/crypto/asn1/asn1_lib.c:467: error: Buffer Overrun L1
 ./test_lib/openssl/test/evp_extra_test.c:4541: error: Buffer Overrun L1
-./test_lib/openssl/ssl/record/methods/tls13_meth.c:167: error: Buffer Overrun L1
+./test_lib/openssl/crypto/bn/bn_kron.c:126: error: Buffer Overrun L3 // goto statements
 ./test_lib/openssl/crypto/txt_db/txt_db.c:71: error: Buffer Overrun L1
 ./test_lib/openssl/crypto/evp/bio_enc.c:162: error: Buffer Overrun L1
 ./test_lib/openssl/test/ct_test.c:455: error: Buffer Overrun L1
-./test_lib/openssl/test/evp_test.c:975: error: Buffer Overrun L1
+./test_lib/openssl/crypto/bn/bn_kron.c:80: error: Buffer Overrun L3 // goto statements
 ./test_lib/openssl/crypto/cms/cms_env.c:901: error: Buffer Overrun L1
 ./test_lib/openssl/crypto/pem/pvkfmt.c:1086: error: Buffer Overrun L1
 ./test_lib/openssl/test/sslapitest.c:7555: error: Buffer Overrun L1
-./test_lib/openssl/ssl/record/methods/tls1_meth.c:237: error: Buffer Overrun L1
+./test_lib/openssl/crypto/bn/bn_exp2.c:111: error: Buffer Overrun L3// maybe if u fuzz enough
 ./test_lib/openssl/test/endecode_test.c:367: error: Buffer Overrun L1
 ./test_lib/openssl/crypto/pkcs12/p12_decr.c:83: error: Buffer Overrun L1
-./test_lib/openssl/apps/speed.c:2351: error: Buffer Overrun L1
+#./test_lib/openssl/apps/speed.c:2351: error: Buffer Overrun L1
 ./test_lib/openssl/ssl/record/ssl3_record.c:362: error: Buffer Overrun L1
 ./test_lib/openssl/ssl/statem/statem_srvr.c:3876: error: Buffer Overrun L1
 ./test_lib/openssl/ssl/record/ssl3_record_tls13.c:160: error: Buffer Overrun L1
@@ -166,28 +166,29 @@
 ./test_lib/openssl/crypto/x509/x509_cmp.c:443: error: Buffer Overrun L2
 ./test_lib/openssl/test/ectest.c:2469: error: Buffer Overrun L2
 ./test_lib/openssl/test/evp_pkey_provided_test.c:789: error: Buffer Overrun L2
-./test_lib/openssl/test/helpers/handshake.c:1253: error: Buffer Overrun L2
+./test_lib/openssl/crypto/bn/bn_exp2.c:101: error: Buffer Overrun L3// maybe if u fuzz enough
 ./test_lib/openssl/test/evp_fetch_prov_test.c:95: error: Buffer Overrun L2
 ./test_lib/openssl/apps/s_server.c:3647: error: Buffer Overrun L2
 ./test_lib/openssl/test/ssl_old_test.c:742: error: Buffer Overrun L2
 ./test_lib/openssl/test/evp_pkey_provided_test.c:1278: error: Buffer Overrun L2
-./test_lib/openssl/apps/speed.c:2480: error: Buffer Overrun L2
-./test_lib/openssl/apps/speed.c:2841: error: Buffer Overrun L2
-./test_lib/openssl/apps/speed.c:2638: error: Buffer Overrun L2
-./test_lib/openssl/apps/speed.c:2727: error: Buffer Overrun L2
-./test_lib/openssl/apps/speed.c:2559: error: Buffer Overrun L2
-./test_lib/openssl/apps/speed.c:3159: error: Buffer Overrun L2
-./test_lib/openssl/apps/speed.c:3190: error: Buffer Overrun L2
-./test_lib/openssl/test/provider_internal_test.c:70: error: Buffer Overrun L1
-./test_lib/openssl/crypto/evp/e_aes_cbc_hmac_sha256.c:343: error: Buffer Overrun L1 // asm code
-./test_lib/openssl/crypto/evp/e_aes_cbc_hmac_sha1.c:339: error: Buffer Overrun L1 // asm code
-./test_lib/openssl/test/testutil/provider.c:58: error: Buffer Overrun L2 // File getting overwritten
-./test_lib/openssl/providers/implementations/ciphers/cipher_aes_gcm_siv_hw.c:188: error: Buffer Overrun L2 // asm code
-./test_lib/openssl/providers/implementations/ciphers/cipher_aes_gcm_siv_hw.c:253: error: Buffer Overrun L2 // asm code
-./test_lib/openssl/test/poly1305_internal_test.c:1533: error: Buffer Overrun L2 // infinite loop
-./test_lib/openssl/providers/implementations/ciphers/cipher_chacha20_poly1305_hw.c:245: error: Buffer Overrun L2
-./test_lib/openssl/crypto/evp/e_chacha20_poly1305.c:343: error: Buffer Overrun L2
-./test_lib/openssl/providers/implementations/ciphers/cipher_chacha20_poly1305_hw.c:375: error: Buffer Overrun L2
-./test_lib/openssl/crypto/evp/e_chacha20_poly1305.c:466: error: Buffer Overrun L2
-./test_lib/openssl/crypto/ec/ec_asn1.c:900: error: Buffer Overrun L2 //typedef enums
+#./test_lib/openssl/apps/speed.c:2480: error: Buffer Overrun L2
+./test_lib/openssl/crypto/bn/bn_exp2.c:61: error: Buffer Overrun L3// maybe if u fuzz enough
+#./test_lib/openssl/apps/speed.c:2638: error: Buffer Overrun L2
+./test_lib/openssl/crypto/bn/bn_exp2.c:83: error: Buffer Overrun L3// maybe if u fuzz enough
+#./test_lib/openssl/apps/speed.c:2559: error: Buffer Overrun L2
+./test_lib/openssl/crypto/bn/bn_word.c:35: error: Buffer Overrun L3
+./test_lib/openssl/crypto/bn/bn_sqrt.c:96: error: Buffer Overrun L3
 ./test_lib/openssl/crypto/modes/cfb128.c:196: error: Buffer Overrun L2
+# Not compilable - 12 issues from here
+#./test_lib/openssl/test/provider_internal_test.c:70: error: Buffer Overrun L1
+#./test_lib/openssl/crypto/evp/e_aes_cbc_hmac_sha256.c:343: error: Buffer Overrun L1 // asm code
+#./test_lib/openssl/crypto/evp/e_aes_cbc_hmac_sha1.c:339: error: Buffer Overrun L1 // asm code
+#./test_lib/openssl/test/testutil/provider.c:58: error: Buffer Overrun L2 // File getting overwritten
+#./test_lib/openssl/providers/implementations/ciphers/cipher_aes_gcm_siv_hw.c:188: error: Buffer Overrun L2 // asm code
+#./test_lib/openssl/providers/implementations/ciphers/cipher_aes_gcm_siv_hw.c:253: error: Buffer Overrun L2 // asm code
+#./test_lib/openssl/test/poly1305_internal_test.c:1533: error: Buffer Overrun L2 // infinite loop
+#./test_lib/openssl/providers/implementations/ciphers/cipher_chacha20_poly1305_hw.c:245: error: Buffer Overrun L2
+#./test_lib/openssl/crypto/evp/e_chacha20_poly1305.c:343: error: Buffer Overrun L2
+#./test_lib/openssl/providers/implementations/ciphers/cipher_chacha20_poly1305_hw.c:375: error: Buffer Overrun L2
+#./test_lib/openssl/crypto/evp/e_chacha20_poly1305.c:466: error: Buffer Overrun L2
+#./test_lib/openssl/crypto/ec/ec_asn1.c:900: error: Buffer Overrun L2 //typedef enums

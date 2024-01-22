@@ -38,12 +38,13 @@
 ./test_lib/openssh-portable/chacha.c:119: error: Buffer Overrun L1
 ./test_lib/openssh-portable/openbsd-compat/setproctitle.c:153: error: Buffer Overrun L2
 ./test_lib/openssh-portable/scp.c:1346: error: Buffer Overrun L2 // comma seperated globals, NR
-./test_lib/openssh-portable/ssh-agent.c:1232: High: realpath
-./test_lib/openssh-portable/ssh-agent.c:1395: High: realpath
-./test_lib/openssh-portable/sntrup761.c:749: error: Buffer Overrun L2 //arc4
-./test_lib/openssh-portable/krl.c:901: error: Buffer Overrun L2 //NC
-./test_lib/openssh-portable/sshkey.c:1115: error: Buffer Overrun L2 //NC
-./test_lib/openssh-portable/sshkey.c:1123: error: Buffer Overrun L2 //NC
-./test_lib/openssh-portable/sntrup761.c:1220: error: Buffer Overrun L2 // arc4
-./test_lib/openssh-portable/sshkey.c:2783: error: Buffer Overrun L2 // arc4
-./test_lib/openssh-portable/sshkey.c:3024: error: Buffer Overrun L2 //NC
+# Not compilable - 9 issues from here
+#./test_lib/openssh-portable/ssh-agent.c:1232: High: realpath
+#./test_lib/openssh-portable/ssh-agent.c:1395: High: realpath
+#./test_lib/openssh-portable/sntrup761.c:749: error: Buffer Overrun L2 //arc4
+#./test_lib/openssh-portable/krl.c:901: error: Buffer Overrun L2 //NC
+#./test_lib/openssh-portable/sshkey.c:1115: error: Buffer Overrun L2 //NC
+#./test_lib/openssh-portable/sshkey.c:1123: error: Buffer Overrun L2 //NC
+#./test_lib/openssh-portable/sntrup761.c:1220: error: Buffer Overrun L2 // arc4
+#./test_lib/openssh-portable/sshkey.c:2783: error: Buffer Overrun L2 // arc4
+#./test_lib/openssh-portable/sshkey.c:3024: error: Buffer Overrun L2 //NC
