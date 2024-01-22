@@ -147,7 +147,7 @@
 ./test_lib/openssl/crypto/bn/bn_exp2.c:111: error: Buffer Overrun L3// maybe if u fuzz enough
 ./test_lib/openssl/test/endecode_test.c:367: error: Buffer Overrun L1
 ./test_lib/openssl/crypto/pkcs12/p12_decr.c:83: error: Buffer Overrun L1
-#./test_lib/openssl/apps/speed.c:2351: error: Buffer Overrun L1
+./test_lib/openssl/apps/speed.c:2351: error: Buffer Overrun L1
 ./test_lib/openssl/ssl/record/ssl3_record.c:362: error: Buffer Overrun L1
 ./test_lib/openssl/ssl/statem/statem_srvr.c:3876: error: Buffer Overrun L1
 ./test_lib/openssl/ssl/record/ssl3_record_tls13.c:160: error: Buffer Overrun L1
@@ -171,11 +171,11 @@
 ./test_lib/openssl/apps/s_server.c:3647: error: Buffer Overrun L2
 ./test_lib/openssl/test/ssl_old_test.c:742: error: Buffer Overrun L2
 ./test_lib/openssl/test/evp_pkey_provided_test.c:1278: error: Buffer Overrun L2
-#./test_lib/openssl/apps/speed.c:2480: error: Buffer Overrun L2
+./test_lib/openssl/apps/speed.c:2480: error: Buffer Overrun L2
 ./test_lib/openssl/crypto/bn/bn_exp2.c:61: error: Buffer Overrun L3// maybe if u fuzz enough
-#./test_lib/openssl/apps/speed.c:2638: error: Buffer Overrun L2
+./test_lib/openssl/apps/speed.c:2638: error: Buffer Overrun L2
 ./test_lib/openssl/crypto/bn/bn_exp2.c:83: error: Buffer Overrun L3// maybe if u fuzz enough
-#./test_lib/openssl/apps/speed.c:2559: error: Buffer Overrun L2
+./test_lib/openssl/apps/speed.c:2559: error: Buffer Overrun L2
 ./test_lib/openssl/crypto/bn/bn_word.c:35: error: Buffer Overrun L3
 ./test_lib/openssl/crypto/bn/bn_sqrt.c:96: error: Buffer Overrun L3
 ./test_lib/openssl/crypto/modes/cfb128.c:196: error: Buffer Overrun L2
